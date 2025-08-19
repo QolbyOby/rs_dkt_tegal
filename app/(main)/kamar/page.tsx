@@ -6,7 +6,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 
 // 1. Impor Ikon dari Lucide React
 import {
-    Search, Bed,
+     Bed,
     CircleDollarSign, Users,
     Crown,
     BedDouble,
@@ -17,7 +17,6 @@ import {
 // 2. Impor Komponen dari shadcn/ui
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 
 // Definisi Tipe Data (Tetap sama)
@@ -25,8 +24,6 @@ type RoomStatus = 'available' | 'occupied' | 'maintenance';
 
 interface Room {
     id: number;
-    floor: number | string;
-    type: string;
     status: RoomStatus;
     price: string;
     capacity: number;
@@ -35,12 +32,12 @@ interface Room {
 
 // Data Kamar (Bisa dari API)
 const roomData: Room[] = [
-    { id: 101, floor: 1, type: "Standard", status: "available", price: "Rp 350.000/hari", capacity: 2, features: ["AC", "TV", "Kamar Mandi"] },
-    { id: 102, floor: 1, type: "Standard", status: "occupied", price: "Rp 350.000/hari", capacity: 2, features: ["AC", "TV", "Kamar Mandi"] },
-    { id: 103, floor: 1, type: "Standard", status: "maintenance", price: "Rp 350.000/hari", capacity: 2, features: ["AC", "TV", "Kamar Mandi"] },
-    { id: 201, floor: 2, type: "Deluxe", status: "available", price: "Rp 500.000/hari", capacity: 2, features: ["AC", "TV", "Kamar Mandi", "Kulkas"] },
-    { id: 401, floor: 4, type: "VIP", status: "available", price: "Rp 1.200.000/hari", capacity: 2, features: ["AC", "TV", "Kamar Mandi", "Kulkas", "Ruang Tamu"] },
-    { id: 501, floor: "VIP", type: "VVIP", status: "occupied", price: "Rp 2.500.000/hari", capacity: 2, features: ["AC", "TV", "Kamar Mandi", "Kulkas", "Balkon"] },
+    { id: 101,   status: "available", price: "Rp 350.000/hari", capacity: 2, features: ["AC", "TV", "Kamar Mandi"] },
+    { id: 102,   status: "occupied", price: "Rp 350.000/hari", capacity: 2, features: ["AC", "TV", "Kamar Mandi"] },
+    { id: 103,   status: "maintenance", price: "Rp 350.000/hari", capacity: 2, features: ["AC", "TV", "Kamar Mandi"] },
+    { id: 201, status: "available", price: "Rp 500.000/hari", capacity: 2, features: ["AC", "TV", "Kamar Mandi", "Kulkas"] },
+    { id: 401,  status: "available", price: "Rp 1.200.000/hari", capacity: 2, features: ["AC", "TV", "Kamar Mandi", "Kulkas", "Ruang Tamu"] },
+    { id: 501,   status: "occupied", price: "Rp 2.500.000/hari", capacity: 2, features: ["AC", "TV", "Kamar Mandi", "Kulkas", "Balkon"] },
 ];
 
 // Helper untuk styling Badge berdasarkan status
@@ -121,14 +118,12 @@ const HospitalRoomInfo: React.FC = () => {
     const filteredRooms = useMemo(() => {
         return roomData.filter(room => {
             const matchesFilter = activeFilter === 'all' || room.status === activeFilter;
-            const matchesFloor = activeFloor === 'all' || room.floor.toString() === activeFloor;
             const matchesSearch = searchTerm === '' ||
                 room.id.toString().includes(searchTerm) ||
-                room.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                room.floor.toString().toLowerCase().includes(searchTerm.toLowerCase());
-            return matchesFilter && matchesFloor && matchesSearch;
+                room.status.toLowerCase().includes(searchTerm.toLowerCase());
+            return matchesFilter && matchesSearch;
         });
-    }, [searchTerm, activeFilter, activeFloor]);
+    }, [searchTerm, activeFilter]);
 
     const stats = {
         total: roomData.length,
