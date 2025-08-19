@@ -7,7 +7,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
-     const session = await getServerSession(authOptions);
+    const session = await getServerSession(authOptions);
 
     if (!session) {
         redirect("/login");
@@ -16,8 +16,8 @@ export default async function Layout({ children }: { children: React.ReactNode }
     return (
         <SidebarProvider>
             {/* Teruskan hanya objek user dari sesi */}
-            <AppSidebar user={session.user} /> 
-            <main className="p-4">
+            <AppSidebar user={session.user} />
+            <main className="p-4 w-full">
                 <SidebarTrigger />
                 {children}
             </main>

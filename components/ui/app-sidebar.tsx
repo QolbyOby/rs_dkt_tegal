@@ -26,8 +26,8 @@ const items = [
         icon: Home,
     },
     {
-        title: "Artikel",
-        url: "/dashboard/artikel",
+        title: "Kategori Artikel",
+        url: "/dashboard/kategori",
         icon: Inbox,
     },
     {
@@ -37,14 +37,9 @@ const items = [
         icon: Calendar,
     },
     {
-        title: "Search",
-        url: "#",
+        title: "Artikel",
+        url: "/dashboard/artikel",
         icon: Search,
-    },
-    {
-        title: "Settings",
-        url: "#",
-        icon: Settings,
     },
 ]
 

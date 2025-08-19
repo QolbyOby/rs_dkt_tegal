@@ -34,7 +34,7 @@ export default function Navbar() {
                                             asChild
                                             className="px-2 py-1 rounded-sm transition-all duration-200 ease-in-out hover:bg-black/20"
                                         >
-                                            <Link href="#">IDG 24 Jam</Link>
+                                            <Link href="/IGD">IDG 24 Jam</Link>
                                         </NavigationMenuLink>
                                         <NavigationMenuLink
                                             asChild
@@ -107,6 +107,11 @@ export default function Navbar() {
             <div className="flex items-center gap-7 w-full justify-end">
                 <NavigationMenu viewport={false}>
                     <NavigationMenuList className="gap-4">
+                        <NavigationMenuItem>
+                            <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} border`}>
+                                <Link href={"/kamar"}>Informasi Kamar</Link>
+                            </NavigationMenuLink>
+                        </NavigationMenuItem>
                         <NavigationMenuItem>
                             <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} border`}>
                                 <Link href={"/artikel"}>Artikel</Link>
