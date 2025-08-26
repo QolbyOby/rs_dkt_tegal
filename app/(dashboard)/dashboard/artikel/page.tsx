@@ -36,7 +36,7 @@ export default function ArtikelPage() {
     async function handleDelete(id: string) {
         if (confirm("Apakah Anda yakin ingin menghapus artikel ini?")) {
             try {
-                const response = await fetch(`/api/artikel/${id}`, {
+                const response = await fetch(`/api/artikel/`, {
                     method: 'DELETE',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ id }),

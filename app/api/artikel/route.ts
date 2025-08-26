@@ -104,17 +104,17 @@ export async function DELETE(request: Request) {
     }
 
     try {
-        const { searchParams } = new URL(request.url);
-        const id = searchParams.get('id');
+        const body = await request.json();
+        const { id } = body;
 
         if (!id) {
-            return NextResponse.json({ message: "Article ID is required" }, { status: 400 });
+            return NextResponse.json({ message: "ID Artikel tidak ditemukan" }, { status: 400 });
         }
 
-        await db.delete(articles)
-            .where(eq(articles.id, id));
+        await db.delete(articles).where(eq(articles.id, id));
 
-        return NextResponse.json({ message: "Article deleted successfully" }, { status: 200 });
+        return NextResponse.json({ message: "Artikel berhasil dihapus" }, { status: 200});
+
     } catch (error) {
         console.error("Error deleting article:", error);
         return NextResponse.json({ message: "Failed to delete article" }, { status: 500 });
