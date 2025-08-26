@@ -10,6 +10,7 @@ import {
     boolean,
     datetime,
     index,
+    json,
 } from "drizzle-orm/mysql-core";
 import type { AdapterAccount } from "@auth/core/adapters";
 import { relations, sql } from "drizzle-orm";
@@ -105,6 +106,42 @@ export const categories = mysqlTable("category", {
     updatedAt: datetime("updatedAt").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
 });
 
+export const rooms = mysqlTable(
+    "room",
+    {
+        id: varchar("id", { length: 255 }).notNull().primaryKey(),
+        roomNumber: varchar("roomNumber", { length: 255 }).notNull(),
+        type: varchar("type", { length: 255 }).notNull(),
+        status: mysqlEnum("status", ["available", "occupied", "maintenance"]).default("available"),
+        price: varchar("price", { length: 255 }).notNull(),
+        capacity: int("capacity").notNull(),
+        features: text("features"), // Menyimpan fitur sebagai JSON string
+        lastUpdated: datetime("lastUpdated").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+        createdAt: datetime("createdAt").default(sql`CURRENT_TIMESTAMP`),
+    },
+    (room) => ({
+        roomNumberIdx: index("room_number_idx").on(room.roomNumber),
+    })
+);
+
+export const doctors = mysqlTable(
+    "doctor",
+    {
+        id: varchar("id", { length: 255 }).notNull().primaryKey(),
+        name: varchar("name", { length: 255 }).notNull(),
+        category: mysqlEnum("category", ["umum", "spesialis"]).notNull(),
+        specialistName: varchar("specialistName", { length: 255 }),
+        schedules: json("schedules").notNull(), 
+        imageUrl: varchar("imageUrl", { length: 500 }),
+        createdAt: datetime("createdAt").default(sql`CURRENT_TIMESTAMP`),
+        updatedAt: datetime("updatedAt").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+    },
+    (doctor) => ({
+        nameIdx: index("doctor_name_idx").on(doctor.name),
+    })
+);
+
+
 export const usersRelations = relations(users, ({ many }) => ({
     // Satu user bisa menulis banyak artikel
     articles: many(articles),
@@ -130,4 +167,10 @@ export type Article = typeof articles.$inferSelect;
 export type NewArticle = typeof articles.$inferInsert;
 export type Category = typeof categories.$inferSelect;
 export type NewCategory = typeof categories.$inferInsert;
+export type Room = typeof rooms.$inferSelect;
+export type NewRoom = typeof rooms.$inferInsert;
+
+export type Doctor = typeof doctors.$inferSelect;
+export type NewDoctor = typeof doctors.$inferInsert;
+
 

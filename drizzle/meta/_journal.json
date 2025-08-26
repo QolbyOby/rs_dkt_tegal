@@ -8,6 +8,27 @@
       "when": 1755223100345,
       "tag": "0000_opposite_dark_phoenix",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1755587991174,
+      "tag": "0001_nervous_the_hand",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1755659204108,
+      "tag": "0002_pretty_iron_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1755740227355,
+      "tag": "0003_secret_warbird",
+      "breakpoints": true
     }
   ]
 }

@@ -52,7 +52,7 @@ export default function Navbar() {
                                             asChild
                                             className="px-2 py-1 rounded-sm transition-all duration-200 ease-in-out hover:bg-black/20"
                                         >
-                                            <Link href="#">Medical Chek Up</Link>
+                                            <Link href="/medical-chek-up">Medical Chek Up</Link>
                                         </NavigationMenuLink>
                                         <NavigationMenuLink
                                             asChild

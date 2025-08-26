@@ -1,6 +1,6 @@
 "use client";
 
-import { Calendar, ChevronUp, Home, Inbox, LogOut, Search, Settings, User2 } from "lucide-react"
+import { Bed, Calendar, ChevronUp, Home, Inbox, LogOut, Search, Settings, Stethoscope, User2 } from "lucide-react"
 import { signOut } from "next-auth/react";
 import type { Session } from "next-auth";
 import {
@@ -41,6 +41,16 @@ const items = [
         url: "/dashboard/artikel",
         icon: Search,
     },
+    {
+        title: "Manajemen Kamar",
+        url: "/dashboard/kamar",
+        icon: Bed,
+    },
+    {
+        title: "Manajemen Dokter",
+        url: "/dashboard/doctors",
+        icon: Stethoscope,
+    },
 ]
 
 export function AppSidebar({ user }: { user: Session["user"] }) {
@@ -48,7 +58,7 @@ export function AppSidebar({ user }: { user: Session["user"] }) {
         <Sidebar>
             <SidebarContent>
                 <SidebarGroup>
-                    <SidebarGroupLabel className="h-40 w-full rounded-xl bg-[#ff6400]">
+                    <SidebarGroupLabel className="h-40 w-full rounded-xl bg-[#ff6400] relative overflow-hidden">
                     </SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>

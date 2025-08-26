@@ -1,0 +1,1 @@
+ALTER TABLE `doctor` ADD `specialistName` varchar(255);

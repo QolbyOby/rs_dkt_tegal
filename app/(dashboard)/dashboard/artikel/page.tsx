@@ -36,10 +36,18 @@ export default function ArtikelPage() {
     async function handleDelete(id: string) {
         if (confirm("Apakah Anda yakin ingin menghapus artikel ini?")) {
             try {
-                // Di sini Anda akan menambahkan pemanggilan API DELETE
-                // Untuk sementara, kita hanya akan memfilternya dari state
-                console.log(`Menghapus artikel dengan ID: ${id}`);
-                setArticles(articles.filter(article => article.id !== id));
+                const response = await fetch(`/api/artikel/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id }),
+                });
+
+                if(response.ok) {
+                    fetchArticles()
+                } else {
+                    const errorData = await response.json();
+                    alert(`Gagal menghapus: ${errorData.message || 'Status tidak diketahui'}`);
+                }
             } catch (error) {
                 console.error("Gagal menghapus artikel:", error);
             }

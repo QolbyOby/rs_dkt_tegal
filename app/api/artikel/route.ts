@@ -6,7 +6,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { NextResponse } from "next/server";
 import { nanoid } from "nanoid";
-
+import { eq } from "drizzle-orm";
 // Mengambil semua artikel
 export async function GET() {
     try {
@@ -53,5 +53,70 @@ export async function POST(request: Request) {
     } catch (error) {
         console.error("Error creating article:", error);
         return NextResponse.json({ message: "Gagal membuat artikel" }, { status: 500 });
+    }
+}
+
+// Update an article
+export async function PUT(request: Request) {
+    const session = await getServerSession(authOptions);
+    if (!session?.user) {
+        return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    try {
+        const body = await request.json();
+        const { id, title, content, status, categoryId, Image } = body;
+
+        if (!id) {
+            return NextResponse.json({ message: "Article ID is required" }, { status: 400 });
+        }
+
+        if (!title || !content || !categoryId) {
+            return NextResponse.json({ message: "Title, content, and category are required" }, { status: 400 });
+        }
+
+        const updatedArticle = {
+            title,
+            slug: title.toLowerCase().replace(/\s+/g, '-'),
+            content,
+            status,
+            categoryId,
+            publishedAt: status === 'PUBLISHED' ? new Date() : null,
+            Image: Image || null,
+        };
+
+        await db.update(articles)
+            .set(updatedArticle)
+            .where(eq(articles.id, id));
+
+        return NextResponse.json(updatedArticle, { status: 200 });
+    } catch (error) {
+        console.error("Error updating article:", error);
+        return NextResponse.json({ message: "Failed to update article" }, { status: 500 });
+    }
+}
+
+// Delete an article
+export async function DELETE(request: Request) {
+    const session = await getServerSession(authOptions);
+    if (!session?.user) {
+        return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    try {
+        const { searchParams } = new URL(request.url);
+        const id = searchParams.get('id');
+
+        if (!id) {
+            return NextResponse.json({ message: "Article ID is required" }, { status: 400 });
+        }
+
+        await db.delete(articles)
+            .where(eq(articles.id, id));
+
+        return NextResponse.json({ message: "Article deleted successfully" }, { status: 200 });
+    } catch (error) {
+        console.error("Error deleting article:", error);
+        return NextResponse.json({ message: "Failed to delete article" }, { status: 500 });
     }
 }

@@ -5,7 +5,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { db } from '@/lib/db';
 import { categories } from '@/lib/db/schema';
 import { generateId, generateSlug } from '@/lib/utils';
-
+import { eq } from 'drizzle-orm';
 export async function GET() {
     try {
         const categoriesList = await db.select().from(categories);
@@ -40,66 +40,46 @@ export async function POST(req: NextRequest) {
     }
 }
 
+export async function PUT(req: NextRequest) {
+    const session = await getServerSession(authOptions);
 
-// // app/api/kategori/route.ts
+    if (!session || (session.user.role !== 'ADMIN')) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
-// import { db } from "@/lib/db";
-// import { categories, NewCategory } from "@/lib/db/schema";
-// import { getServerSession } from "next-auth";
-// import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-// import { NextResponse } from "next/server";
-// import { nanoid } from "nanoid";
-// import { desc } from "drizzle-orm";
+    try {
+        const { id, name, description } = await req.json();
+        const slug = generateSlug(name);
 
-// // Mengambil semua kategori
-// export async function GET() {
-//     try {
-//         const allCategories = await db.select().from(categories).orderBy(desc(categories.createdAt));
-//         return NextResponse.json(allCategories);
-//     } catch (error) {
-//         console.error("Error fetching categories:", error);
-//         return NextResponse.json({ message: "Gagal mengambil kategori" }, { status: 500 });
-//     }
-// }
+        await db.update(categories)
+            .set({
+                name,
+                slug,
+                description,
+            })
+            .where(eq(categories.id, id));
 
-// // Membuat kategori baru
-// export async function POST(request: Request) {
-//     const session = await getServerSession(authOptions);
-//     if (!session?.user) {
-//         return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-//     }
+        return NextResponse.json({ message: 'Category updated successfully' });
+    } catch (error) {
+        return NextResponse.json({ error: 'Failed to update category' }, { status: 500 });
+    }
+}
 
-//     try {
-//         const body = await request.json();
-//         const { name, description } = body;
+export async function DELETE(req: NextRequest) {
+    const session = await getServerSession(authOptions);
 
-//         if (!name) {
-//             return NextResponse.json({ message: "Nama kategori wajib diisi" }, { status: 400 });
-//         }
+    if (!session || (session.user.role !== 'ADMIN')) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
-//         const newCategory: NewCategory = {
-//             id: `kategori-${nanoid(16)}`,
-//             name,
-//             slug: name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
-//             description: description || null, // Pastikan mengirim null jika kosong
-//         };
+    try {
+        const { id } = await req.json();
 
-//         const result = await db.insert(categories).values(newCategory).$returningId();
+        await db.delete(categories)
+            .where(eq(categories.id, id));
 
-//         if (!result || result.length === 0) {
-//             throw new Error("Gagal menyimpan data ke database, tidak ada hasil yang dikembalikan.");
-//         }
-
-//         return NextResponse.json(result[0], { status: 201 });
-
-//     } catch (error) {
-//         // Log galat (error) yang lebih detail di sisi server
-//         console.error("Error creating category:", error);
-
-//         // Kirim pesan galat (error) yang lebih deskriptif ke klien
-//         return NextResponse.json({
-//             message: "Gagal membuat kategori",
-//             error: (error as Error).message // Mengirim pesan galat spesifik
-//         }, { status: 500 });
-//     }
-// }
+        return NextResponse.json({ message: 'Category deleted successfully' });
+    } catch (error) {
+        return NextResponse.json({ error: 'Failed to delete category' }, { status: 500 });
+    }
+}

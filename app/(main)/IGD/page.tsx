@@ -13,7 +13,9 @@ export default function IgdPage() {
                     <h1 className="text-4xl md:text-5xl font-bold ">Instalasi Gawat Darurat</h1>
                     <p className="text-xl">Pelayanan gawat darurat 24 jam  siap membantu Anda.</p>
                     <button className="bg-white text-primary px-6 py-3 rounded-full font-bold hover:bg-gray-100 transition duration-300">
-                        <i className="fas fa-phone-alt mr-2"></i> Hubungi IGD
+                        <a href="https://wa.me/62895389453841" target="_blank" rel="noopener noreferrer" className="flex items-center">
+                            <i className="fas fa-phone-alt mr-2"></i> Hubungi IGD
+                        </a>
                     </button>
                 </div>
             </div>
@@ -38,7 +40,7 @@ export default function IgdPage() {
                                 </p>
                             </div>
                         </div>
- 
+
                         <div className="flex gap-5 flex-col md:flex-row items-start">
                             <div className=" mb-6 md:mb-0 order-2 md:order-1">
                                 <div className="bg-[#ff6400] p-4 rounded-xl inline-block">

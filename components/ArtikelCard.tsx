@@ -27,18 +27,27 @@ export function ArtikelCard({
 }: LifestyleCardProps) {
     return (
         // 1. Pembungkus utama untuk efek hover
-        <div className="group relative w-[300px] mt-10">
+        <div className="group relative w-[320px] mt-10">
             <div className="absolute -z-10 h-full w-full rounded-lg bg-[#ff6400]" />
             <Card
                 className="h-full w-full pt-0 overflow-hidden rounded-lg border-2 bg-card text-card-foreground shadow-md 
                    transition-transform duration-300 ease-in-out group-hover:translate-x-2 group-hover:-translate-y-2"
             >
-                <Image
-                    src={imageUrl}
-                    alt={title}
-                    className="h-48 w-full object-cover"
-                />
-                <CardContent className="p-6">
+                <div className="relative">
+                    <Image
+                        src={imageUrl}
+                        alt={title}
+                        className="h-48 w-full object-cover"
+                    />
+                    <a
+                        href={readMoreLink}
+                        className="absolute top-4 left-4 inline-flex items-center bg-white px-4 py-2 rounded-md text-sm font-bold text-black hover:bg-opacity-90 transition-all"
+                    >
+                        Read more
+                        <ArrowRight className="ml-1.5 h-4 w-4" />
+                    </a>
+                </div>
+                <CardContent className="">
                     <Badge
                         variant="default"
                         className="mb-3 bg-black text-sm font-semibold text-white hover:bg-gray-800"
@@ -53,14 +62,6 @@ export function ArtikelCard({
                     <CardDescription className="mb-5 text-gray-600">
                         {description}
                     </CardDescription>
-
-                    <a
-                        href={readMoreLink}
-                        className="inline-flex items-center text-sm font-bold text-black hover:underline"
-                    >
-                        Read more
-                        <ArrowRight className="ml-1.5 h-4 w-4" />
-                    </a>
                 </CardContent>
             </Card>
         </div>

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import hero2img from "@/public/img/hero_section2.png";
+import hero2img from "@/public/img/hero_section3.jpeg";
 import logoimg from "@/public/img/logo.png";
 import dokter_umum from "@/public/img/dokter_umum.jpeg";
 import dokter_spesialis from "@/public/img/dokter_spesialis.jpeg";
@@ -10,6 +10,7 @@ import { CircleArrowDown, Heart, Instagram, Mail, MapPin, Stethoscope, CircleArr
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import ArticleHome from "@/components/ArtikelHome";
 
 export default function Home() {
   return (
@@ -85,7 +86,7 @@ export default function Home() {
               <div className="absolute bottom-0 left-0 w-full flex justify-center">
                 <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-white/40 to-transparent pointer-events-none" />
                 <div className="relative flex items-center gap-2 w-full justify-center backdrop-blur-md bg-white/40 py-3 px-5">
-                    <span className="font-semibold text-lg text-black text-center">Kapten Ckm dr.Budi Yuliono,Sp.B,MMRS.,FINACS</span>
+                  <span className="font-semibold text-lg text-black text-center">Kapten Ckm dr.Budi Yuliono,Sp.B,MMRS.,FINACS</span>
                 </div>
               </div>
             </div>
