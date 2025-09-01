@@ -66,47 +66,6 @@ export default function Home() {
           <Image src={logoimg} alt="logoimg" className="w-10 h-10" />
         </div>
       </div>
-      <div className="mt-20 px-10">
-        <div className="flex justify-center gap-20 items-center mt-5">
-          <div className="flex-2">
-            <Card className="bg-[#19392C]">
-              <CardContent className="flex justify-between">
-                <h1 className="text-4xl text-white font-extrabold tracking-tight text-balance">Sambutan Kepala Rumah Sakit</h1>
-                <div className="flex gap-3">
-                  <span className="h-10 w-10 bg-white rounded-full"></span>
-                  <span className="h-10 w-10 bg-white rounded-full"></span>
-                  <span className="h-10 w-20 bg-white rounded-full"></span>
-                </div>
-              </CardContent>
-            </Card>
-            <h3 className="text-xl text-center italic my-5">Assalamualaikum Wr. Wb</h3>
-            <p className="mb-1 indent-8 text-justify">
-              Puji dan syukur kami panjatkan kehadirat Allah SWT, karena dengan karunia Nya website RSPAL dr. Ramelan ini dapat membantu menginformasikan data dan informasi pelayanan Rumah Sakit di RSPAL dr. Ramelan. RSPAL dr. Ramelan merupakan rumah sakit milik TNI yang berlokasi di tengah pusat Kota Surabaya, dengan type RS kelas A, Rumah Sakit Pendidikan dan merupakan Rumah Sakit rujukan di wilayah Timur.
-            </p>
-            <p className="mb-1 indent-8 text-justify">
-              Rumah Sakit Pusat Angkatan Laut dr. Ramelan memiliki 48 layanan spesialistik dan subspesialistik dengan kapasitas tempat tidur 866 TT. Kami berkomitmen untuk memberikan pelayanan kesehatan yang berkualitas serta beorientasi penuh pada kepuasan pelanggan dengan penggunaan  biaya yang kompetitif dan terjangkau. Seluruh staf medis dan paramedis kami bekerja sama sebagaimana satu kelompok kerja yang profesional untuk melayani anda, karena merekalah tulang punggung keberhasilan kami dalam melayani anda. Sebagaimana rumah sakit yang menekankan pelayanan kesehatan kepada TNI beserta keluarganya dan masyarakat umum yang membutuhkan, RSPAL dr. Ramelan akan terus berupaya meningkatkan pelayanan dan komitmen, semangat dan dedikasi yang tinggi serta mengikuti perkembangan teknologi yang tepat guna. Semua peningkatan pelayanan tersebut bertujuan untuk memberikan pelayanan dan perawatan kesehatan yang berkualitas serta kenyamanan bagi anda dan keluarga selama menjalani pengobatan serta perawatan di RSPAL dr. Ramelan Surabaya.
-            </p>
-            <p className="mb-1 indent-8 text-justify">
-              Demikian sambutan dari saya dan saya mengucapkan terima kasih kepada seluruh jajaran staf dan anggota RSPAL dr. Ramelan atas loyalitas dan kerjasamanya dalam memberikan pelayanan kesehatan kepada TNI beserta keluarganya dan masyarakat umum yang membutuhkan. Semoga website ini dapat memberikan informasi yang berguna kepada yang membutuhkannya.
-            </p>
-          </div>
-          <div className="flex-1 flex justify-center items-center">
-            <div className="px-12  py-8 relative rounded-2xl shadow-xl/30 bg-white/80 overflow-hidden flex flex-col items-center">
-              <Image
-                src={kepala_RS}
-                alt="hero2img"
-                className="object-cover h-[500px]"
-              />
-              <div className="absolute bottom-0 left-0 w-full flex justify-center">
-                <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-white/40 to-transparent pointer-events-none" />
-                <div className="relative flex items-center gap-2 w-full justify-center backdrop-blur-md bg-white/40 py-3 px-5">
-                  <span className="font-semibold text-lg text-black text-center">Kapten Ckm dr.Budi Yuliono,Sp.B,MMRS.,FINACS</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       <div className="px-10 mt-20">
         <div className="flex justify-between items-end">
           <div className="">
@@ -114,7 +73,7 @@ export default function Home() {
               <Stethoscope className="mr-2" />
               Our Doctor
             </Badge>
-            <h1 className="text-3xl mt-2">Kami memiliki dokter-dokter yang berpengalaman</h1>
+            <h1 className="text-4xl mt-2 font-light">Kami memiliki dokter-dokter yang berpengalaman</h1>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae, repellendus.</p>
           </div>
           <Button>
@@ -159,6 +118,13 @@ export default function Home() {
         </div>
         <div className="mt-10">
           <ThreeDMarqueeDemoSecond />
+        </div>
+
+
+        <div className="mt-10">
+          <div>
+            
+          </div>
         </div>
       </div>
     </div>

@@ -4,57 +4,42 @@ import {
     NavItems
 } from "@/components/ui/navbar-pelayanan";
 import { Card, CardContent } from "@/components/ui/card";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 export default function PenunjangMedikPage() {
+    const searchParams = useSearchParams();
+    const section = searchParams.get('section');
     const [activeSection, setActiveSection] = useState('farmasi');
+
+    useEffect(() => {
+        if (section) {
+            setActiveSection(section);
+        }
+    }, [section]);
+
 
     const navItems = [
         {
             name: "Farmasi 24 jam",
             id: "farmasi",
+            link: "/penunjang-medik?section=farmasi",
             icon: <Pill className="h-4 w-4" />,
-            onItemClick: () => setActiveSection('farmasi')
         },
         {
             name: "Laboratorium 24 jam",
             id: "lab",
+            link: "/penunjang-medik?section=lab",
             icon: <Microscope className="h-4 w-4" />,
-            onItemClick: () => setActiveSection('lab')
         },
         {
             name: "Radiologi",
             id: "radiologi",
+            link: "/penunjang-medik?section=radiologi",
             icon: <ScanHeart className="h-4 w-4" />,
-            onItemClick: () => setActiveSection('radiologi')
         },
     ];
-
-    const renderContent = () => {
-        switch(activeSection) {
-            case 'farmasi':
-                return (
-                    <>
-                        <h1 className="text-4xl md:text-5xl font-bold">Farmasi 24 Jam</h1>
-                        <p className="text-xl">Layanan farmasi kami siap melayani Anda kapan saja.</p>
-                    </>
-                );
-            case 'lab':
-                return (
-                    <>
-                        <h1 className="text-4xl md:text-5xl font-bold">Laboratorium 24 Jam</h1>
-                        <p className="text-xl">Layanan laboratorium lengkap dengan peralatan modern.</p>
-                    </>
-                );
-            case 'radiologi':
-                return (
-                    <>
-                        <h1 className="text-4xl md:text-5xl font-bold">Radiologi</h1>
-                        <p className="text-xl">Layanan pencitraan medis dengan teknologi terkini.</p>
-                    </>
-                );
-        }
-    };
 
     const renderDetailContent = () => {
         switch(activeSection) {
@@ -121,20 +106,22 @@ export default function PenunjangMedikPage() {
     return (
         <div className="flex flex-col justify-center items-center px-10 mb-30 pb-20">
             <div className="bg-black text-white h-96 flex justify-center items-center p-6 rounded-3xl shadow-lg w-full relative overflow-hidden">
-                <div className="pointer-events-none absolute top-60 -left-60 w-[700px] h-[700px] rounded-full bg-gradient-to-br from-blue-700 via-teal-700 to-green-700 opacity-60 blur-[160px] mix-blend-lighten" />
-                <div className="flex flex-col space-y-3 justify-center items-center md:mb-0">
-                    {renderContent()}
+                <div className="pointer-events-none absolute top-60 -left-60 w-[700px] h-[700px] rounded-full bg-gradient-to-br from-orange-700 via-amber-700 to-yellow-700 opacity-60 blur-[160px] mix-blend-lighten" />
+                <div className="flex flex-col text-5xl font-light space-y-3 justify-center items-center md:mb-0">
+                    Penunjang Medik
                 </div>
             </div>
 
-            <div className="w-full px-10 flex mt-30">
+            <div className="w-full gap-10 px-10 flex mt-30">
                 <Card className="h-fit w-[300px]">
                     <CardContent>
-                        <NavItems items={navItems.map(item => ({
-                            name: item.name,
-                            icon: item.icon,
-                            onItemClick: item.onItemClick
-                        }))} className="h-fit -z-0" />
+                    <NavItems 
+                        items={navItems.map(item => ({
+                            ...item,
+                            className: activeSection === item.id ? "bg-orange-400 text-white rounded-full" : ""
+                        }))} 
+                        className="h-fit -z-0 gap-2" 
+                    />
                     </CardContent>
                 </Card>
                 <div className="flex flex-3 justify-center items-center gap-10">

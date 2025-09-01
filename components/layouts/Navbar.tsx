@@ -16,16 +16,19 @@ export default function Navbar() {
     const [leftNavHovered, setLeftNavHovered] = useState<number | null>(null);
     const [rightNavHovered, setRightNavHovered] = useState<number | null>(null);
     const [layananHovered, setLayananHovered] = useState<number | null>(null);
+    const [rawatInapHovered, setRawatInapHovered] = useState<number | null>(null);
+    const [rawatJalanHovered, setRawatJalanHovered] = useState<number | null>(null);
+
 
     // Data Navigasi
     const leftNavItems = [
         { name: "Home", href: "/" },
         { name: "Profil", href: "/profil" },
         { name: "Layanan", type: 'dropdown' },
-        { name: "Fasilitas", type: 'dropdown' },
+
     ];
     const rightNavItems = [
-        { name: "Informasi Kamar", href: "/kamar" },
+        { name: "Fasilitas", type: 'dropdown' },
         { name: "Artikel", href: "/artikel" },
         { name: "Jadwal Dokter", href: "/anggota", icon: <Stethoscope className="size-4" /> },
         { name: "Login", href: "/login", isPrimary: true },
@@ -34,13 +37,23 @@ export default function Navbar() {
         { name: "IGD 24 Jam", link: "/IGD" },
         { name: "Penunjang Medik", isTrigger: true },
         { name: "Medical Check Up", link: "/medical-chek-up" },
-        { name: "Poliklinik", link: "/poliklinik" },
+        { name: "Rawat Inap", isTrigger: true },
+        { name: "Rawat Jalan", isTrigger: true },
     ];
     const penunjangMedikItems = [
-        { name: "Farmasi 24 jam", link: "/penunjang-medik " },
-        { name: "Laboratorium 24 jam", link: "#" },
-        { name: "Radiologi", link: "#" },
+        { name: "Farmasi 24 jam", link: "/penunjang-medik?section=farmasi" },
+        { name: "Laboratorium 24 jam", link: "/penunjang-medik?section=lab" },
+        { name: "Radiologi", link: "/penunjang-medik?section=radiologi" },
     ];
+
+    const rawatInapItems = [
+        { name: "Informasi Kamar", link: "/kamar" }
+    ];
+
+    const rawatJalanItems = [
+        { name: "Poliklinik", link: "/poliklinik" }
+    ];
+
 
     const navItemClasses = (isHovered: boolean, isActive: boolean, isPrimary = false) => cn(
         "relative z-10 transition-colors duration-300",
@@ -63,7 +76,6 @@ export default function Navbar() {
                             const isActive = item.href === pathname;
                             return (
                                 <NavigationMenuItem key={item.name} className="relative" onMouseEnter={() => setLeftNavHovered(idx)}>
-                                    {/* INI PERBAIKANNYA */}
                                     {(leftNavHovered === idx || (isActive && item.type !== 'dropdown')) && (
                                         <motion.div
                                             layoutId="leftNavHover"
@@ -78,7 +90,7 @@ export default function Navbar() {
                                             </NavigationMenuTrigger>
                                         ) : (
                                             <NavigationMenuLink asChild>
-                                                <Link href={item.href || "#"} className={cn(navigationMenuTriggerStyle(), "bg-transparent hover:bg-transparent focus:bg-transparent hover:text-white transition-colors duration-300 ease-in-out", navItemClasses(leftNavHovered === idx, isActive))}>
+                                                <Link href={item.href || "#"} className={cn(navigationMenuTriggerStyle(), "bg-transparent  hover:bg-transparent focus:bg-transparent  hover:text-white transition-colors duration-300 ease-in-out", navItemClasses(leftNavHovered === idx, isActive))}>
                                                     {item.name}
                                                 </Link>
                                             </NavigationMenuLink>
@@ -88,22 +100,24 @@ export default function Navbar() {
                                     {/* Dropdown Content */}
                                     {item.name === 'Layanan' && (
                                         <NavigationMenuContent>
-                                            <ul onMouseLeave={() => setLayananHovered(null)} className="grid w-[250px] gap-1 p-2">
+                                            <ul onMouseLeave={() => setLayananHovered(null)} className="grid w-[250px] gap-1 py-2">
                                                 {layananItems.map((layananItem, layananIdx) => (
                                                     <li key={layananItem.name} className="relative rounded-md" onMouseEnter={() => setLayananHovered(layananIdx)}>
                                                         {layananHovered === layananIdx && <motion.div layoutId="layananHover" className="absolute inset-0 h-full w-full rounded-md bg-orange-400" />}
-                                                        <div className="relative z-10">
+                                                        <div className="relative z-10 ">
                                                             {layananItem.isTrigger ? (
                                                                 <HoverCard openDelay={1} closeDelay={1}>
-                                                                    <HoverCardTrigger asChild>
-                                                                        <div className="group flex w-full cursor-pointer flex-row items-center justify-between p-2  text-sm text-neutral-600 transition-colors duration-300 ease-in-out hover:text-white">{layananItem.name}<ChevronRight className="transition-transform duration-200 group-hover:rotate-90" /></div>
+                                                                    <HoverCardTrigger asChild >
+                                                                        <div className="group/item flex cursor-pointer flex-row items-center justify-between py-2 px-3  text-sm text-neutral-600 transition-colors duration-300 ease-in-out hover:text-white">{layananItem.name}<ChevronRight className="transition-transform duration-200 group-hover/item:rotate-90" /></div>
                                                                     </HoverCardTrigger>
-                                                                    <HoverCardContent side="right" sideOffset={5} align="start" className="flex w-fit flex-col justify-center p-2 items-start">
-                                                                        <NavItems items={penunjangMedikItems} className="flex-col !items-start !space-x-0" />
+                                                                    <HoverCardContent side="right" sideOffset={5} align="start" className="flex flex-col ml-5 justify-center p-2 items-start">
+                                                                        {layananItem.name === "Penunjang Medik" && <NavItems items={penunjangMedikItems} className="flex-col rounded-md !items-start !space-x-0" />}
+                                                                        {layananItem.name === "Rawat Inap" && <NavItems items={rawatInapItems} className="flex-col  !items-start !space-x-0" />}
+                                                                        {layananItem.name === "Rawat Jalan" && <NavItems items={rawatJalanItems} className="flex-col  !items-start !space-x-0" />}
                                                                     </HoverCardContent>
                                                                 </HoverCard>
                                                             ) : (
-                                                                <Link href={layananItem.link || "#"} className="block w-full p-2  text-sm text-neutral-600 transition-colors duration-300 ease-in-out hover:text-white">{layananItem.name}</Link>
+                                                                <Link href={layananItem.link || "#"} className="block w-full py-2 px-3  text-sm text-neutral-600 transition-colors duration-300 ease-in-out hover:text-white">{layananItem.name}</Link>
                                                             )}
                                                         </div>
                                                     </li>
@@ -111,7 +125,6 @@ export default function Navbar() {
                                             </ul>
                                         </NavigationMenuContent>
                                     )}
-                                    {/* ... konten dropdown fasilitas ... */}
                                 </NavigationMenuItem>
                             )
                         })}
