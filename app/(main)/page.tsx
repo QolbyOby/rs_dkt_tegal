@@ -1,8 +1,12 @@
 import Image from "next/image";
 import hero2img from "@/public/img/hero_section3.jpeg";
 import logoimg from "@/public/img/logo.png";
+import logoimg2 from "@/public/img/LOGO AD DIPONEGORO.png";
+import logoimg3 from "@/public/img/HESTI WIRA SAKTI.png";
+import logobpjs from "@/public/img/bpjs-kesehatan-seeklogo.png"
 import dokter_umum from "@/public/img/dokter_umum.jpeg";
 import dokter_spesialis from "@/public/img/dokter_spesialis.jpeg";
+import hero_section2 from "@/public/img/hero_section2.png"
 import kepala_RS from "@/public/img/13.webp";
 import Navbar from "@/components/layouts/Navbar";
 import { Button } from "@/components/ui/button";
@@ -11,20 +15,24 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import ArticleHome from "@/components/ArtikelHome";
+import hero_section4 from "@/public/img/hero_section4.png"
+import hero_section6 from "@/public/img/hero_section6.png"
+import { FeaturedServices } from "@/components/FeaturedServices";
+import { ThreeDMarqueeDemoSecond } from "@/components/ThreeDMarquee";
 
 export default function Home() {
   return (
-    <div className="px-10">
+    <div className="px-5">
       <div
         className="relative h-[800px] bg-cover bg-center rounded-2xl"
-        style={{ backgroundImage: `url(${hero2img.src})` }}
+        style={{ backgroundImage: `url(${hero_section4.src})` }}
       >
         <div className="absolute inset-0 bg-black/25 rounded-2xl z-0" />
-        <div className="absolute -top-16 left-1/2 -translate-x-1/2 h-40 w-40 rounded-full bg-white z-10">
+        <div className="absolute -top-16 left-1/2 -translate-x-1/2 h-40 w-40 rounded-full bg-white z-30">
           <Image src={logoimg} alt="logoimg" className="w-full h-full p-5" priority={true} />
         </div>
         <div className="w-[1000px] absolute top-[400px] left-1/2 -translate-x-1/2 -translate-y-1/2">
-          <h1 className="text-7xl font-semibold text-center text-white">
+          <h1 className="text-7xl font-light text-center text-white">
             Selamat Datang di Rumah Sakit DKT Tegal
           </h1>
           <p className="text-center text-white mt-10 full mx-28">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas temporibus veniam, amet provident obcaecati sapiente laborum reprehenderit exercitationem accusamus, repellendus quibusdam neque corrupti.</p>
@@ -50,6 +58,12 @@ export default function Home() {
             <MapPin />
             Alamat
           </Button>
+        </div>
+        <div className="flex absolute top-5 left-5 gap-3 p-3 bg-white shadow-2xl items-center rounded-2xl">
+          <Image src={logobpjs} alt="logobpjs" className="w-10 h-10" />
+          <Image src={logoimg2} alt="logoimg2" className="w-10 h-10" />
+          <Image src={logoimg3} alt="logoimg3" className="w-10 h-10" />
+          <Image src={logoimg} alt="logoimg" className="w-10 h-10" />
         </div>
       </div>
       <div className="mt-20 px-10">
@@ -140,7 +154,11 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="mt-10 h-10 px-10">
+        <div className="mt-10 ">
+          <FeaturedServices />
+        </div>
+        <div className="mt-10">
+          <ThreeDMarqueeDemoSecond />
         </div>
       </div>
     </div>

@@ -4,14 +4,32 @@ import { db } from "@/lib/db";
 import { articles, NewArticle } from "@/lib/db/schema";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { nanoid } from "nanoid";
 import { eq } from "drizzle-orm";
 // Mengambil semua artikel
-export async function GET() {
+export async function GET(request: NextRequest) {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+    const slug = searchParams.get('slug'); // Tambahkan pencarian berdasarkan slug
+
     try {
-        const allArticles = await db.select().from(articles);
-        return NextResponse.json(allArticles);
+        if (id) {
+            const article = await db.select().from(articles).where(eq(articles.id, id));
+            if (article.length === 0) {
+                return NextResponse.json({ message: "Artikel tidak ditemukan" }, { status: 404 });
+            }
+            return NextResponse.json(article[0]);
+        } else if (slug) { // Tambahkan kondisi jika ada slug
+            const article = await db.select().from(articles).where(eq(articles.slug, slug));
+            if (article.length === 0) {
+                return NextResponse.json({ message: "Artikel tidak ditemukan" }, { status: 404 });
+            }
+            return NextResponse.json(article[0]);
+        } else {
+            const allArticles = await db.select().from(articles);
+            return NextResponse.json(allArticles);
+        }
     } catch (error) {
         console.error("Error fetching articles:", error);
         return NextResponse.json({ message: "Gagal mengambil artikel" }, { status: 500 });

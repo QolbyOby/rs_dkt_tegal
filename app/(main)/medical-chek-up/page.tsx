@@ -1,8 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, Stethoscope, Activity, HeartPulse, ShieldCheck, UserCheck, FileSpreadsheet, Star, Briefcase, Beaker, Ribbon, Microscope } from "lucide-react";
+import { CheckCircle2, Stethoscope, Activity, HeartPulse, ShieldCheck, UserCheck, FileSpreadsheet, Star, Briefcase, Beaker, Ribbon, Microscope, ScanLine } from "lucide-react";
 import kamar from "@/public/img/kamar_I.jpeg"
 import Image from "next/image";
+import OrangeShaderBackground from "@/components/ui/OrangeShaderBackground";
 
 export default function MedicalCheckupPage() {
 
@@ -10,7 +11,7 @@ export default function MedicalCheckupPage() {
         {
             title: "Paket Sederhana",
             price: 550000,
-            icon: <ShieldCheck />,
+            icon: <ShieldCheck  />,
             features: [
                 { category: "Pemeriksaan Fisik", items: ["Rik Umum", "Rik Organ Luar dan Eksterminitas Atas dan Bawah", "Rik Telinga, Hidung dan Tenggorokan", "Rik Gigi dan Mulut"] },
                 { category: "Pemeriksaan Penunjang", items: ["Radiologi (Foto Thorax)", "EKG"] },
@@ -67,21 +68,25 @@ export default function MedicalCheckupPage() {
 
     const screening = [
         { name: "Narkoba 3 Parameter", price: "Rp 150.000", color: "bg-[#ff6400]", icon: <Beaker size={60} className="opacity-65" /> },
-        { name: "Narkoba 5 Parameter", price: "Rp 250.000", color: "bg-orange-300", icon: <Beaker size={60} className="opacity-65"/> },
-        { name: "Rappid Test HIV", price: "Rp 80.000", color: "bg-orange-300", icon: <Ribbon size={60} className="opacity-65"/> },
-        { name: "VDRL", price: "Rp 80.000", color: "bg-red-300", icon: <Microscope size={60} className="opacity-65"/> },
+        { name: "Narkoba 5 Parameter", price: "Rp 250.000", color: "bg-[#FC9252]", icon: <Beaker size={60} className="opacity-65" /> },
+        { name: "Rappid Test HIV", price: "Rp 80.000", color: "bg-[#005246]", icon: <Ribbon size={60} className="opacity-65" /> },
+        { name: "VDRL", price: "Rp 80.000", color: "bg-[#C02C02]", icon: <Microscope size={60} className="opacity-65" /> },
     ];
 
     return (
         <div className="min-h-screen px-10 pb-20">
             <div className="bg-black text-white h-96 flex justify-center items-center p-6 rounded-3xl shadow-lg w-full relative overflow-hidden">
+
                 <div className="pointer-events-none absolute top-60 -left-60 w-[700px] h-[700px] rounded-full bg-gradient-to-br from-orange-700 via-amber-700 to-yellow-700 opacity-60 blur-[160px] mix-blend-lighten" />
                 <div className="pointer-events-none absolute top-1/3 right-0 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-orange-700 via-amber-700 to-yellow-700 opacity-50 blur-[140px] mix-blend-lighten" />
                 <div className="pointer-events-none absolute bottom-0 left-1/2 w-[600px] h-[600px] rounded-full bg-gradient-to-tl from-orange-700 via-amber-700 to-yellow-700 opacity-40 blur-[140px] mix-blend-lighten" />
                 <div className="flex flex-col space-y-3 justify-center items-center  md:mb-0">
-                    <h1 className="text-4xl md:text-5xl font-bold">Medical Check Up</h1>
-                    <p className="text-xl">Pilihan Tepat Bagi Anda Untuk Mendeteksi
-                        Dini Kesehatan, Sayangi Diri Anda Dan Keluarga</p>
+                    <h1 className="flex justify-center gap-3 font-anton items-center text-4xl md:text-5xl font-light">
+                        <Stethoscope size={50} />
+                        MEDICAL CHECK UP
+                    </h1>
+                    {/* <p className="text-xl">Pilihan Tepat Bagi Anda Untuk Mendeteksi
+                        Dini Kesehatan, Sayangi Diri Anda Dan Keluarga</p> */}
                 </div>
             </div>
             <div className="max-w-7xl mx-auto mt-20">
@@ -101,9 +106,18 @@ export default function MedicalCheckupPage() {
                         </div>
                     </div>
                     <div className="w-[600px]">
-                        <h1 className="text-4xl font-bold text-orange-600 flex justify-center items-center gap-2">
-                            <Stethoscope className="w-10 h-10" /> Medical Check Up
-                        </h1>
+                        <Card className="bg-[#19392C] mb-5">
+                            <CardContent className="flex justify-between">
+                                <h1 className="text-4xl text-white font-light tracking-tight text-balance">
+                                    Medical Check Up
+                                </h1>
+                                <div className="flex gap-3">
+                                    <span className="h-10 w-10 bg-white rounded-full"></span>
+                                    <span className="h-10 w-10 bg-white rounded-full"></span>
+                                    <span className="h-10 w-20 bg-white rounded-full"></span>
+                                </div>
+                            </CardContent>
+                        </Card>
                         <p className="text-gray-600 max-w-2xl mx-auto text-justify">
                             Mencegah tentu lebih baik dari pada mengobati. Seperti yang Pemeriksaan Radiologi
                             kita ketahui, kesehatan adalah segalanya. Medical Check Up
@@ -114,6 +128,7 @@ export default function MedicalCheckupPage() {
                             tidak berlanjut ke tahap yang lebih serius, sekaligus
                             mencegah tindakan penanganan yang lebih rumit
                         </p>
+                        <br />
                         <p className="text-gray-600 max-w-2xl mx-auto text-justify">
                             Dan Bagi anda yang akan menjalani tes calon TNI/ Polri/
                             Akademi dan sekolah kedinasan lain merupakan pilihan yang
@@ -126,15 +141,17 @@ export default function MedicalCheckupPage() {
                 </div>
 
                 <div className="mt-24">
-                    <h2 className="text-2xl font-semibold text-gray-800 mb-6 flex items-center gap-2">
-                        <Activity className="w-6 h-6 text-orange-500" /> Paket Medical Check Up
+                    <h2 className="text-3xl font-anton font-semibold text-gray-800 mb-6 flex items-center gap-2">
+                        <Activity className="w-6 h-6 text-orange-500" /> PAKET MEDICAL CHECK UP
                     </h2>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {packages.map((pkg, i) => (
-                            <Card key={i} className="shadow-md hover:shadow-lg transition-all border-orange-100 pt-0 overflow-hidden">
-                                <CardHeader className="bg-[#ff6400] flex p-5 justify-between">
-                                    <CardTitle className="flex gap-2 text-lg font-semibold text-white">
-                                        {pkg.icon}
+                            <Card key={i} className="shadow-md hover:shadow-lg bg-[#fff5ea] transition-all border-orange-100 pt-0 overflow-hidden">
+                                <CardHeader className="bg-gradient-to-r rounded-b-xl from-orange-600 via-orange-500 to-orange-400 flex p-5 justify-between items-center">
+                                    <CardTitle className="flex items-center gap-2 text-xl font-semibold text-white">
+                                        <div className=" bg-[#fff5ea] text-foreground p-3 rounded-lg flex items-center justify-center">
+                                            {pkg.icon}
+                                        </div>
                                         {pkg.title}
                                     </CardTitle>
                                     <p className="text-xl font-bold text-white">Rp {pkg.price.toLocaleString('id-ID')}</p>
@@ -146,7 +163,7 @@ export default function MedicalCheckupPage() {
                                             <ul className="list-disc list-inside pl-2 text-gray-600 mt-1">
                                                 {detail.items.map((item) => (
                                                     <li key={item} className="flex items-start gap-2">
-                                                        <CheckCircle2 className="w-4 h-4 text-green-500 mt-1" />
+                                                        <CheckCircle2 className="w-4 h-4 text-[#271810] mt-1" />
                                                         {item}
                                                     </li>
                                                 ))}
@@ -156,36 +173,45 @@ export default function MedicalCheckupPage() {
                                 </CardContent>
                             </Card>
                         ))}
-                    </div>
-                </div>
-                {/* Screening */}
-                <div className="mt-20">
-                    <h2 className="text-2xl font-semibold text-gray-800 mb-6 flex items-center gap-2">
-                        <HeartPulse className="w-6 h-6 text-orange-500" /> Skrining Tambahan
-                    </h2>
-                    <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
-                        {screening.map((s, i) => (
-                            <Card key={i} className={`relative border-orange-100 shadow-sm hover:shadow-md ${s.color} group`}>
-                                <CardContent className="flex flex-col items-center justify-center py-6">
-                                    <p className="text-sm font-medium">{s.name}</p>
-                                    <p className="text-lg font-bold">{s.price}</p>
+                        <div className="grid grid-cols-2 gap-4">
+                            {/* Card "Skrining Tambahan" dengan efek gelembung */}
+                            <Card className="col-span-2 bg-foreground py-0 border-orange-200 relative overflow-hidden"> {/* Tambah relative & overflow-hidden */}
+                                {/* Efek Gelembung */}
+                                {/* <OrangeShaderBackground speed={3} warpAmount={5} hueShift={230} /> */}
+
+                                <CardContent className="flex h-full items-center justify-center relative z-10"> {/* Tambah relative z-10 */}
+                                    {/* <HeartPulse className="w-6 h-6 text-orange-500 mr-3" /> */}
+                                    <p className="text-3xl font-anton text-center font-semibold text-white">
+                                        SKRINING <br /> TAMBAHAN
+                                    </p>
                                 </CardContent>
-                                <div className="absolute bottom-2 left-2 transition-transform duration-300 group-hover:rotate-[60deg]">
-                                    {s.icon}
-                                </div>
                             </Card>
-                        ))}
+
+                            {/* Mapping untuk kartu-kartu lainnya */}
+                            {screening.map((s, i) => (
+                                <Card
+                                    key={i}
+                                    className={`relative border-orange-100 shadow-sm hover:shadow-md ${s.color} group`}
+                                >
+                                    <CardContent className="flex text-white flex-col items-center justify-center py-4">
+                                        <p className="text-sm font-medium">{s.name}</p>
+                                        <p className="text-lg font-bold">{s.price}</p>
+                                    </CardContent>
+
+                                </Card>
+                            ))}
+                        </div>
                     </div>
                 </div>
 
                 {/* Info */}
-                <div className="bg-black border flex flex-col justify-center text-white h-52 border-orange-200 mt-4 rounded-xl p-6 text-center space-y-3">
-                    <h3 className="text-xl font-semibold text-orange-700">Informasi Pemeriksaan</h3>
-                    <p className="text-xl">
-                        Pemeriksaan Medical Check Up dilakukan <br /> setiap <b>SENIN s/d JUM’AT</b>,
-                        pukul <b>08.00 - 14.00 WIB</b>.
+                <div className="bg-black relative overflow-hidden border flex flex-col justify-center text-white h-52 border-orange-200 mt-4 rounded-xl  text-center space-y-3">
+                    <OrangeShaderBackground speed={3} warpAmount={3} scanlineFrequency={0.5} scanlineIntensity={1} hueShift={230} className="-bottom-10" />
+                    <h3 className="text-xl font-semibold text-orange-700 z-10">Informasi Pemeriksaan</h3>
+                    <p className="text-xl z-10">
+                        Pemeriksaan Medical Check Up dilakukan <br /> setiap Senin s/d Jumat,
+                        pukul 08.00 - 14.00 WIB.
                     </p>
-                    
                 </div>
             </div>
         </div>

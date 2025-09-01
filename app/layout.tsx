@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Geist, Geist_Mono, Inter, Anton } from "next/font/google";
 import "./globals.css";
 import LayoutContent from "@/components/layouts/LayoutContent";
 import { Providers } from "./providers";
@@ -13,6 +13,12 @@ const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
+});
+
+const anton = Anton({
+  variable: "--font-anton",
+  weight: "400",
+  subsets: ["latin"],
 });
 
 const geistMono = Geist_Mono({
@@ -33,7 +39,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} bg-white text-black font-sans antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${anton.variable} bg-white text-black font-sans antialiased`}
       >
         <Providers>
           {children}

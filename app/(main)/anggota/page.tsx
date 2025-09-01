@@ -10,8 +10,6 @@ import { Doctor } from "@/lib/db/schema";
 
 type ScheduleGroup = { days: string[]; time: string };
 
-type Schedule = { day: string; time: string };
-
 const kategoriList = [
     { label: "All", value: "all" },
     { label: "Dokter Umum", value: "umum" },
@@ -53,17 +51,21 @@ const AnggotaPage = () => {
         fetchDokter();
     }, []);
 
-    const filteredDokter = dokterList.filter((dokter) => {
+    // Memfilter dokter berdasarkan hari yang dipilih
+    const dokterBerdasarkanHari = dokterList.filter((dokter) => {
         const parsedSchedules: ScheduleGroup[] = dokter.schedules ? JSON.parse(dokter.schedules as string) : [];
-        const kategoriMatch = kategori === "all" || dokter.category === kategori;
-        const hariMatch = hari === "all" || parsedSchedules.some(schedule => schedule.days.some(day => day.toLowerCase() === hari.toLowerCase()));
-        return kategoriMatch && hariMatch;
+        return hari === "all" || parsedSchedules.some(schedule => schedule.days.some(day => day.toLowerCase() === hari.toLowerCase()));
     });
+
+    // Memisahkan dokter umum dan spesialis dari list yang sudah difilter hari
+    const dokterUmum = dokterBerdasarkanHari.filter(d => d.category === 'umum');
+    const dokterSpesialis = dokterBerdasarkanHari.filter(d => d.category === 'spesialis');
+
 
     if (loading) return <p className="text-center py-10">Memuat data dokter...</p>
 
     return (
-        <div className="px-3 md:px-10">
+        <div className="px-3 md:px-10 mb-20">
             <div className="flex px-2 md:px-10 pt-6 w-full justify-between items-center flex-col md:flex-row gap-4 md:gap-0">
                 <Card className="bg-foreground w-fit">
                     <CardContent className="flex justify-between items-center">
@@ -81,7 +83,7 @@ const AnggotaPage = () => {
                         </div>
                     </CardContent>
                 </Card>
-                <div className="flex  gap-3 items-center">
+                <div className="flex  gap-4 items-center">
                     <h1 className="text-sm md:text-base">Pilih Hari</h1>
                     <Select value={hari} onValueChange={setHari}>
                         <SelectTrigger className="w-[160px]">
@@ -97,24 +99,86 @@ const AnggotaPage = () => {
                     </Select>
                 </div>
             </div>
-            <div className="px-2 md:px-10">
-                <h1 className="mt-5 text-2xl font-bold ">
-                    {kategori === "umum" && "Dokter Umum"}
-                    {kategori === "spesialis" && "Dokter Spesialis"}
-                    {kategori === "all" && "Semua Dokter"}
-                </h1>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4 md:p-10">
-                {filteredDokter.map((dokter) => (
-                    <ProfileCard
-                        kategori={dokter.category}
-                        nama_spesialis={dokter.specialistName || ""}
-                        key={dokter.id}
-                        gambar={{ src: dokter.imageUrl || '/img/default-avatar.png', height: 300, width: 300 }}
-                        schedules={dokter.schedules ? JSON.parse(dokter.schedules as string) : []}
-                        nama={dokter.name}
-                    />
-                ))}
+
+            {/* Bagian untuk menampilkan dokter */}
+            <div className="mt-5 px-2 md:px-10">
+                {kategori === 'all' && (
+                    <>
+                        {/* Tampilkan Dokter Spesialis */}
+                        {dokterSpesialis.length > 0 && (
+                            <div className="mb-10">
+                                <h1 className="text-2xl font-bold mb-4">Dokter Spesialis</h1>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                                    {dokterSpesialis.map((dokter) => (
+                                        <ProfileCard
+                                            kategori={dokter.category}
+                                            nama_spesialis={dokter.specialistName || ""}
+                                            key={dokter.id}
+                                            gambar={{ src: dokter.imageUrl || '/img/default-avatar.png', height: 300, width: 300 }}
+                                            schedules={dokter.schedules ? JSON.parse(dokter.schedules as string) : []}
+                                            nama={dokter.name}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Tampilkan Dokter Umum */}
+                        {dokterUmum.length > 0 && (
+                            <div>
+                                <h1 className="text-2xl font-bold mb-4">Dokter Umum</h1>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                                    {dokterUmum.map((dokter) => (
+                                        <ProfileCard
+                                            kategori={dokter.category}
+                                            nama_spesialis={dokter.specialistName || ""}
+                                            key={dokter.id}
+                                            gambar={{ src: dokter.imageUrl || '/img/default-avatar.png', height: 300, width: 300 }}
+                                            schedules={dokter.schedules ? JSON.parse(dokter.schedules as string) : []}
+                                            nama={dokter.name}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </>
+                )}
+
+                {kategori === 'spesialis' && (
+                    <div>
+                        <h1 className="text-2xl font-bold mb-4">Dokter Spesialis</h1>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                            {dokterSpesialis.map((dokter) => (
+                                <ProfileCard
+                                    kategori={dokter.category}
+                                    nama_spesialis={dokter.specialistName || ""}
+                                    key={dokter.id}
+                                    gambar={{ src: dokter.imageUrl || '/img/default-avatar.png', height: 300, width: 300 }}
+                                    schedules={dokter.schedules ? JSON.parse(dokter.schedules as string) : []}
+                                    nama={dokter.name}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {kategori === 'umum' && (
+                    <div>
+                        <h1 className="text-2xl font-bold mb-4">Dokter Umum</h1>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                            {dokterUmum.map((dokter) => (
+                                <ProfileCard
+                                    kategori={dokter.category}
+                                    nama_spesialis={dokter.specialistName || ""}
+                                    key={dokter.id}
+                                    gambar={{ src: dokter.imageUrl || '/img/default-avatar.png', height: 300, width: 300 }}
+                                    schedules={dokter.schedules ? JSON.parse(dokter.schedules as string) : []}
+                                    nama={dokter.name}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

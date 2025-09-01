@@ -1,5 +1,11 @@
-import { ArrowRight } from "lucide-react";
-import Image from "next/image";
+"use client";
+
+import React, { useState, useId, useRef, useEffect } from "react";
+import Image, { StaticImageData } from "next/image";
+import { AnimatePresence, motion } from "framer-motion";
+import { useOutsideClick } from "@/hooks/use-outside-click"; // Pastikan path ini benar
+
+// Import gambar
 import paru from "@/public/img/paru.png";
 import bedah from "@/public/img/bedah.png";
 import gigi_mulut from "@/public/img/gig_mulut.png";
@@ -7,128 +13,239 @@ import obsgyn from "@/public/img/obsgyn.png";
 import mata from "@/public/img/mata.png";
 import penyakit_dalam from "@/public/img/penyakit_dalam.png";
 import anak from "@/public/img/anak.png";
+import dokter_poli from "@/public/img/dokter_poli.png"
 
+
+type Card = {
+    title: string;
+    bgColor: string;
+    icon: StaticImageData;
+    doctors: { name: string; schedule: string }[];
+}
 
 export default function ConsultationCards() {
+    // 1. Tambahkan state untuk melacak kartu yang aktif
+    const [active, setActive] = useState<Card | null>(null);
+    const id = useId();
+    const ref = useRef(null);
+
+    // Efek untuk menutup modal dengan tombol 'Escape' dan handle overflow body
+    useEffect(() => {
+        function onKeyDown(event: KeyboardEvent) {
+            if (event.key === "Escape") {
+                setActive(null);
+            }
+        }
+
+        if (active) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "auto";
+        }
+
+        window.addEventListener("keydown", onKeyDown);
+        return () => window.removeEventListener("keydown", onKeyDown);
+    }, [active]);
+
+    // Hook untuk menutup modal saat klik di luar area modal
+    useOutsideClick(ref, () => setActive(null));
+
+    // 2. Modifikasi data untuk menyertakan detail dokter
+
     const cards = [
         {
             title: "Poliklinik Bedah",
-
-            subtitle: "Connect within 60 secs",
-            bgColor: "bg-red-300",
-            icon: bedah, // ganti sesuai path ikon
+            bgColor: "bg-red-200",
+            icon: bedah,
+            doctors: [
+                { name: "Dr. Budi, Sp.B", schedule: "Senin, Rabu (08:00 - 12:00)" },
+                { name: "Dr. Citra, Sp.B", schedule: "Selasa, Kamis (13:00 - 17:00)" },
+            ],
         },
         {
-            title: "Polklinik Penyakit Paru",
-            subtitle: "Connect within 60 secs",
-            bgColor: "bg-orange-300",
+            title: "Poliklinik Penyakit Paru",
+            bgColor: "bg-orange-200",
             icon: paru,
+            doctors: [
+                { name: "Dr. Dedi, Sp.P", schedule: "Senin, Jumat (09:00 - 11:00)" },
+            ],
         },
-        // {
-        //     title: "Medical Center Patient",
-        //     subtitle:
-        //         "From preventive care to managing complex conditions, our experienced team of doctors.",
-        //     bgColor: "bg-gradient-to-tr from-red-200 via-white to-green-200 backdrop-blur-md",
-        //     icon: "",
-        //     testimonial: {
-        //         name: "Michael Jhonson",
-        //         role: "Visit Viste Doctors",
-        //         avatar: "/images/michael.jpg", // ganti path foto
-        //     },
-        // },
         {
             title: "Poliklinik Gigi dan Mulut",
-            subtitle: "Connect within 60 secs",
-            bgColor: "bg-blue-300",
+            bgColor: "bg-sky-200",
             icon: gigi_mulut,
-        },
-        {
-            title: "Poliklinik Obsgyn",
-            subtitle: "Connect within 60 secs",
-            bgColor: "bg-blue-300",
-            icon: obsgyn,
-        },
-        {
-            title: "Poliklinik Penyakit Mata",
-
-            subtitle: "Connect within 60 secs",
-            bgColor: "bg-blue-300",
-            icon: mata,
+            doctors: [
+                { name: "Drg. Elia", schedule: "Senin - Jumat (08:00 - 16:00)" },
+                { name: "Drg. Fandi, Sp.Ort", schedule: "Sabtu (09:00 - 14:00)" },
+            ],
         },
         {
             title: "Poliklinik Anak",
-
-            subtitle: "Connect within 60 secs",
-            bgColor: "bg-blue-300",
+            bgColor: "bg-green-200",
             icon: anak,
+            doctors: [
+                { name: "Dr. Grace, Sp.A", schedule: "Senin, Selasa (10:00 - 13:00)" },
+                { name: "Dr. Hendra, Sp.A", schedule: "Rabu, Kamis (15:00 - 18:00)" },
+            ],
+        },
+        {
+            title: "Poliklinik Penyakit Mata",
+            bgColor: "bg-red-200",
+            icon: mata,
+            doctors: [
+                { name: "Dr. Budi, Sp.B", schedule: "Senin, Rabu (08:00 - 12:00)" },
+                { name: "Dr. Citra, Sp.B", schedule: "Selasa, Kamis (13:00 - 17:00)" },
+            ],
+        },
+        {
+            title: "Poliklinik Obsgyn",
+            bgColor: "bg-orange-200",
+            icon: obsgyn,
+            doctors: [
+                { name: "Dr. Dedi, Sp.P", schedule: "Senin, Jumat (09:00 - 11:00)" },
+            ],
         },
         {
             title: "Poliklinik Penyakit Dalam",
-
-            subtitle: "Connect within 60 secs",
-            bgColor: "bg-blue-300",
+            bgColor: "bg-sky-200",
             icon: penyakit_dalam,
+            doctors: [
+                { name: "Drg. Elia", schedule: "Senin - Jumat (08:00 - 16:00)" },
+                { name: "Drg. Fandi, Sp.Ort", schedule: "Sabtu (09:00 - 14:00)" },
+            ],
         },
+        {
+            title: "Poliklinik Jantung",
+            bgColor: "bg-green-200",
+            icon: anak,
+            doctors: [
+                { name: "Dr. Grace, Sp.A", schedule: "Senin, Selasa (10:00 - 13:00)" },
+                { name: "Dr. Hendra, Sp.A", schedule: "Rabu, Kamis (15:00 - 18:00)" },
+            ],
+        },
+        // Tambahkan data dokter untuk kartu lainnya...
     ];
 
     return (
-        <div className="px-10">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-6">
-                {cards.map((card, index) => (
-                    <div
-                        key={index}
-                        className={`relative rounded-xl p-5 text-left h-60 flex flex-col justify-between overflow-hidden ${card.bgColor}`}
-                    >
-                        {/* Ikon samar di background */}
-                        {card.icon && (
-                            <Image
-                                src={card.icon}
-                                alt="icon"
-                                width={100}
-                                height={100}
-                                className="absolute bottom-5 right-5 opacity-75"
-                            />
-                        )}
+        <div className="md:px-10">
 
-                        {/* Konten */}
-                        <div>
-                            <h3 className="font-semibold text-lg">{card.title}</h3>
-                            <p className="text-sm opacity-80">{card.subtitle}</p>
-                        </div>
+            {/* 3. Tambahkan AnimatePresence untuk modal dan overlay */}
+            <AnimatePresence>
+                {active && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 bg-black/20 h-full w-full z-10"
+                    />
+                )}
+            </AnimatePresence>
+            <AnimatePresence>
+                {active && (
+                    <div className="fixed inset-0 grid place-items-center z-[100] p-4">
+                        {/* <motion.button
+                            className="flex absolute top-4 right-4 lg:top-8 lg:right-8 items-center justify-center bg-white rounded-full h-8 w-8 z-50"
+                            onClick={() => setActive(null)}
+                        >
+                            <CloseIcon />
+                        </motion.button> */}
 
-                        {/* Testimonial untuk card ke-3 */}
-                        {/* {card.testimonial && (
-                            <div>
-                                <div className="flex items-center gap-3 mt-3">
+                        {/* KARTU DETAIL (MODAL) */}
+                        <motion.div
+                            layoutId={`card-${active.title}-${id}`}
+                            ref={ref}
+                            className={`w-full max-w-lg h-auto max-h-[90%] flex flex-col ${active.bgColor} rounded-2xl overflow-hidden`}
+                        >
+                            <div className="relative p-8">
+                                <motion.div
+                                    layoutId={`icon-${active.title}-${id}`}
+                                    // 1. Ubah posisi dari bawah ke atas
+                                    className="absolute top-8 right-8"
+                                >
                                     <Image
-                                        src={card.testimonial.avatar}
-                                        alt={card.testimonial.name}
-                                        width={40}
-                                        height={40}
-                                        className="rounded-full"
+                                        src={active.icon}
+                                        alt={active.title}
+                                        // 2. Ubah ukuran menjadi lebih kecil
+                                        width={60}
+                                        height={60}
+                                        className="opacity-50"
                                     />
-                                    <div>
-                                        <p className="font-semibold text-sm">
-                                            {card.testimonial.name}
-                                        </p>
-                                        <p className="text-xs opacity-70">{card.testimonial.role}</p>
-                                    </div>
-                                </div>
-                                <div className="absolute bottom-5 right-5 text-3xl font-bold opacity-60">
-                                    ”
-                                </div>
-                            </div>
-                        )} */}
+                                </motion.div>
+                                <motion.h3
+                                    layoutId={`title-${active.title}-${id}`}
+                                    className="font-bold text-3xl text-neutral-800 mb-6"
+                                >
+                                    {active.title}
+                                </motion.h3>
 
-                        {/* Tombol panah */}
-                        {/* {!card.testimonial && (
-                            <button className="bg-green-800 text-white p-2 rounded-full w-fit hover:bg-green-700 transition-all">
-                                <ArrowRight size={16} />
-                            </button>
-                        )} */}
+                                <motion.div
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    className="text-neutral-700 overflow-y-auto"
+                                >
+                                    <h4 className="font-semibold mb-3">Jadwal Dokter:</h4>
+                                    <ul className="space-y-3">
+                                        {active.doctors.map((doctor, index) => (
+                                            <li key={index} className="p-3 bg-white/50 rounded-lg">
+                                                <p className="font-semibold">{doctor.name}</p>
+                                                <p className="text-sm">{doctor.schedule}</p>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </motion.div>
+                            </div>
+                        </motion.div>
                     </div>
-                ))}
+                )}
+            </AnimatePresence>
+            <div className="bg-black text-white h-[500px]  p-6 rounded-3xl shadow-lg w-full relative overflow-hidden">
+                <div className="pointer-events-none absolute top-60 -left-60 w-[700px] h-[700px] rounded-full bg-gradient-to-br from-orange-700 via-amber-700 to-yellow-700 opacity-60 blur-[160px] mix-blend-lighten" />
+                <div className="pointer-events-none absolute top-1/3 right-0 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-orange-700 via-amber-700 to-yellow-700 opacity-50 blur-[140px] mix-blend-lighten" />
+                <div className="pointer-events-none absolute bottom-0 left-1/2 w-[600px] h-[600px] rounded-full bg-gradient-to-tl from-orange-700 via-amber-700 to-yellow-700 opacity-40 blur-[140px] mix-blend-lighten" />
+                <h1 className="text-[200px] font-anton  absolute left-1/2 top-25 -translate-x-1/2 -translate-y-1/2">POLIKLINIK</h1>
+                <div className="flex justify-center absolute -bottom-40 w-full">
+                    <Image src={dokter_poli} alt="dokter_poli" className="w-[800px]" />
+                </div>
+            </div>
+            {/* GRID KARTU POLIKLINIK */}
+
+            <div className="px-4 md:px-0 mb-20 mt-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {cards.map((card) => (
+                        <motion.div
+                            layoutId={`card-${card.title}-${id}`}
+                            key={card.title}
+                            onClick={() => setActive(card)}
+                            className={`relative rounded-xl p-5 text-left h-52 flex flex-col justify-between overflow-hidden cursor-pointer ${card.bgColor} hover:shadow-xl transition-shadow`}
+                        >
+                            <motion.div
+                                layoutId={`icon-${card.title}-${id}`}
+                                className="absolute bottom-5 right-5"
+                            >
+                                <Image
+                                    src={card.icon}
+                                    alt="icon"
+                                    width={80}
+                                    height={80}
+                                    className="opacity-60"
+                                />
+                            </motion.div>
+                            <div>
+                                <motion.h3
+                                    layoutId={`title-${card.title}-${id}`}
+                                    className="font-semibold text-lg text-neutral-800"
+                                >
+                                    {card.title}
+                                </motion.h3>
+                            </div>
+                        </motion.div>
+                    ))}
+                </div>
             </div>
         </div>
     );
 }
+
+
+
