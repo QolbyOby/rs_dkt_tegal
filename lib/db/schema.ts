@@ -106,23 +106,23 @@ export const categories = mysqlTable("category", {
     updatedAt: datetime("updatedAt").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
 });
 
-export const rooms = mysqlTable(
-    "room",
-    {
-        id: varchar("id", { length: 255 }).notNull().primaryKey(),
-        roomNumber: varchar("roomNumber", { length: 255 }).notNull(),
-        type: varchar("type", { length: 255 }).notNull(),
-        status: mysqlEnum("status", ["available", "occupied", "maintenance"]).default("available"),
-        price: varchar("price", { length: 255 }).notNull(),
-        capacity: int("capacity").notNull(),
-        features: text("features"), // Menyimpan fitur sebagai JSON string
-        lastUpdated: datetime("lastUpdated").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
-        createdAt: datetime("createdAt").default(sql`CURRENT_TIMESTAMP`),
-    },
-    (room) => ({
-        roomNumberIdx: index("room_number_idx").on(room.roomNumber),
-    })
-);
+// export const rooms = mysqlTable(
+//     "room",
+//     {
+//         id: varchar("id", { length: 255 }).notNull().primaryKey(),
+//         roomNumber: varchar("roomNumber", { length: 255 }).notNull(),
+//         type: varchar("type", { length: 255 }).notNull(),
+//         status: mysqlEnum("status", ["available", "occupied", "maintenance"]).default("available"),
+//         price: varchar("price", { length: 255 }).notNull(),
+//         capacity: int("capacity").notNull(),
+//         features: text("features"), // Menyimpan fitur sebagai JSON string
+//         lastUpdated: datetime("lastUpdated").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+//         createdAt: datetime("createdAt").default(sql`CURRENT_TIMESTAMP`),
+//     },
+//     (room) => ({
+//         roomNumberIdx: index("room_number_idx").on(room.roomNumber),
+//     })
+// );
 
 export const doctors = mysqlTable(
     "doctor",
@@ -131,7 +131,7 @@ export const doctors = mysqlTable(
         name: varchar("name", { length: 255 }).notNull(),
         category: mysqlEnum("category", ["umum", "spesialis"]).notNull(),
         specialistName: varchar("specialistName", { length: 255 }),
-        schedules: json("schedules").notNull(), 
+        schedules: json("schedules").notNull(),
         imageUrl: varchar("imageUrl", { length: 500 }),
         createdAt: datetime("createdAt").default(sql`CURRENT_TIMESTAMP`),
         updatedAt: datetime("updatedAt").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
@@ -140,6 +140,42 @@ export const doctors = mysqlTable(
         nameIdx: index("doctor_name_idx").on(doctor.name),
     })
 );
+
+export const roomTypes = mysqlTable(
+    "room_types",
+    {
+        id: varchar("id", { length: 255 }).notNull().primaryKey(),
+        name: varchar("name", { length: 255 }).notNull(), // Contoh: "Kamar Tipe I"
+        price: varchar("price", { length: 255 }).notNull(),
+        images: json("images").$type<string[]>(), // Menyimpan array URL gambar
+        facilities: json("facilities").$type<string[]>(), // Menyimpan array fasilitas
+        createdAt: datetime("createdAt").default(sql`CURRENT_TIMESTAMP`),
+        updatedAt: datetime("updatedAt").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+    }
+);
+
+// Skema Baru untuk Kamar Individual
+export const rooms = mysqlTable(
+    "rooms", // Nama tabel bisa tetap 'rooms' atau 'individual_rooms'
+    {
+        id: varchar("id", { length: 255 }).notNull().primaryKey(),
+        name: varchar("name", { length: 255 }).notNull(), // Contoh: "Bougenville 1"
+        capacity: int("capacity").notNull(),
+        // Kunci asing untuk menghubungkan ke tabel roomTypes
+        roomTypeId: varchar("roomTypeId", { length: 255 }).notNull(),
+    }
+);
+
+export const roomTypesRelations = relations(roomTypes, ({ many }) => ({
+    rooms: many(rooms),
+}));
+
+export const roomsRelations = relations(rooms, ({ one }) => ({
+    roomType: one(roomTypes, {
+        fields: [rooms.roomTypeId],
+        references: [roomTypes.id],
+    }),
+}));
 
 
 export const usersRelations = relations(users, ({ many }) => ({
@@ -167,6 +203,10 @@ export type Article = typeof articles.$inferSelect;
 export type NewArticle = typeof articles.$inferInsert;
 export type Category = typeof categories.$inferSelect;
 export type NewCategory = typeof categories.$inferInsert;
+export type RoomType = typeof roomTypes.$inferSelect & {
+    rooms: Room[];
+};
+export type NewRoomType = typeof roomTypes.$inferInsert;
 export type Room = typeof rooms.$inferSelect;
 export type NewRoom = typeof rooms.$inferInsert;
 

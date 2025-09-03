@@ -29,6 +29,13 @@
       "when": 1755740227355,
       "tag": "0003_secret_warbird",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1756707729852,
+      "tag": "0004_mighty_thunderbird",
+      "breakpoints": true
     }
   ]
 }

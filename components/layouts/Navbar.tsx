@@ -16,8 +16,6 @@ export default function Navbar() {
     const [leftNavHovered, setLeftNavHovered] = useState<number | null>(null);
     const [rightNavHovered, setRightNavHovered] = useState<number | null>(null);
     const [layananHovered, setLayananHovered] = useState<number | null>(null);
-    const [rawatInapHovered, setRawatInapHovered] = useState<number | null>(null);
-    const [rawatJalanHovered, setRawatJalanHovered] = useState<number | null>(null);
 
 
     // Data Navigasi

@@ -1,3 +1,5 @@
+'use client'
+
 import Image from "next/image";
 import hero2img from "@/public/img/hero_section3.jpeg";
 import logoimg from "@/public/img/logo.png";
@@ -10,7 +12,7 @@ import hero_section2 from "@/public/img/hero_section2.png"
 import kepala_RS from "@/public/img/13.webp";
 import Navbar from "@/components/layouts/Navbar";
 import { Button } from "@/components/ui/button";
-import { CircleArrowDown, Heart, Instagram, Mail, MapPin, Stethoscope, CircleArrowOutUpRight } from "lucide-react";
+import { CircleArrowDown, Heart, Instagram, Mail, MapPin, Stethoscope, CircleArrowOutUpRight, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -19,8 +21,35 @@ import hero_section4 from "@/public/img/hero_section4.png"
 import hero_section6 from "@/public/img/hero_section6.png"
 import { FeaturedServices } from "@/components/FeaturedServices";
 import { ThreeDMarqueeDemoSecond } from "@/components/ThreeDMarquee";
+import { Article } from "@/lib/db/schema";
+import { useEffect, useState } from "react";
+import { ArtikelCard } from "@/components/ArtikelCard";
 
 export default function Home() {
+
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchArticles() {
+      try {
+        const response = await fetch('/api/artikel');
+        if (response.ok) {
+          const data = await response.json();
+          const publishedArticles = data.filter((article: Article) => article.status === 'PUBLISHED');
+          // Urutkan artikel berdasarkan tanggal dan ambil 3 yang terbaru
+          const sortedArticles = publishedArticles.sort((a: Article, b: Article) => new Date(b.createdAt || '').getTime() - new Date(a.createdAt || '').getTime());
+          setArticles(sortedArticles.slice(0, 3));
+        }
+      } catch (error) {
+        console.error("Gagal mengambil data artikel:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchArticles();
+  }, []);
+
   return (
     <div className="px-5">
       <div
@@ -82,36 +111,36 @@ export default function Home() {
           </Button>
         </div>
         <div className="flex gap-2 mt-10">
-          <div className="flex-1 h-80 bg-gray-400 rounded-3xl relative overflow-hidden">
-            <Image src={dokter_umum} alt="Dokter Umum" className="w-full h-full object-cover rounded-3xl" />
+          <Link href="/anggota?kategori=umum" className="flex-1 h-80 bg-gray-400 rounded-3xl relative overflow-hidden group">
+            <Image src={dokter_umum} alt="Dokter Umum" className="w-full h-full object-cover rounded-3xl transform transition-transform duration-300 group-hover:scale-110" />
             <div className="absolute bottom-4 left-4 w-1/2 px-6 py-4 rounded-xl bg-white/30 backdrop-blur-md shadow-lg flex justify-between items-center">
               <div className="flex flex-col">
                 <span className="text-lg font-semibold text-black">Dokter Umum</span>
                 <span className="text-sm text-black/70">Pelayanan kesehatan umum terbaik</span>
               </div>
-              <div className="p-3 bg-black rounded-full">
+              <div className="p-3 bg-black rounded-full transform transition-transform duration-300 group-hover:rotate-45">
                 <CircleArrowOutUpRight className="text-white" />
               </div>
             </div>
             <div className="absolute bottom-4 right-4 text-4xl px-5 py-5 rounded-full bg-white/30 backdrop-blur-md shadow-lg">
               18
             </div>
-          </div>
-          <div className="flex-1 h-80 bg-gray-400 rounded-3xl relative overflow-hidden">
-            <Image src={dokter_spesialis} alt="Dokter Spesialis" className="w-full h-full object-cover rounded-3xl" />
+          </Link>
+          <Link href="/anggota?kategori=spesialis" className="flex-1 h-80 bg-gray-400 rounded-3xl relative overflow-hidden group">
+            <Image src={dokter_spesialis} alt="Dokter Spesialis" className="w-full h-full object-cover rounded-3xl transform transition-transform duration-300 group-hover:scale-110" />
             <div className="absolute bottom-4 left-4 w-1/2 px-6 py-4 rounded-xl bg-white/30 backdrop-blur-md shadow-lg flex justify-between items-center">
               <div className="flex flex-col">
                 <span className="text-lg font-semibold text-black">Dokter Spesialis</span>
                 <span className="text-sm text-black/70">Spesialisasi berbagai bidang medis</span>
               </div>
-              <div className="p-3 bg-black rounded-full">
+              <div className="p-3 bg-black rounded-full transform transition-transform duration-300 group-hover:rotate-45">
                 <CircleArrowOutUpRight className="text-white" />
               </div>
             </div>
             <div className="absolute bottom-4 right-4 text-4xl px-5 py-5 rounded-full bg-white/30 backdrop-blur-md shadow-lg">
               12
             </div>
-          </div>
+          </Link>
         </div>
         <div className="mt-10 ">
           <FeaturedServices />
@@ -119,12 +148,35 @@ export default function Home() {
         <div className="mt-10">
           <ThreeDMarqueeDemoSecond />
         </div>
-
-
-        <div className="mt-10">
-          <div>
-            
+        <div className="my-20 px-5">
+          <div className="flex justify-between items-center mb-6">
+            <div>
+              <h2 className="text-3xl font-bold">Artikel Terbaru</h2>
+              <p className="text-gray-600">Baca berita dan informasi kesehatan terkini dari kami.</p>
+            </div>
+            <Button asChild>
+              <Link href="/artikel" className="flex items-center">
+                Lihat Artikel Lainnya <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
           </div>
+          {loading ? (
+            <div className="text-center">Memuat artikel...</div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {articles.map((article) => (
+                <ArtikelCard
+                  key={article.id}
+                  id={article.id}
+                  slug={article.slug}
+                  title={article.title}
+                  description={article.content.substring(0, 100) + '...'}
+                  category="Artikel" // Anda mungkin ingin mengambil nama kategori
+                  imageUrl={article.Image || "/img/hero_section2.png"}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

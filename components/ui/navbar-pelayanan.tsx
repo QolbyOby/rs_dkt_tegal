@@ -16,7 +16,6 @@ interface NavItemsProps {
         className?: string;
     }[];
     className?: string;
-
 }
 
 export const NavItems = ({ items, className }: NavItemsProps) => {

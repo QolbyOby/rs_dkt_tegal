@@ -11,12 +11,9 @@ const textTitle = `
 Sejarah Rumah Sakit Tk.IV04.07.01 Tegal
 `
 
-const textDescription = ` 
-Rumah Sakit Tk.IV 04.07.01 Tegal dulunya bernama TP II Kesrem 071/WK 
-yang terletak di Jalan Jenderal Sudirman No.10-11 Tegal dan sekarang Gedung tersebut dijadikan Kantor Bank BDN. 
-Pada tahun 1983 pindah ke Jalan Raya Pagongan Tegal (belakang Kodim 0712/Tegal) dengan sebutan Rumkit Tk.IV 04.07.01 Tegal 
-sampai dengan sekarang. Rumah Sakit Tk.IV 04.07.01/Tegal berdiri di atas lahan seluas + 7.924 m2, bangunan + 1.435 m2 
-merupakan rumah sakit Tk.IV TNI AD yang berada di bawah Denkesyah 04.04.01 Purwokerto.`;
+const textDescription = `
+Rumah Sakit ini memulai perjalanan sejarahnya pada tahun 1950 dimana terjadi serah terima pemerintahan dari Hindia Belanda kepada pemerintah Republik Indonesia yang pada saat ini diserahkan kepada Tentara Nasional Indonesia. Rumkit Tk.IV 04.07.01 Tegal awalnya bernama TP II Kesrem 071/WK yang terletak di Jalan Jenderal Sudirman No.10-11 Tegal pada saat ini gedung tersebut dijadikan kantor Bank BDN, yang kemudian berubah nama menjadi Bank Mandiri, sehingga terjadi pergantian nama Rumah Sakit dari Palang Merah KNIL menjadi Jawatan Kesehatan Tentara yang disingkat DKT.  Pada tahun 1983 RS dipindah ke Jalan Raya Pagongan Tegal dengan lokasi di jalan Raya Pagongan  Tegal (belakang Kodim 0712Tegal) dengan sebutan Rumkit Tk.IV 04.07.01 Tegal sampai dengan sekarang. Rumkit TK IV 04.07.01 merupakan Rumah Sakit di lingkungan Korem 071/WK, dan juga berfungsi sebagai Rumah Sakit Integrasi bagi masyarakat TNI diwilayah Tegal dan sekitarnya. Dalam perjalanannya, Rumah Sakit Tk IV 04.07.01 Tegal mengalami perkembangan dan perubahan baik secara fisik bangunan, fasilitas kesehatan maupun nama dan status Rumah Sakit. Selama kurun waktu Lima Puluh Sembilan tahun perjalanan sejarah dari tahun 1950 sampai dengan sekarang Rumkit TK IV 04.07.01 mengalami pergantian  nama Rumah Sakit, pergantian Pejabat-pejabat Kepala Rumah sakit dan disertai dengan perbaikan/ penambahan bangunan baik bangunan utama/ perkantoran, sarana penunjang maupun bangsal perawatan. 
+`;
 
 export default function Page() {
     return (
@@ -42,15 +39,25 @@ export default function Page() {
                             </CardContent>
                         </Card>
                         <h3 className="text-xl text-center italic my-5">Assalamualaikum Wr. Wb</h3>
-                        <p className="mb-1 indent-8 text-justify">
-                            Puji dan syukur kami panjatkan kehadirat Allah SWT, karena dengan karunia Nya website RSPAL dr. Ramelan ini dapat membantu menginformasikan data dan informasi pelayanan Rumah Sakit di RSPAL dr. Ramelan. RSPAL dr. Ramelan merupakan rumah sakit milik TNI yang berlokasi di tengah pusat Kota Surabaya, dengan type RS kelas A, Rumah Sakit Pendidikan dan merupakan Rumah Sakit rujukan di wilayah Timur.
+                        <p className='text-center'>Salam Sejatera
+                            Shalom
+                            Om Swastyastu
+                            Namo Buddhaya
+                            Salam Kebajikan
                         </p>
                         <p className="mb-1 indent-8 text-justify">
-                            Rumah Sakit Pusat Angkatan Laut dr. Ramelan memiliki 48 layanan spesialistik dan subspesialistik dengan kapasitas tempat tidur 866 TT. Kami berkomitmen untuk memberikan pelayanan kesehatan yang berkualitas serta beorientasi penuh pada kepuasan pelanggan dengan penggunaan  biaya yang kompetitif dan terjangkau. Seluruh staf medis dan paramedis kami bekerja sama sebagaimana satu kelompok kerja yang profesional untuk melayani anda, karena merekalah tulang punggung keberhasilan kami dalam melayani anda. Sebagaimana rumah sakit yang menekankan pelayanan kesehatan kepada TNI beserta keluarganya dan masyarakat umum yang membutuhkan, RSPAL dr. Ramelan akan terus berupaya meningkatkan pelayanan dan komitmen, semangat dan dedikasi yang tinggi serta mengikuti perkembangan teknologi yang tepat guna. Semua peningkatan pelayanan tersebut bertujuan untuk memberikan pelayanan dan perawatan kesehatan yang berkualitas serta kenyamanan bagi anda dan keluarga selama menjalani pengobatan serta perawatan di RSPAL dr. Ramelan Surabaya.
+                            Perkembangan meningkatnya kebutuhan pelayanan dunia kesehatan yang semakin berkualitas, cepat, tepat, dan akurat. Mendorong institusi kesehatan untuk berbenah diri terutama meningkatkan kualitas pelayanan, meningkatkan keberadaan alat-alat medis yang sesuai dengan kebutuhan masyarakat dan memberikan fasilitas pelayanan yang baik, sehingga kenyamanan terhadap pasien semakin terjaga.
                         </p>
                         <p className="mb-1 indent-8 text-justify">
-                            Demikian sambutan dari saya dan saya mengucapkan terima kasih kepada seluruh jajaran staf dan anggota RSPAL dr. Ramelan atas loyalitas dan kerjasamanya dalam memberikan pelayanan kesehatan kepada TNI beserta keluarganya dan masyarakat umum yang membutuhkan. Semoga website ini dapat memberikan informasi yang berguna kepada yang membutuhkannya.
+                            Rumah Sakit Tingkat IV 04.07.01 Tegal atau lebih dikenal dengan DKT Pagongan telah lama menemani masyarakat Kabupaten dan Kota Tegal dalam memberikan pelayanan di bidang kesehatan sesuai dengan visi dan misi Rumah Sakit yaitu Menjadi Rumah Sakit Kebanggan Prajurit, PNS, dan Keluarganya dengan menyediakan pelayanan kesehatan yang optimal, serta memberikan pelayanan kesehatan yang bermutu dan terjangkau oleh masyarakat umum, PNS, dan Prajurit serta keluarganya dengan mengutamakan keselamatan pasien
                         </p>
+                        <p className="mb-1 indent-8 text-justify">
+                            Kami berkomitemen untuk terus meningkatkan kualitas pelayanan sehingga  kepuasan pasien semakin meningkat yang bermuara pada meningkatnya kepercayaan masyarakat Tegal dan sekitarnya terhadap Rumah Sakit Tk IV 04.07.01 Tegal.
+                        </p>
+                        <p className="mb-1 indent-8 text-justify">
+                            Kami berterima kasih atas kepercayaan Anda menggunakan jasa pelayanan Rumah Sakit Tk IV 04.07.01 Tegal. Kritik dan saran anda sangat dibutuhkan untuk meningkatkan pelayanan kami. Semoga profil singkat ini dapat memberikan informasi yang berguna bagi masyarakat. Terima kasih.
+                        </p>
+                        <h3 className="text-xl text-center italic my-5">Wassalamu’alaikum. Wr. Wb.</h3>
                     </div>
                     <div className="flex-1 flex justify-center items-center">
                         <div className="px-12  py-8 relative rounded-2xl shadow-xl/30 bg-white/80 overflow-hidden flex flex-col items-center">

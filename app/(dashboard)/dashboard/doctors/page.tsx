@@ -197,7 +197,7 @@ export default function DoctorsPage() {
                                             }
                                         />
                                     </div>
-                                    <div className="grid gap-3">
+                                    <div className="grid gap-3 max-h-52 overflow-y-auto">
                                         <Label>Jadwal Praktik</Label>
                                         {schedules.map((group, index) => (
                                             <div key={index} className="p-4 border rounded-lg space-y-3">

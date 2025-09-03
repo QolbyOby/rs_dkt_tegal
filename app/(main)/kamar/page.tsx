@@ -190,14 +190,14 @@ const RoomCard: React.FC<{ roomType: RoomTypeData }> = ({ roomType }) => {
                                 <Table>
                                     <TableHeader>
                                         <TableRow>
-                                            <TableHead><Bed className="w-4 h-4 inline-block mr-2" />Ruangan</TableHead>
+                                            <TableHead className="border-r"><Bed className="w-4 h-4 inline-block mr-2" />Ruangan</TableHead>
                                             <TableHead><Users className="w-4 h-4 inline-block mr-2" />Kapasitas</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {roomType.rooms.map((room, index) => (
                                             <TableRow key={index}>
-                                                <TableCell>{room.name}</TableCell>
+                                                <TableCell className="border-r">{room.name}</TableCell>
                                                 <TableCell>{room.capacity}</TableCell>
                                             </TableRow>
                                         ))}

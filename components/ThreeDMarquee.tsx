@@ -51,18 +51,18 @@ export function ThreeDMarqueeDemoSecond() {
         k_9,
     ];
     return (
-        <div className="relative mx-auto my-10 flex h-[500px] w-full max-w-7xl flex-col items-center justify-center overflow-hidden rounded-3xl">
-            <h2 className="relative z-20 mx-auto max-w-4xl text-center text-2xl font-bold text-balance text-white md:text-4xl lg:text-6xl">
-                <span className="relative z-20 inline-block rounded-xl bg-orange-500/40 px-4 py-1 text-white underline decoration-orange-500 decoration-[6px] underline-offset-[16px] backdrop-blur-sm">
+        <div className="relative mx-auto my-10 flex h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-3xl">
+            <h2 className="relative z-20 mx-auto max-w-4xl text-center text-2xl font-light text-balance text-white md:text-4xl lg:text-7xl">
+                <span className="relative z-20 inline-block rounded-xl px-4 py-1 text-white">
                     Kamar Rawat Inap
-                </span>{" "}
+                </span>
             </h2>
             <p className="relative z-20 mx-auto max-w-2xl py-8 text-center text-sm text-neutral-200 md:text-base">
                 Kami menyediakan berbagai pilihan kamar rawat inap yang nyaman dan berkualitas. Mulai dari kelas III hingga VIP, setiap kamar dilengkapi dengan fasilitas standar rumah sakit dan perawatan 24 jam oleh tim medis profesional kami.
             </p>
 
             <div className="relative z-20 flex flex-wrap items-center justify-center gap-4 pt-4">
-                <button className="rounded-md bg-orange-600 px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-orange-700 focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black focus:outline-none">
+                <button className="rounded-md bg-orange-400 px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-orange-custom focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black focus:outline-none">
                     <Link href={"/kamar"}>
                         Lihat Informasi Kamar
                     </Link>

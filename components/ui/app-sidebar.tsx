@@ -17,62 +17,61 @@ import {
 import Link from "next/link"
 import { Button } from "./button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./dropdown-menu";
+import { NavItems } from "./navbar-pelayanan";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 // Menu items.
-const items = [
+const itemsSideBar = [
     {
-        title: "Home",
-        url: "/dashboard",
-        icon: Home,
+        name: "Home",
+        link: "/dashboard",
+        icon: <Home className="h-5 w-5" />,
     },
     {
-        title: "Kategori Artikel",
-        url: "/dashboard/kategori",
-        icon: Inbox,
+        name: "Kategori Artikel",
+        link: "/dashboard/kategori",
+        icon: <Inbox className="h-5 w-5" />,
     },
     {
-        title: "Buat Artikel",
-        url: "/dashboard/add-artikel",
-
-        icon: Calendar,
+        name: "Buat Artikel",
+        link: "/dashboard/add-artikel",
+        icon: <Calendar className="h-5 w-5" />,
     },
     {
-        title: "Artikel",
-        url: "/dashboard/artikel",
-        icon: Search,
+        name: "Artikel",
+        link: "/dashboard/artikel",
+        icon: <Search className="h-5 w-5" />,
     },
     {
-        title: "Manajemen Kamar",
-        url: "/dashboard/kamar",
-        icon: Bed,
+        name: "Manajemen Kamar",
+        link: "/dashboard/kamar",
+        icon: <Bed className="h-5 w-5" />,
     },
     {
-        title: "Manajemen Dokter",
-        url: "/dashboard/doctors",
-        icon: Stethoscope,
+        name: "Manajemen Dokter",
+        link: "/dashboard/doctors",
+        icon: <Stethoscope className="h-5 w-5" />,
     },
 ]
 
+
 export function AppSidebar({ user }: { user: Session["user"] }) {
+
+    const pathname = usePathname()
+    console.log(pathname)
+
     return (
         <Sidebar>
             <SidebarContent>
                 <SidebarGroup>
                     <SidebarGroupLabel className="h-40 w-full rounded-xl bg-[#ff6400] relative overflow-hidden">
                     </SidebarGroupLabel>
-                    <SidebarGroupContent>
-                        <SidebarMenu>
-                            {items.map((item) => (
-                                <SidebarMenuItem key={item.title}>
-                                    <SidebarMenuButton asChild>
-                                        <Link href={item.url}>
-                                            <item.icon />
-                                            <span>{item.title}</span>
-                                        </Link>
-                                    </SidebarMenuButton>
-                                </SidebarMenuItem>
-                            ))}
-                        </SidebarMenu>
+                    <SidebarGroupContent className="mt-1">
+                        <NavItems className="gap-1" items={itemsSideBar.map(item => ({
+                            ...item,
+                            className: pathname === item.link ? "bg-orange-400 text-white rounded-full" : ""
+                        }))} />
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>

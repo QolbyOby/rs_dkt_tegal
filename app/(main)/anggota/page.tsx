@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Doctor } from "@/lib/db/schema";
+import { useSearchParams } from "next/navigation";
 
 type ScheduleGroup = { days: string[]; time: string };
 
@@ -30,8 +31,15 @@ const hariList = [
 const AnggotaPage = () => {
     const [dokterList, setDokterList] = useState<Doctor[]>([]);
     const [loading, setLoading] = useState(true);
+    const searchParams = useSearchParams(); // Gunakan hook
+    const kategoriFromUrl = searchParams.get('kategori') || 'all';
     const [kategori, setKategori] = useState("all");
     const [hari, setHari] = useState("all");
+
+    useEffect(() => {
+        setKategori(kategoriFromUrl);
+    }, [kategoriFromUrl]);
+
 
     useEffect(() => {
         async function fetchDokter() {

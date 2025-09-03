@@ -58,8 +58,8 @@ export default function ConsultationCards() {
             bgColor: "bg-red-200",
             icon: bedah,
             doctors: [
-                { name: "Dr. Budi, Sp.B", schedule: "Senin, Rabu (08:00 - 12:00)" },
-                { name: "Dr. Citra, Sp.B", schedule: "Selasa, Kamis (13:00 - 17:00)" },
+                { name: "Dr. Budi, Sp.B", schedule: "Rabu, Kamis, Jumat (08:00 - Selesai)" },
+                { name: "Dr. Wahyudin, Sp.B", schedule: "Senin, Selasa (09:00 - Selesai)" },
             ],
         },
         {
@@ -67,7 +67,7 @@ export default function ConsultationCards() {
             bgColor: "bg-orange-200",
             icon: paru,
             doctors: [
-                { name: "Dr. Dedi, Sp.P", schedule: "Senin, Jumat (09:00 - 11:00)" },
+                { name: "Dr. Reni Ari Martani, Sp.P", schedule: "Selasa (14:00 - Selesai) Kamis (14.00 - Selesai)" },
             ],
         },
         {
@@ -75,8 +75,7 @@ export default function ConsultationCards() {
             bgColor: "bg-sky-200",
             icon: gigi_mulut,
             doctors: [
-                { name: "Drg. Elia", schedule: "Senin - Jumat (08:00 - 16:00)" },
-                { name: "Drg. Fandi, Sp.Ort", schedule: "Sabtu (09:00 - 14:00)" },
+                { name: "Drg. Farid Sp. Kg", schedule: "Selasa (08:00 - Selesai) Kamis (08:00 - Selesai)" },
             ],
         },
         {
@@ -84,8 +83,7 @@ export default function ConsultationCards() {
             bgColor: "bg-green-200",
             icon: anak,
             doctors: [
-                { name: "Dr. Grace, Sp.A", schedule: "Senin, Selasa (10:00 - 13:00)" },
-                { name: "Dr. Hendra, Sp.A", schedule: "Rabu, Kamis (15:00 - 18:00)" },
+                { name: "Dr. Emilya Herawan, Sp.A", schedule: "Selasa  (10:00 - Selesai) Jumat (10.00 - Selesai)" },
             ],
         },
         {
@@ -93,8 +91,7 @@ export default function ConsultationCards() {
             bgColor: "bg-red-200",
             icon: mata,
             doctors: [
-                { name: "Dr. Budi, Sp.B", schedule: "Senin, Rabu (08:00 - 12:00)" },
-                { name: "Dr. Citra, Sp.B", schedule: "Selasa, Kamis (13:00 - 17:00)" },
+                { name: "Dr. Ahmad Yogi, Sp.A", schedule: "Jumat (09:00 - selesai) Sabtu (09.00 - Selesai)" },
             ],
         },
         {
@@ -102,7 +99,7 @@ export default function ConsultationCards() {
             bgColor: "bg-orange-200",
             icon: obsgyn,
             doctors: [
-                { name: "Dr. Dedi, Sp.P", schedule: "Senin, Jumat (09:00 - 11:00)" },
+                { name: "Dr. Hendriyan, Sp.OG", schedule: "Selasa (11:00 - Selesai) Rabu (11.00 - Selesai) Kamis dan Jumat (11.00 - Selesai)" },
             ],
         },
         {
@@ -110,8 +107,7 @@ export default function ConsultationCards() {
             bgColor: "bg-sky-200",
             icon: penyakit_dalam,
             doctors: [
-                { name: "Drg. Elia", schedule: "Senin - Jumat (08:00 - 16:00)" },
-                { name: "Drg. Fandi, Sp.Ort", schedule: "Sabtu (09:00 - 14:00)" },
+                { name: "Dr. Setiadji Sp, PD", schedule: "Selasa (14:00 - Selesai) Rabu (08.00 - Selesai) Kamis (08.00 - Selesao) Sabtu (08.00 - selesai)" },
             ],
         },
         {
@@ -119,8 +115,15 @@ export default function ConsultationCards() {
             bgColor: "bg-green-200",
             icon: anak,
             doctors: [
-                { name: "Dr. Grace, Sp.A", schedule: "Senin, Selasa (10:00 - 13:00)" },
-                { name: "Dr. Hendra, Sp.A", schedule: "Rabu, Kamis (15:00 - 18:00)" },
+                { name: "Dr. Galih Rakasiwi, Sp.JP, FIHA", schedule: "Senin (08:00 - Selesai) Kamis (08.00 - Selesai)" },
+            ],
+        },
+        {
+            title: "Poliklinik FisioTerapi",
+            bgColor: "bg-green-200",
+            icon: anak,
+            doctors: [
+                { name: "Riza Mustafa, Amd. FIS", schedule: "Senin (08:00 - Selesai) Jumat (08.00 - Selesai)" },
             ],
         },
         // Tambahkan data dokter untuk kartu lainnya...
@@ -211,7 +214,7 @@ export default function ConsultationCards() {
             {/* GRID KARTU POLIKLINIK */}
 
             <div className="px-4 md:px-0 mb-20 mt-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {cards.map((card) => (
                         <motion.div
                             layoutId={`card-${card.title}-${id}`}

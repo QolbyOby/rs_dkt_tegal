@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Category } from "@/lib/db/schema";
 import { UploadCloud, Loader2 } from "lucide-react"; // Import Loader2
+import { FileUpload } from "@/components/ui/file-uploaf";
 
 export default function AddArtikelPage() {
     const router = useRouter();
@@ -75,11 +76,10 @@ export default function AddArtikelPage() {
         }
     }, [isEditMode, articleId]);
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const selectedFile = e.target.files?.[0];
-        if (selectedFile) {
-            setFile(selectedFile);
-            setPreviewUrl(URL.createObjectURL(selectedFile));
+    const handleFileChange = (files: File[]) => {
+        if (files.length > 0) {
+            setFile(files[0]);
+            setCurrentImageUrl(null); // Hapus gambar lama jika ada
         }
     };
 
@@ -162,24 +162,13 @@ export default function AddArtikelPage() {
                         {/* Image Upload Section */}
                         <div className="space-y-2 flex-1">
                             <Label>Gambar Utama</Label>
-                            <div className="w-full h-[350px] border-2 border-dashed rounded-md flex items-center justify-center text-center">
-                                {previewUrl ? (
-                                    <div className="relative w-full h-full">
-                                        <Image src={previewUrl} alt="Pratinjau Gambar" layout="fill" objectFit="cover" className="rounded-md" />
-                                    </div>
-                                ) : currentImageUrl ? (
-                                    <div className="relative w-full h-full">
-                                        <Image src={currentImageUrl} alt="Gambar Saat Ini" layout="fill" objectFit="cover" className="rounded-md" />
-                                    </div>
-                                ) : (
-                                    <div className="flex flex-col items-center gap-2 text-muted-foreground">
-                                        <UploadCloud className="h-10 w-10" />
-                                        <span>Tarik & Lepas atau Klik untuk Memilih Gambar</span>
-                                        <Input id="file-upload" type="file" className="sr-only" onChange={handleFileChange} accept="image/*" />
-                                        <Label htmlFor="file-upload" className="cursor-pointer text-primary underline">Pilih File</Label>
-                                    </div>
-                                )}
-                            </div>
+                            {currentImageUrl && !file ? (
+                                <div className="relative w-full h-[350px]">
+                                    <Image src={currentImageUrl} alt="Gambar Saat Ini" layout="fill" objectFit="cover" className="rounded-md" />
+                                </div>
+                            ) : (
+                                <FileUpload onChange={handleFileChange} />
+                            )}
                         </div>
 
                         <div className="flex-1 space-y-4">
