@@ -10,18 +10,19 @@ import {
 // Tipe properti (props) untuk komponen kita
 interface ServiceCardProps {
     number: string;
-    icon: React.ReactNode;
-    title: string;
+    icon?: React.ReactNode;
+    title?: string;
     description: string;
+    className?: string;
 }
 
-export const ServiceCard: React.FC<ServiceCardProps> = ({ number, icon, title, description }) => {
+export const ServiceCard: React.FC<ServiceCardProps> = ({ number, icon, title, description, className }) => {   
     return (
         // Gunakan komponen Card dari shadcn/ui sebagai dasar
         // `relative` dan `overflow-hidden` penting untuk posisi nomor
-        <Card className="relative overflow-hidden h-full flex flex-col transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-xl">
+        <Card className={`relative overflow-hidden h-full flex flex-col transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-xl ${className}`}>
             {/* Nomor besar sebagai latar belakang */}
-            <span className="absolute top-0 left-4 text-8xl font-extrabold text-gray-300/80 z-0">
+            <span className="absolute top-0 left-4 text-8xl font-extrabold text-orange-400/20 z-0">
                 {number}
             </span>
 

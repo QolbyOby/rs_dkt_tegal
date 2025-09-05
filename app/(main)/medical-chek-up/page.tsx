@@ -206,7 +206,7 @@ export default function MedicalCheckupPage() {
 
                 {/* Info */}
                 <div className="bg-black relative overflow-hidden border flex flex-col justify-center text-white h-52 border-orange-200 mt-4 rounded-xl  text-center space-y-3">
-                    <OrangeShaderBackground speed={3} warpAmount={3} scanlineFrequency={0.5} scanlineIntensity={1} hueShift={230} className="-bottom-10" />
+                    {/* <OrangeShaderBackground speed={3} warpAmount={3} scanlineFrequency={0.5} scanlineIntensity={1} hueShift={230} className="-bottom-10" /> */}
                     <h3 className="text-xl font-semibold text-orange-700 z-10">Informasi Pemeriksaan</h3>
                     <p className="text-xl z-10">
                         Pemeriksaan Medical Check Up dilakukan <br /> setiap Senin s/d Jumat,
