@@ -2,56 +2,188 @@
 
 import Link from "next/link";
 import { usePathname } from 'next/navigation';
-import { ChevronRight, Stethoscope } from "lucide-react";
+import { ChevronRight, Stethoscope, Menu, X } from "lucide-react";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "../ui/navigation-menu";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card";
 import { NavItems } from "../ui/navbar-pelayanan";
-import React, { useState } from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+
+// --- Tipe Data Navigasi ---
+type NavItem = {
+    name: string;
+    href?: string;
+    icon?: React.ReactNode;
+    isPrimary?: boolean;
+    type?: 'dropdown' | 'link';
+    items?: NavItem[]; // Untuk submenu
+};
+
+// --- Komponen AnimatedTextRoll Baru ---
+const AnimatedTextRoll = ({ text }: { text: string }) => {
+    const letters = Array.from(text);
+
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: (i = 1) => ({
+            opacity: 1,
+            transition: { staggerChildren: 0.02, delayChildren: 0.05 * i },
+        }),
+    };
+
+    const letterVariants = {
+        hidden: { y: "100%", opacity: 0 },
+        visible: {
+            y: "0%",
+            opacity: 1,
+            transition: {
+                ease: [0.22, 1, 0.36, 1],
+                duration: 0.8,
+            },
+        },
+    };
+
+    return (
+        <motion.span
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="inline-flex overflow-hidden" // Menggunakan inline-flex untuk setiap item
+        >
+            {letters.map((letter, index) => (
+                <motion.span key={index} variants={letterVariants} className="inline-block">
+                    {letter === " " ? "\u00A0" : letter} {/* Menangani spasi */}
+                </motion.span>
+            ))}
+        </motion.span>
+    );
+};
+
+
+// --- Komponen untuk item navigasi mobile (Accordion) [DIPERBAIKI] ---
+const MobileNavItem = ({ item, delayIndex = 0 }: { item: NavItem, delayIndex?: number }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const pathname = usePathname();
+
+    // Varian untuk animasi item
+    const itemVariants = {
+        hidden: { opacity: 0, y: -10 },
+        visible: { opacity: 1, y: 0, transition: { delay: delayIndex * 0.05 } }, // Tambahkan delay
+    };
+
+    // Jika item memiliki submenu, render sebagai accordion
+    if (item.items) {
+        return (
+            <motion.li variants={itemVariants} className="w-full text-left">
+                <button
+                    onClick={() => setIsOpen(!isOpen)}
+                    className="w-full flex justify-between items-center py-2 text-xl font-semibold uppercase text-neutral-700"
+                >
+                    <AnimatedTextRoll text={item.name} />
+                    <motion.div animate={{ rotate: isOpen ? 90 : 0 }} transition={{ duration: 0.2 }}>
+                        <ChevronRight className="h-5 w-5" />
+                    </motion.div>
+                </button>
+                <AnimatePresence>
+                    {isOpen && (
+                        <motion.ul
+                            initial="hidden"
+                            animate="visible"
+                            exit="hidden"
+                            variants={{
+                                visible: {
+                                    height: 'auto',
+                                    opacity: 1,
+                                    transition: { staggerChildren: 0.05 },
+                                },
+                                hidden: {
+                                    height: 0,
+                                    opacity: 0,
+                                    transition: { staggerChildren: 0.05, staggerDirection: -1, when: "afterChildren" },
+                                },
+                            }}
+                            className="pl-4 mt-2 flex flex-col gap-y-1 overflow-hidden"
+                        >
+                            {item.items.map((child, childIndex) => (
+                                // Rekursif memanggil komponen yang sama untuk sub-sub menu
+                                <MobileNavItem key={child.name} item={child} delayIndex={childIndex} /> // Tambahkan delayIndex
+                            ))}
+                        </motion.ul>
+                    )}
+                </AnimatePresence>
+            </motion.li>
+        );
+    }
+
+    // Jika item adalah link biasa
+    return (
+        <motion.li variants={itemVariants}>
+            <Link
+                href={item.href!}
+                className={cn(
+                    "block w-full py-2 text-xl font-semibold text-neutral-700 uppercase",
+                    pathname === item.href && "text-orange-500"
+                )}
+            >
+                <AnimatedTextRoll text={item.name} />
+            </Link>
+        </motion.li>
+    );
+};
+
 
 export default function Navbar() {
     const pathname = usePathname();
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-    const [leftNavHovered, setLeftNavHovered] = useState<number | null>(null);
-    const [rightNavHovered, setRightNavHovered] = useState<number | null>(null);
-    const [layananHovered, setLayananHovered] = useState<number | null>(null);
+    useEffect(() => {
+        if (isMobileMenuOpen) setIsMobileMenuOpen(false);
+    }, [pathname]);
 
+    useEffect(() => {
+        document.body.style.overflow = isMobileMenuOpen ? 'hidden' : 'auto';
+    }, [isMobileMenuOpen]);
 
-    // Data Navigasi
-    const leftNavItems = [
+    const navLinks: NavItem[] = [
         { name: "Home", href: "/" },
         { name: "Profil", href: "/profil" },
-        { name: "Layanan", type: 'dropdown' },
-
-    ];
-    const rightNavItems = [
-        { name: "Fasilitas", type: 'dropdown' },
+        {
+            name: "Layanan",
+            type: 'dropdown',
+            items: [
+                { name: "IGD 24 Jam", href: "/IGD" },
+                {
+                    name: "Penunjang Medik",
+                    items: [
+                        { name: "Farmasi 24 jam", href: "/penunjang-medik?section=farmasi" },
+                        { name: "Laboratorium 24 jam", href: "/penunjang-medik?section=lab" },
+                        { name: "Radiologi", href: "/penunjang-medik?section=radiologi" },
+                    ]
+                },
+                { name: "Medical Check Up", href: "/medical-chek-up" },
+                {
+                    name: "Rawat Inap",
+                    items: [{ name: "Informasi Kamar", href: "/kamar" }]
+                },
+                {
+                    name: "Rawat Jalan",
+                    items: [{ name: "Poliklinik", href: "/poliklinik" }]
+                }
+            ]
+        },
         { name: "Artikel", href: "/artikel" },
         { name: "Jadwal Dokter", href: "/anggota", icon: <Stethoscope className="size-4" /> },
         { name: "Login", href: "/login", isPrimary: true },
     ];
-    const layananItems = [
-        { name: "IGD 24 Jam", link: "/IGD" },
-        { name: "Penunjang Medik", isTrigger: true },
-        { name: "Medical Check Up", link: "/medical-chek-up" },
-        { name: "Rawat Inap", isTrigger: true },
-        { name: "Rawat Jalan", isTrigger: true },
-    ];
-    const penunjangMedikItems = [
-        { name: "Farmasi 24 jam", link: "/penunjang-medik?section=farmasi" },
-        { name: "Laboratorium 24 jam", link: "/penunjang-medik?section=lab" },
-        { name: "Radiologi", link: "/penunjang-medik?section=radiologi" },
-    ];
 
-    const rawatInapItems = [
-        { name: "Informasi Kamar", link: "/kamar" }
-    ];
+    const leftNavItems = navLinks.slice(0, 3);
+    const rightNavItems = navLinks.slice(3);
 
-    const rawatJalanItems = [
-        { name: "Poliklinik", link: "/poliklinik" }
-    ];
 
+    const [leftNavHovered, setLeftNavHovered] = useState<number | null>(null);
+    const [rightNavHovered, setRightNavHovered] = useState<number | null>(null);
+    const [layananHovered, setLayananHovered] = useState<number | null>(null);
 
     const navItemClasses = (isHovered: boolean, isActive: boolean, isPrimary = false) => cn(
         "relative z-10 transition-colors duration-300",
@@ -59,12 +191,53 @@ export default function Navbar() {
             : (isHovered || isActive ? 'text-white' : 'text-neutral-600')
     );
 
-    return (
-        <nav className="bg-white w-full flex items-center sticky top-0 justify-between z-20"
-            style={{ paddingLeft: '60px', paddingRight: '60px', paddingTop: '15px', paddingBottom: '15px' }}>
+    const mobileMenuVariants = {
+        hidden: { x: "100%", transition: { duration: 0.3, ease: "easeInOut" } },
+        visible: { x: 0, transition: { duration: 0.3, ease: "easeInOut" } },
+    };
 
-            {/* Bagian Kiri Navbar */}
-            <div className="flex items-center gap-4 w-full">
+    return (
+        <nav className="bg-white w-full flex items-center sticky top-0 justify-between z-20 px-4 md:px-10 lg:px-16 py-4">
+
+            {/* Hamburger Menu & Logo (Mobile) */}
+            <div className="flex items-center gap-4 md:hidden">
+                <button onClick={() => setIsMobileMenuOpen(true)}>
+                    <Menu className="h-6 w-6" />
+                </button>
+            </div>
+
+            {/* Mobile Menu Overlay */}
+            <AnimatePresence>
+                {isMobileMenuOpen && (
+                    <motion.div
+                        variants={mobileMenuVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="hidden"
+                        className="fixed top-0 left-0 w-full h-screen bg-white z-50 p-6 md:hidden"
+                    >
+                        <div className="flex justify-end mb-8">
+                            <button onClick={() => setIsMobileMenuOpen(false)}>
+                                <X className="h-6 w-6" />
+                            </button>
+                        </div>
+                        <motion.ul
+                            initial="hidden"
+                            animate="visible"
+                            variants={{ visible: { transition: { staggerChildren: 0.05 } } }}
+                            className="flex flex-col gap-y-2"
+                        >
+                            {navLinks.map((item, index) => (
+                                <MobileNavItem key={item.name} item={item} delayIndex={index} />
+                            ))}
+                        </motion.ul>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+
+            {/* Desktop Navigation (disembunyikan di mobile) */}
+            <div className="hidden md:flex items-center gap-4 w-full">
                 <NavigationMenu viewport={false}>
                     <NavigationMenuList
                         onMouseLeave={() => setLeftNavHovered(null)}
@@ -94,44 +267,36 @@ export default function Navbar() {
                                             </NavigationMenuLink>
                                         )}
                                     </div>
-
-                                    {/* Dropdown Content */}
-                                    {item.name === 'Layanan' && (
-                                        <NavigationMenuContent>
-                                            <ul onMouseLeave={() => setLayananHovered(null)} className="grid w-[250px] gap-1 py-2">
-                                                {layananItems.map((layananItem, layananIdx) => (
-                                                    <li key={layananItem.name} className="relative rounded-md" onMouseEnter={() => setLayananHovered(layananIdx)}>
-                                                        {layananHovered === layananIdx && <motion.div layoutId="layananHover" className="absolute inset-0 h-full w-full rounded-md bg-orange-400" />}
-                                                        <div className="relative z-10 ">
-                                                            {layananItem.isTrigger ? (
-                                                                <HoverCard openDelay={1} closeDelay={1}>
-                                                                    <HoverCardTrigger asChild >
-                                                                        <div className="group/item flex cursor-pointer flex-row items-center justify-between py-2 px-3  text-sm text-neutral-600 transition-colors duration-300 ease-in-out hover:text-white">{layananItem.name}<ChevronRight className="transition-transform duration-200 group-hover/item:rotate-90" /></div>
-                                                                    </HoverCardTrigger>
-                                                                    <HoverCardContent side="right" sideOffset={5} align="start" className="flex flex-col ml-5 justify-center p-2 items-start">
-                                                                        {layananItem.name === "Penunjang Medik" && <NavItems items={penunjangMedikItems} className="flex-col rounded-md !items-start !space-x-0" />}
-                                                                        {layananItem.name === "Rawat Inap" && <NavItems items={rawatInapItems} className="flex-col  !items-start !space-x-0" />}
-                                                                        {layananItem.name === "Rawat Jalan" && <NavItems items={rawatJalanItems} className="flex-col  !items-start !space-x-0" />}
-                                                                    </HoverCardContent>
-                                                                </HoverCard>
-                                                            ) : (
-                                                                <Link href={layananItem.link || "#"} className="block w-full py-2 px-3  text-sm text-neutral-600 transition-colors duration-300 ease-in-out hover:text-white">{layananItem.name}</Link>
-                                                            )}
-                                                        </div>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </NavigationMenuContent>
-                                    )}
+                                    <NavigationMenuContent>
+                                        <ul onMouseLeave={() => setLayananHovered(null)} className="grid w-[250px] gap-1 py-2">
+                                            {(item.items || []).map((layananItem, layananIdx) => (
+                                                <li key={layananItem.name} className="relative rounded-md" onMouseEnter={() => setLayananHovered(layananIdx)}>
+                                                    {layananHovered === layananIdx && <motion.div layoutId="layananHover" className="absolute inset-0 h-full w-full rounded-md bg-orange-400" />}
+                                                    <div className="relative z-10 ">
+                                                        {layananItem.items ? (
+                                                            <HoverCard openDelay={1} closeDelay={1}>
+                                                                <HoverCardTrigger asChild >
+                                                                    <div className="group/item flex cursor-pointer flex-row items-center justify-between py-2 px-3  text-sm text-neutral-600 transition-colors duration-300 ease-in-out hover:text-white">{layananItem.name}<ChevronRight className="transition-transform duration-200 group-hover/item:rotate-90" /></div>
+                                                                </HoverCardTrigger>
+                                                                <HoverCardContent side="right" sideOffset={5} align="start" className="flex flex-col ml-5 justify-center p-2 items-start">
+                                                                    <NavItems items={(layananItem.items || []).map(sub => ({ name: sub.name!, link: sub.href! }))} className="flex-col rounded-md !items-start !space-x-0" />
+                                                                </HoverCardContent>
+                                                            </HoverCard>
+                                                        ) : (
+                                                            <Link href={layananItem.href || "#"} className="block w-full py-2 px-3  text-sm text-neutral-600 transition-colors duration-300 ease-in-out hover:text-white">{layananItem.name}</Link>
+                                                        )}
+                                                    </div>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </NavigationMenuContent>
                                 </NavigationMenuItem>
                             )
                         })}
                     </NavigationMenuList>
                 </NavigationMenu>
             </div>
-
-            {/* Bagian Kanan Navbar */}
-            <div className="flex items-center gap-7 w-full justify-end">
+            <div className="hidden md:flex items-center gap-7 w-full justify-end">
                 <NavigationMenu viewport={false}>
                     <NavigationMenuList
                         onMouseLeave={() => setRightNavHovered(null)}
@@ -141,10 +306,10 @@ export default function Navbar() {
                             const isActive = item.href === pathname;
                             return (
                                 <NavigationMenuItem key={item.name} className="relative" onMouseEnter={() => setRightNavHovered(idx)}>
-                                    {(rightNavHovered === idx || isActive) && (
+                                    {(rightNavHovered === idx || isActive) && !item.isPrimary && (
                                         <motion.div
                                             layoutId="rightNavHover"
-                                            className={cn("absolute inset-0 h-full w-full rounded-md", item.isPrimary ? "bg-orange-500" : "bg-orange-400")}
+                                            className="absolute inset-0 h-full w-full rounded-md bg-orange-400"
                                             transition={{ type: "spring", stiffness: 300, damping: 25 }}
                                         />
                                     )}
@@ -154,7 +319,7 @@ export default function Navbar() {
                                             className={cn(
                                                 navigationMenuTriggerStyle(),
                                                 "bg-transparent hover:bg-transparent focus:bg-transparent hover:text-white transition-colors duration-300 ease-in-out",
-                                                item.isPrimary ? "bg-primary text-primary-foreground shadow-xs" : "",
+                                                item.isPrimary ? "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90" : "",
                                                 navItemClasses(rightNavHovered === idx, isActive, item.isPrimary)
                                             )}
                                         >
@@ -172,284 +337,3 @@ export default function Navbar() {
         </nav>
     )
 }
-
-
-
-// 'use client'
-
-// import { Atom, ChevronRight } from "lucide-react";
-// import { Button } from "../ui/button";
-// import {
-//     HoverCard,
-//     HoverCardContent,
-//     HoverCardTrigger,
-// } from "../ui/hover-card";
-// import Link from "next/link";
-
-// interface links {
-//     id: number;
-//     title: string;
-//     link: string;
-//     items?: {
-//         id: number;
-//         title: string;
-//         link: string;
-//     }[];
-// }
-
-// const Navbar = () => {
-//     const links: links[] = [
-//         {
-//             id: 1,
-//             link: "/",
-//             title: "Project 1",
-//             items: [
-//                 {
-//                     id: 1,
-//                     link: "/",
-//                     title: "item 1 from project 1",
-//                 },
-//                 {
-//                     id: 2,
-//                     link: "/",
-//                     title: "item 2 from project 1",
-//                 },
-//             ],
-//         },
-//         {
-//             id: 2,
-//             link: "/",
-//             title: "Project 2",
-//         },
-//         {
-//             id: 3,
-//             link: "/",
-//             title: "Project 3",
-//         },
-//         {
-//             id: 4,
-//             link: "/",
-//             title: "Project 4",
-//         },
-//     ];
-
-//     return (
-//         <div className="group">
-//             <HoverCard openDelay={1} closeDelay={100}>
-//                 <HoverCardTrigger asChild>
-//                     <Button className="flex items-center w-max gap-10">
-//                         <div className="flex items-center gap-2">
-//                             <Atom />
-//                             Projects
-//                         </div>
-//                         <ChevronRight className="group-hover:rotate-90 transition-transform duration-200" />
-//                     </Button>
-//                 </HoverCardTrigger>
-//                 <HoverCardContent
-//                     align="start"
-//                     className="cursor-pointer w-full flex
-// 						flex-col text-nowrap whitespace-nowrap group-[navigation]"
-//                 >
-//                     {links.map((item) => (
-//                         <div className="flex w-full justify-between" key={item.id}>
-//                             <HoverCard openDelay={1}>
-//                                 <HoverCardTrigger asChild>
-//                                     <Button
-//                                         className="flex w-full justify-between items-center "
-//                                         variant={"ghost"}
-//                                     >
-//                                         {item.title}
-//                                         <ChevronRight />
-//                                     </Button>
-//                                 </HoverCardTrigger>
-//                                 <HoverCardContent
-//                                     side="left"
-//                                     sideOffset={18}
-//                                     align="start"
-//                                     className="flex flex-col p-0 w-max justify-center"
-//                                 >
-//                                     {item.items?.map((product) => (
-//                                         <Button variant={"ghost"} key={product.id}>
-//                                             <Link href={product.link}>{product.title}</Link>
-//                                         </Button>
-//                                     ))}
-//                                 </HoverCardContent>
-//                             </HoverCard>
-//                         </div>
-//                     ))}
-//                 </HoverCardContent>
-//             </HoverCard>
-//         </div>
-//     );
-// };
-
-// export default  Navbar ;
-
-// 'use client'
-
-// import Link from "next/link";
-// import { ChevronRight, Stethoscope } from "lucide-react";
-// import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "../ui/navigation-menu";
-// import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card";
-// import { NavItems } from "../ui/navbar-pelayanan";
-// import { useState } from "react";
-// import {
-//     motion,
-// } from "motion/react";
-
-// export default function Navbar() {
-
-//     // State untuk melacak item yang di-hover di menu "Layanan"
-//     const [layananHovered, setLayananHovered] = useState<number | null>(null);
-
-//     // Data untuk sub-sub-menu "Penunjang Medik"
-//     const penunjangMedikItems = [
-//         { name: "Farmasi 24 jam", link: "#" },
-//         { name: "Laboratorium 24 jam", link: "#" },
-//         { name: "Radiologi", link: "#" },
-//     ];
-
-//     // Data untuk menu "Layanan" utama
-//     const layananItems = [
-//         { name: "IGD 24 Jam", link: "/IGD" },
-//         { name: "Penunjang Medik", isTrigger: true }, // Flag untuk item spesial
-//         { name: "Medical Check Up", link: "/medical-chek-up" },
-//         { name: "Poliklinik", link: "/poliklinik" },
-//     ];
-
-
-//     return (
-//         <nav className="bg-gradient-to-r from-white/20 via-white/10 to-white/20  backdrop-blur-md border-b border-white/20  w-full flex items-center sticky top-0  justify-between z-20"
-//             style={{ paddingLeft: '60px', paddingRight: '60px', paddingTop: '15px', paddingBottom: '15px' }}>
-//             <div className="flex items-center gap-4 w-full">
-//                 <NavigationMenu viewport={false}>
-//                     <NavigationMenuList className="gap-4">
-//                         <NavigationMenuItem>
-//                             <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} border`}>
-//                                 <Link href={"/"}>Home</Link>
-//                             </NavigationMenuLink>
-//                         </NavigationMenuItem>
-//                         <NavigationMenuItem>
-//                             <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} border`}>
-//                                 <Link href={"/profil"}>Profil</Link>
-//                             </NavigationMenuLink>
-//                         </NavigationMenuItem>
-//                         <NavigationMenuItem>
-//                             <NavigationMenuTrigger className="border">
-//                                 Layanan
-//                             </NavigationMenuTrigger>
-//                             <NavigationMenuContent>
-//                                 <ul
-//                                     onMouseLeave={() => setLayananHovered(null)}
-//                                     className="grid w-[250px] gap-1 p-2"
-//                                 >
-//                                     {layananItems.map((item, idx) => (
-//                                         <li
-//                                             key={item.name}
-//                                             className="relative rounded-md"
-//                                             onMouseEnter={() => setLayananHovered(idx)}
-//                                         >
-//                                             {layananHovered === idx && (
-//                                                 <motion.div
-//                                                     layoutId="layananHover"
-//                                                     className="absolute inset-0 h-full w-full rounded-md bg-orange-400"
-//                                                 />
-//                                             )}
-
-//                                             <div className="relative z-10">
-//                                                 {item.isTrigger ? (
-//                                                     // Render HoverCard jika item adalah trigger
-//                                                     <HoverCard openDelay={1} closeDelay={1}>
-//                                                         <HoverCardTrigger asChild>
-//                                                             <div className="group flex w-full cursor-pointer flex-row items-center justify-between p-3 text-neutral-600 transition-colors duration-300 ease-in-out hover:text-white">
-//                                                                 {item.name}
-//                                                                 <ChevronRight className="transition-transform duration-200 group-hover:rotate-90" />
-//                                                             </div>
-//                                                         </HoverCardTrigger>
-//                                                         <HoverCardContent
-//                                                             side="right"
-//                                                             sideOffset={5}
-//                                                             align="start"
-//                                                             className="flex w-fit flex-col justify-center p-2 items-start"
-//                                                         >
-//                                                             <NavItems items={penunjangMedikItems} className="flex-col !items-start !space-x-0" />
-//                                                         </HoverCardContent>
-//                                                     </HoverCard>
-//                                                 ) : (
-//                                                     // Render Link biasa untuk item lainnya
-//                                                     <Link
-//                                                         href={item.link || "#"}
-//                                                         className="block w-full p-3 text-neutral-600 transition-colors duration-300 ease-in-out hover:text-white"
-//                                                     >
-//                                                         {item.name}
-//                                                     </Link>
-//                                                 )}
-//                                             </div>
-//                                         </li>
-//                                     ))}
-//                                 </ul>
-//                             </NavigationMenuContent>
-//                         </NavigationMenuItem>
-//                         <NavigationMenuItem>
-//                             <NavigationMenuTrigger className="border">
-//                                 Fasilitas
-//                             </NavigationMenuTrigger>
-//                             <NavigationMenuContent>
-//                                 <ul className="grid w-[200px] gap-4">
-//                                     <li>
-//                                         <NavigationMenuLink
-//                                             asChild
-//                                         >
-//                                             <Link href="#">Components</Link>
-//                                         </NavigationMenuLink>
-//                                         <NavigationMenuLink
-//                                             asChild
-//                                         >
-//                                             <Link href="#">Documentation</Link>
-//                                         </NavigationMenuLink>
-//                                         <NavigationMenuLink
-//                                             asChild
-//                                         >
-//                                             <Link href="#">Blocks</Link>
-//                                         </NavigationMenuLink>
-//                                     </li>
-//                                 </ul>
-//                             </NavigationMenuContent>
-//                         </NavigationMenuItem>
-//                     </NavigationMenuList>
-//                 </NavigationMenu>
-//             </div>
-//             <div className="flex items-center gap-7 w-full justify-end">
-//                 <NavigationMenu viewport={false}>
-//                     <NavigationMenuList className="gap-4">
-//                         <NavigationMenuItem>
-//                             <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} border`}>
-//                                 <Link href={"/kamar"}>Informasi Kamar</Link>
-//                             </NavigationMenuLink>
-//                         </NavigationMenuItem>
-//                         <NavigationMenuItem>
-//                             <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} border`}>
-//                                 <Link href={"/artikel"}>Artikel</Link>
-//                             </NavigationMenuLink>
-//                         </NavigationMenuItem>
-//                         <NavigationMenuItem>
-//                             <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} border`}>
-//                                 <Link href={"/anggota"}>
-//                                     <div className="flex gap-2 justify-center items-center">
-//                                         <Stethoscope className="size-4" />
-//                                         Jadwal Dokter
-//                                     </div>
-//                                 </Link>
-//                             </NavigationMenuLink>
-//                         </NavigationMenuItem>
-//                         <NavigationMenuItem>
-//                             <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} bg-primary text-primary-foreground shadow-xs`}>
-//                                 <Link href={"/login"}>Login</Link>
-//                             </NavigationMenuLink>
-//                         </NavigationMenuItem>
-//                     </NavigationMenuList>
-//                 </NavigationMenu>
-//             </div>
-//         </nav>
-//     )
-// }

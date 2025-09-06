@@ -8,16 +8,12 @@ import {
     CircleDollarSign, Users,
     Crown,
     BedDouble,
-    BedSingle,
-    ArrowLeft, ArrowRight // Tambahkan ikon untuk Carousel
+    BedSingle
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import Image, { StaticImageData } from 'next/image';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-
-// Import Carousel components
+import { Badge } from '@/components/ui/badge';
 import {
     Carousel,
     CarouselApi,
@@ -27,8 +23,7 @@ import {
     CarouselPrevious,
 } from "@/components/ui/carousel";
 
-// Impor gambar (pastikan path sudah benar)
-import kamar_I from "@/public/img/kamar_I.jpeg"; // Gunakan sebagai placeholder untuk berbagai gambar
+import kamar_I from "@/public/img/kamar_I.jpeg";
 
 type RoomDetail = { name: string; capacity: number; };
 type RoomTypeData = {
@@ -41,13 +36,12 @@ type RoomTypeData = {
 };
 
 
-// Data untuk semua tipe kamar, disimpan dalam satu array
-const roomData = [
+const roomData: RoomTypeData[] = [
     {
         id: "type1",
         name: "Kamar Tipe I",
         price: "Rp 210.000",
-        images: [kamar_I, kamar_I, kamar_I], // Array of images for carousel
+        images: [kamar_I, kamar_I, kamar_I],
         rooms: [
             { name: "Bougenville 1", capacity: 2 },
             { name: "Bougenville 2", capacity: 2 },
@@ -118,7 +112,6 @@ const roomData = [
 ];
 
 
-// Komponen Utama
 const RoomCard: React.FC<{ roomType: RoomTypeData }> = ({ roomType }) => {
     const [api, setApi] = useState<CarouselApi>();
     const [current, setCurrent] = useState(0);
@@ -137,8 +130,9 @@ const RoomCard: React.FC<{ roomType: RoomTypeData }> = ({ roomType }) => {
     }, [api]);
 
     return (
-        <div className='break-inside-avoid p-2'>
-            <Card className="flex flex-col h-full transition-all hover:shadow-lg">
+        // [MODIFIED]: Menggunakan div pembungkus untuk Masonry
+        <div className='break-inside-avoid mb-6'>
+            <Card className="flex flex-col h-full transition-all hover:shadow-lg w-full">
                 <CardHeader>
                     <div className="flex justify-between items-start">
                         <CardTitle className="text-xl">{roomType.name}</CardTitle>
@@ -165,11 +159,8 @@ const RoomCard: React.FC<{ roomType: RoomTypeData }> = ({ roomType }) => {
                                 ))}
                             </CarouselContent>
                             <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 disabled:opacity-0 transition-opacity duration-300" />
-
-                            {/* DAN TAMBAHKAN disabled:opacity-0 DI SINI */}
                             <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 disabled:opacity-0 transition-opacity duration-300" />
                         </Carousel>
-                        {/* Indikator Titik */}
                         <div className="flex justify-center items-center gap-2 mt-4">
                             {Array.from({ length: count }).map((_, index) => (
                                 <button
@@ -221,13 +212,29 @@ const RoomCard: React.FC<{ roomType: RoomTypeData }> = ({ roomType }) => {
 };
 
 
-// --- KOMPONEN UTAMA ---
+const StatCard: React.FC<{ icon: React.ElementType; label: string; value: number; tt: number }> = ({ icon: Icon, label, value, tt }) => (
+    <Card>
+        <CardContent className="p-4 md:p-6 flex items-center">
+            <div className="p-3 rounded-md bg-primary/10 text-primary mr-2 md:mr-4">
+                <Icon className="h-5 w-5 md:h-6 md:w-6" />
+            </div>
+            <div>
+                <p className="text-xs md:text-sm text-muted-foreground">{label}</p>
+                <div className='flex items-center'>
+                    <p className="text-lg md:text-2xl font-bold mr-2">{value}</p>
+                    <Bed className="w-3 h-3 md:w-4 md:h-4 mr-1 md:mr-2 text-primary" />
+                    <p className="text-xs md:text-sm text-muted-foreground">{tt}</p>
+                </div>
+            </div>
+        </CardContent>
+    </Card>
+);
+
 const HospitalRoomInfo: React.FC = () => {
     return (
-        <div className="bg-background min-h-screen text-foreground px-10">
-            <div className="container mx-auto px-4 py-8">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 mb-8">
-                    {/* StatCard components */}
+        <div className="bg-background min-h-screen text-foreground px-4 md:px-10 pb-20">
+            <div className="container mx-auto py-8">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
                     <StatCard icon={Crown} label="Kamar VIP" value={1} tt={1} />
                     <StatCard icon={BedDouble} label="kamar 1" value={4} tt={8} />
                     <StatCard icon={BedSingle} label="Kamar 2" value={4} tt={7} />
@@ -238,8 +245,8 @@ const HospitalRoomInfo: React.FC = () => {
 
                 <div className="mb-8">
                     <h2 className="text-2xl font-semibold tracking-tight mb-4">Daftar Kamar</h2>
+                    {/* [MODIFIED]: Menggunakan 'columns' untuk Masonry di desktop */}
                     <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-                        {/* Mapping data kamar ke komponen RoomCard */}
                         {roomData.map((roomType) => (
                             <RoomCard key={roomType.id} roomType={roomType} />
                         ))}
@@ -250,26 +257,539 @@ const HospitalRoomInfo: React.FC = () => {
     );
 };
 
-// Komponen Card untuk Statistik (tidak berubah)
-const StatCard: React.FC<{ icon: React.ElementType; label: string; value: number; tt: number }> = ({ icon: Icon, label, value, tt }) => (
-    <Card>
-        <CardContent className="p-6 flex items-center">
-            <div className="p-3 rounded-md bg-primary/10 text-primary mr-4">
-                <Icon className="h-6 w-6" />
-            </div>
-            <div>
-                <p className="text-sm text-muted-foreground">{label}</p>
-                <div className='flex items-center'>
-                    <p className="text-2xl font-bold mr-2">{value}</p>
-                    <Bed className="w-4 h-4 mr-2 text-primary" />
-                    <p className="text-sm text-muted-foreground">{tt}</p>
-                </div>
-            </div>
-        </CardContent>
-    </Card>
-);
-
 export default HospitalRoomInfo;
+
+
+// // File: app/(main)/kamar/page.tsx
+
+// "use client";
+
+// import React, { useState, useEffect } from 'react';
+// import {
+//     Bed,
+//     CircleDollarSign, Users,
+//     Crown,
+//     BedDouble,
+//     BedSingle
+// } from 'lucide-react';
+// import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+// import Image, { StaticImageData } from 'next/image';
+// import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+// import { Badge } from '@/components/ui/badge';
+// import {
+//     Carousel,
+//     CarouselApi,
+//     CarouselContent,
+//     CarouselItem,
+//     CarouselNext,
+//     CarouselPrevious,
+// } from "@/components/ui/carousel";
+
+// import kamar_I from "@/public/img/kamar_I.jpeg";
+
+// type RoomDetail = { name: string; capacity: number; };
+// type RoomTypeData = {
+//     id: string;
+//     name: string;
+//     price: string;
+//     images: StaticImageData[];
+//     rooms: RoomDetail[];
+//     facilities: string[];
+// };
+
+
+// const roomData: RoomTypeData[] = [
+//     {
+//         id: "type1",
+//         name: "Kamar Tipe I",
+//         price: "Rp 210.000",
+//         images: [kamar_I, kamar_I, kamar_I],
+//         rooms: [
+//             { name: "Bougenville 1", capacity: 2 },
+//             { name: "Bougenville 2", capacity: 2 },
+//             { name: "Bougenville 3", capacity: 2 },
+//             { name: "Bougenville 4", capacity: 2 }
+//         ],
+//         facilities: ["AC", "Kulkas", "Tempat Tidur", "Kamar Mandi"]
+//     },
+//     {
+//         id: "type2",
+//         name: "Kamar Tipe II",
+//         price: "Rp 210.000",
+//         images: [kamar_I, kamar_I],
+//         rooms: [
+//             { name: "Bougenville 5", capacity: 2 },
+//             { name: "Bougenville 6", capacity: 2 },
+//             { name: "Anggrek 2", capacity: 1 },
+//             { name: "Anggrek 3", capacity: 2 },
+//         ],
+//         facilities: ["AC", "Kulkas", "Tempat Tidur", "Kamar Mandi"]
+//     },
+//     {
+//         id: "type3",
+//         name: "Kamar Tipe III",
+//         price: "Rp 210.000",
+//         images: [kamar_I, kamar_I, kamar_I, kamar_I],
+//         rooms: [
+//             { name: "Bougenville 7", capacity: 3 },
+//             { name: "Bougenville 8", capacity: 3 },
+//             { name: "Bougenville 9", capacity: 3 },
+//             { name: "Anggrek 4", capacity: 3 },
+//             { name: "Anggrek 5", capacity: 6 },
+//             { name: "Perinatologi", capacity: 3 },
+//         ],
+//         facilities: ["AC", "Tempat Tidur", "Kamar Mandi"]
+//     },
+//     {
+//         id: "vip",
+//         name: "Kamar VIP",
+//         price: "Rp 210.000",
+//         images: [kamar_I],
+//         rooms: [
+//             { name: "Ruang VIP", capacity: 1 },
+//         ],
+//         facilities: ["AC", "Kulkas", "TV", "Sofa", "Kamar Mandi Dalam"]
+//     },
+//     {
+//         id: "isolasi",
+//         name: "Dahlia (ISOLASI)",
+//         price: "Rp 210.000",
+//         images: [kamar_I, kamar_I],
+//         rooms: [
+//             { name: "Dahlia 1", capacity: 5 },
+//         ],
+//         facilities: ["AC", "Ventilasi Khusus", "Kamar Mandi Dalam"]
+//     },
+//     {
+//         id: "intensif",
+//         name: "Ruang Intensif",
+//         price: "Rp 210.000",
+//         images: [kamar_I, kamar_I, kamar_I],
+//         rooms: [
+//             { name: "ICU (Dengan Ventilator)", capacity: 3 },
+//             { name: "PICU (Dengan Ventilator)", capacity: 2 },
+//         ],
+//         facilities: ["Monitor Jantung", "Ventilator", "Peralatan Medis Lengkap"]
+//     }
+// ];
+
+
+// const RoomCard: React.FC<{ roomType: RoomTypeData }> = ({ roomType }) => {
+//     const [api, setApi] = useState<CarouselApi>();
+//     const [current, setCurrent] = useState(0);
+//     const [count, setCount] = useState(0);
+
+//     useEffect(() => {
+//         if (!api) {
+//             return;
+//         }
+//         setCount(api.scrollSnapList().length);
+//         setCurrent(api.selectedScrollSnap());
+
+//         api.on("select", () => {
+//             setCurrent(api.selectedScrollSnap());
+//         });
+//     }, [api]);
+
+//     return (
+//         <Card className="flex flex-col h-full transition-all hover:shadow-lg w-full">
+//             <CardHeader>
+//                 <div className="flex justify-between items-start">
+//                     <CardTitle className="text-xl">{roomType.name}</CardTitle>
+//                     <div className="flex items-center text-sm">
+//                         <CircleDollarSign className="w-4 h-4 mr-2 text-primary" />
+//                         <span className="font-semibold">{roomType.price}</span>
+//                     </div>
+//                 </div>
+//                 <div className='mt-2'>
+//                     <Carousel setApi={setApi} className="w-full group">
+//                         <CarouselContent>
+//                             {roomType.images.map((imageSrc, index) => (
+//                                 <CarouselItem key={index}>
+//                                     <div className="p-1">
+//                                         <Image
+//                                             src={imageSrc}
+//                                             alt={`${roomType.name} - Gambar ${index + 1}`}
+//                                             className='rounded-xl w-full h-auto object-cover aspect-video'
+//                                             width={500}
+//                                             height={300}
+//                                         />
+//                                     </div>
+//                                 </CarouselItem>
+//                             ))}
+//                         </CarouselContent>
+//                         <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 disabled:opacity-0 transition-opacity duration-300" />
+//                         <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 disabled:opacity-0 transition-opacity duration-300" />
+//                     </Carousel>
+//                     <div className="flex justify-center items-center gap-2 mt-4">
+//                         {Array.from({ length: count }).map((_, index) => (
+//                             <button
+//                                 key={index}
+//                                 onClick={() => api?.scrollTo(index)}
+//                                 className={`h-2 rounded-full transition-all duration-300 ${current === index ? 'w-4 bg-primary' : 'w-2 bg-primary/50'
+//                                     }`}
+//                                 aria-label={`Go to slide ${index + 1}`}
+//                             />
+//                         ))}
+//                     </div>
+//                 </div>
+//             </CardHeader>
+//             <CardContent className="flex-grow">
+//                 <div className="space-y-4">
+//                     {roomType.rooms.length > 0 && (
+//                         <Card className='p-2'>
+//                             <Table>
+//                                 <TableHeader>
+//                                     <TableRow>
+//                                         <TableHead className="border-r"><Bed className="w-4 h-4 inline-block mr-2" />Ruangan</TableHead>
+//                                         <TableHead><Users className="w-4 h-4 inline-block mr-2" />Kapasitas</TableHead>
+//                                     </TableRow>
+//                                 </TableHeader>
+//                                 <TableBody>
+//                                     {roomType.rooms.map((room, index) => (
+//                                         <TableRow key={index}>
+//                                             <TableCell className="border-r">{room.name}</TableCell>
+//                                             <TableCell>{room.capacity}</TableCell>
+//                                         </TableRow>
+//                                     ))}
+//                                 </TableBody>
+//                             </Table>
+//                         </Card>
+//                     )}
+//                     <div>
+//                         <p className="text-sm text-muted-foreground mb-2">Fasilitas:</p>
+//                         <div className="flex flex-wrap gap-2">
+//                             {roomType.facilities.map((facility, index) => (
+//                                 <Badge key={index} variant="default" className='px-4 py-2 text-sm'>{facility}</Badge>
+//                             ))}
+//                         </div>
+//                     </div>
+//                 </div>
+//             </CardContent>
+//         </Card>
+//     );
+// };
+
+
+// const StatCard: React.FC<{ icon: React.ElementType; label: string; value: number; tt: number }> = ({ icon: Icon, label, value, tt }) => (
+//     <Card>
+//         <CardContent className="p-4 md:p-6 flex items-center">
+//             <div className="p-3 rounded-md bg-primary/10 text-primary mr-2 md:mr-4">
+//                 <Icon className="h-5 w-5 md:h-6 md:w-6" />
+//             </div>
+//             <div>
+//                 <p className="text-xs md:text-sm text-muted-foreground">{label}</p>
+//                 <div className='flex items-center'>
+//                     <p className="text-lg md:text-2xl font-bold mr-2">{value}</p>
+//                     <Bed className="w-3 h-3 md:w-4 md:h-4 mr-1 md:mr-2 text-primary" />
+//                     <p className="text-xs md:text-sm text-muted-foreground">{tt}</p>
+//                 </div>
+//             </div>
+//         </CardContent>
+//     </Card>
+// );
+
+// const HospitalRoomInfo: React.FC = () => {
+//     return (
+//         <div className="bg-background min-h-screen text-foreground px-4 md:px-10 pb-20">
+//             <div className="container mx-auto py-8">
+//                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+//                     <StatCard icon={Crown} label="Kamar VIP" value={1} tt={1} />
+//                     <StatCard icon={BedDouble} label="kamar 1" value={4} tt={8} />
+//                     <StatCard icon={BedSingle} label="Kamar 2" value={4} tt={7} />
+//                     <StatCard icon={Bed} label="Kamar 3" value={7} tt={24} />
+//                     <StatCard icon={Bed} label="Kamar ISOLASI" value={1} tt={5} />
+//                     <StatCard icon={Bed} label="Kamar ICU PICU" value={2} tt={5} />
+//                 </div>
+
+//                 <div className="mb-8">
+//                     <h2 className="text-2xl font-semibold tracking-tight mb-4">Daftar Kamar</h2>
+//                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+//                         {roomData.map((roomType) => (
+//                             <RoomCard key={roomType.id} roomType={roomType} />
+//                         ))}
+//                     </div>
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default HospitalRoomInfo;
+
+
+// // File: app/(main)/kamar/page.tsx
+
+// "use client";
+
+// import React, { useState, useEffect } from 'react';
+// import {
+//     Bed,
+//     CircleDollarSign, Users,
+//     Crown,
+//     BedDouble,
+//     BedSingle,
+//     ArrowLeft, ArrowRight // Tambahkan ikon untuk Carousel
+// } from 'lucide-react';
+// import { Button } from '@/components/ui/button';
+// import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+// import { Badge } from '@/components/ui/badge';
+// import Image, { StaticImageData } from 'next/image';
+// import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+
+// // Import Carousel components
+// import {
+//     Carousel,
+//     CarouselApi,
+//     CarouselContent,
+//     CarouselItem,
+//     CarouselNext,
+//     CarouselPrevious,
+// } from "@/components/ui/carousel";
+
+// // Impor gambar (pastikan path sudah benar)
+// import kamar_I from "@/public/img/kamar_I.jpeg"; // Gunakan sebagai placeholder untuk berbagai gambar
+
+// type RoomDetail = { name: string; capacity: number; };
+// type RoomTypeData = {
+//     id: string;
+//     name: string;
+//     price: string;
+//     images: StaticImageData[];
+//     rooms: RoomDetail[];
+//     facilities: string[];
+// };
+
+
+// // Data untuk semua tipe kamar, disimpan dalam satu array
+// const roomData = [
+//     {
+//         id: "type1",
+//         name: "Kamar Tipe I",
+//         price: "Rp 210.000",
+//         images: [kamar_I, kamar_I, kamar_I], // Array of images for carousel
+//         rooms: [
+//             { name: "Bougenville 1", capacity: 2 },
+//             { name: "Bougenville 2", capacity: 2 },
+//             { name: "Bougenville 3", capacity: 2 },
+//             { name: "Bougenville 4", capacity: 2 }
+//         ],
+//         facilities: ["AC", "Kulkas", "Tempat Tidur", "Kamar Mandi"]
+//     },
+//     {
+//         id: "type2",
+//         name: "Kamar Tipe II",
+//         price: "Rp 210.000",
+//         images: [kamar_I, kamar_I],
+//         rooms: [
+//             { name: "Bougenville 5", capacity: 2 },
+//             { name: "Bougenville 6", capacity: 2 },
+//             { name: "Anggrek 2", capacity: 1 },
+//             { name: "Anggrek 3", capacity: 2 },
+//         ],
+//         facilities: ["AC", "Kulkas", "Tempat Tidur", "Kamar Mandi"]
+//     },
+//     {
+//         id: "type3",
+//         name: "Kamar Tipe III",
+//         price: "Rp 210.000",
+//         images: [kamar_I, kamar_I, kamar_I, kamar_I],
+//         rooms: [
+//             { name: "Bougenville 7", capacity: 3 },
+//             { name: "Bougenville 8", capacity: 3 },
+//             { name: "Bougenville 9", capacity: 3 },
+//             { name: "Anggrek 4", capacity: 3 },
+//             { name: "Anggrek 5", capacity: 6 },
+//             { name: "Perinatologi", capacity: 3 },
+//         ],
+//         facilities: ["AC", "Tempat Tidur", "Kamar Mandi"]
+//     },
+//     {
+//         id: "vip",
+//         name: "Kamar VIP",
+//         price: "Rp 210.000",
+//         images: [kamar_I],
+//         rooms: [
+//             { name: "Ruang VIP", capacity: 1 },
+//         ],
+//         facilities: ["AC", "Kulkas", "TV", "Sofa", "Kamar Mandi Dalam"]
+//     },
+//     {
+//         id: "isolasi",
+//         name: "Dahlia (ISOLASI)",
+//         price: "Rp 210.000",
+//         images: [kamar_I, kamar_I],
+//         rooms: [
+//             { name: "Dahlia 1", capacity: 5 },
+//         ],
+//         facilities: ["AC", "Ventilasi Khusus", "Kamar Mandi Dalam"]
+//     },
+//     {
+//         id: "intensif",
+//         name: "Ruang Intensif",
+//         price: "Rp 210.000",
+//         images: [kamar_I, kamar_I, kamar_I],
+//         rooms: [
+//             { name: "ICU (Dengan Ventilator)", capacity: 3 },
+//             { name: "PICU (Dengan Ventilator)", capacity: 2 },
+//         ],
+//         facilities: ["Monitor Jantung", "Ventilator", "Peralatan Medis Lengkap"]
+//     }
+// ];
+
+
+// // Komponen Utama
+// const RoomCard: React.FC<{ roomType: RoomTypeData }> = ({ roomType }) => {
+//     const [api, setApi] = useState<CarouselApi>();
+//     const [current, setCurrent] = useState(0);
+//     const [count, setCount] = useState(0);
+
+//     useEffect(() => {
+//         if (!api) {
+//             return;
+//         }
+//         setCount(api.scrollSnapList().length);
+//         setCurrent(api.selectedScrollSnap());
+
+//         api.on("select", () => {
+//             setCurrent(api.selectedScrollSnap());
+//         });
+//     }, [api]);
+
+//     return (
+//         <div className='break-inside-avoid p-2'>
+//             <Card className="flex flex-col h-full transition-all hover:shadow-lg">
+//                 <CardHeader>
+//                     <div className="flex justify-between items-start">
+//                         <CardTitle className="text-xl">{roomType.name}</CardTitle>
+//                         <div className="flex items-center text-sm">
+//                             <CircleDollarSign className="w-4 h-4 mr-2 text-primary" />
+//                             <span className="font-semibold">{roomType.price}</span>
+//                         </div>
+//                     </div>
+//                     <div className='mt-2'>
+//                         <Carousel setApi={setApi} className="w-full group">
+//                             <CarouselContent>
+//                                 {roomType.images.map((imageSrc, index) => (
+//                                     <CarouselItem key={index}>
+//                                         <div className="p-1">
+//                                             <Image
+//                                                 src={imageSrc}
+//                                                 alt={`${roomType.name} - Gambar ${index + 1}`}
+//                                                 className='rounded-xl w-full h-auto object-cover aspect-video'
+//                                                 width={500}
+//                                                 height={300}
+//                                             />
+//                                         </div>
+//                                     </CarouselItem>
+//                                 ))}
+//                             </CarouselContent>
+//                             <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 disabled:opacity-0 transition-opacity duration-300" />
+
+//                             {/* DAN TAMBAHKAN disabled:opacity-0 DI SINI */}
+//                             <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 disabled:opacity-0 transition-opacity duration-300" />
+//                         </Carousel>
+//                         {/* Indikator Titik */}
+//                         <div className="flex justify-center items-center gap-2 mt-4">
+//                             {Array.from({ length: count }).map((_, index) => (
+//                                 <button
+//                                     key={index}
+//                                     onClick={() => api?.scrollTo(index)}
+//                                     className={`h-2 rounded-full transition-all duration-300 ${current === index ? 'w-4 bg-primary' : 'w-2 bg-primary/50'
+//                                         }`}
+//                                     aria-label={`Go to slide ${index + 1}`}
+//                                 />
+//                             ))}
+//                         </div>
+//                     </div>
+//                 </CardHeader>
+//                 <CardContent className="flex-grow">
+//                     <div className="space-y-4">
+//                         {roomType.rooms.length > 0 && (
+//                             <Card className='p-2'>
+//                                 <Table>
+//                                     <TableHeader>
+//                                         <TableRow>
+//                                             <TableHead className="border-r"><Bed className="w-4 h-4 inline-block mr-2" />Ruangan</TableHead>
+//                                             <TableHead><Users className="w-4 h-4 inline-block mr-2" />Kapasitas</TableHead>
+//                                         </TableRow>
+//                                     </TableHeader>
+//                                     <TableBody>
+//                                         {roomType.rooms.map((room, index) => (
+//                                             <TableRow key={index}>
+//                                                 <TableCell className="border-r">{room.name}</TableCell>
+//                                                 <TableCell>{room.capacity}</TableCell>
+//                                             </TableRow>
+//                                         ))}
+//                                     </TableBody>
+//                                 </Table>
+//                             </Card>
+//                         )}
+//                         <div>
+//                             <p className="text-sm text-muted-foreground mb-2">Fasilitas:</p>
+//                             <div className="flex flex-wrap gap-2">
+//                                 {roomType.facilities.map((facility, index) => (
+//                                     <Badge key={index} variant="default" className='px-4 py-2 text-sm'>{facility}</Badge>
+//                                 ))}
+//                             </div>
+//                         </div>
+//                     </div>
+//                 </CardContent>
+//             </Card>
+//         </div>
+//     );
+// };
+
+
+// // --- KOMPONEN UTAMA ---
+// const HospitalRoomInfo: React.FC = () => {
+//     return (
+//         <div className="bg-background min-h-screen text-foreground px-10">
+//             <div className="container mx-auto px-4 py-8">
+//                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 mb-8">
+//                     {/* StatCard components */}
+//                     <StatCard icon={Crown} label="Kamar VIP" value={1} tt={1} />
+//                     <StatCard icon={BedDouble} label="kamar 1" value={4} tt={8} />
+//                     <StatCard icon={BedSingle} label="Kamar 2" value={4} tt={7} />
+//                     <StatCard icon={Bed} label="Kamar 3" value={7} tt={24} />
+//                     <StatCard icon={Bed} label="Kamar ISOLASI" value={1} tt={5} />
+//                     <StatCard icon={Bed} label="Kamar ICU PICU" value={2} tt={5} />
+//                 </div>
+
+//                 <div className="mb-8">
+//                     <h2 className="text-2xl font-semibold tracking-tight mb-4">Daftar Kamar</h2>
+//                     <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+//                         {/* Mapping data kamar ke komponen RoomCard */}
+//                         {roomData.map((roomType) => (
+//                             <RoomCard key={roomType.id} roomType={roomType} />
+//                         ))}
+//                     </div>
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// };
+
+// // Komponen Card untuk Statistik (tidak berubah)
+// const StatCard: React.FC<{ icon: React.ElementType; label: string; value: number; tt: number }> = ({ icon: Icon, label, value, tt }) => (
+//     <Card>
+//         <CardContent className="p-6 flex items-center">
+//             <div className="p-3 rounded-md bg-primary/10 text-primary mr-4">
+//                 <Icon className="h-6 w-6" />
+//             </div>
+//             <div>
+//                 <p className="text-sm text-muted-foreground">{label}</p>
+//                 <div className='flex items-center'>
+//                     <p className="text-2xl font-bold mr-2">{value}</p>
+//                     <Bed className="w-4 h-4 mr-2 text-primary" />
+//                     <p className="text-sm text-muted-foreground">{tt}</p>
+//                 </div>
+//             </div>
+//         </CardContent>
+//     </Card>
+// );
+
+// export default HospitalRoomInfo;
 
 
 // // File: src/components/HospitalRoomInfo.tsx

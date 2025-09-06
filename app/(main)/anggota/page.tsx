@@ -31,7 +31,7 @@ const hariList = [
 const AnggotaPage = () => {
     const [dokterList, setDokterList] = useState<Doctor[]>([]);
     const [loading, setLoading] = useState(true);
-    const searchParams = useSearchParams(); // Gunakan hook
+    const searchParams = useSearchParams();
     const kategoriFromUrl = searchParams.get('kategori') || 'all';
     const [kategori, setKategori] = useState("all");
     const [hari, setHari] = useState("all");
@@ -59,13 +59,11 @@ const AnggotaPage = () => {
         fetchDokter();
     }, []);
 
-    // Memfilter dokter berdasarkan hari yang dipilih
     const dokterBerdasarkanHari = dokterList.filter((dokter) => {
         const parsedSchedules: ScheduleGroup[] = dokter.schedules ? JSON.parse(dokter.schedules as string) : [];
         return hari === "all" || parsedSchedules.some(schedule => schedule.days.some(day => day.toLowerCase() === hari.toLowerCase()));
     });
 
-    // Memisahkan dokter umum dan spesialis dari list yang sudah difilter hari
     const dokterUmum = dokterBerdasarkanHari.filter(d => d.category === 'umum');
     const dokterSpesialis = dokterBerdasarkanHari.filter(d => d.category === 'spesialis');
 
@@ -73,16 +71,17 @@ const AnggotaPage = () => {
     if (loading) return <p className="text-center py-10">Memuat data dokter...</p>
 
     return (
-        <div className="px-3 md:px-10 mb-20">
-            <div className="flex px-2 md:px-10 pt-6 w-full justify-between items-center flex-col md:flex-row gap-4 md:gap-0">
-                <Card className="bg-foreground w-fit">
-                    <CardContent className="flex justify-between items-center">
-                        <div className="flex gap-3 flex-wrap justify-center">
+        <div className="px-4 md:px-10 mb-20">
+            {/* Filter Section */}
+            <div className="flex flex-col md:flex-row gap-6 md:gap-4 items-center justify-between w-full pt-6 md:px-10">
+                <Card className="bg-foreground w-full md:w-fit">
+                    <CardContent className="p-3">
+                        <div className="flex gap-2 flex-wrap justify-center">
                             {kategoriList.map((item) => (
                                 <Button
                                     key={item.value}
                                     variant={kategori === item.value ? "default" : "outline"}
-                                    className="px-2 md:px-5 py-2 md:py-4 rounded-xl text-xs md:text-base"
+                                    className="px-3 md:px-5 py-2 rounded-lg text-xs md:text-sm flex-grow"
                                     onClick={() => setKategori(item.value)}
                                 >
                                     {item.label}
@@ -91,10 +90,10 @@ const AnggotaPage = () => {
                         </div>
                     </CardContent>
                 </Card>
-                <div className="flex  gap-4 items-center">
-                    <h1 className="text-sm md:text-base">Pilih Hari</h1>
+                <div className="flex gap-4 items-center w-full md:w-auto justify-end">
+                    <h1 className="text-sm md:text-base whitespace-nowrap">Pilih Hari</h1>
                     <Select value={hari} onValueChange={setHari}>
-                        <SelectTrigger className="w-[160px]">
+                        <SelectTrigger className="w-full md:w-[160px]">
                             <SelectValue placeholder="Pilih Hari" />
                         </SelectTrigger>
                         <SelectContent>
@@ -108,15 +107,14 @@ const AnggotaPage = () => {
                 </div>
             </div>
 
-            {/* Bagian untuk menampilkan dokter */}
-            <div className="mt-5 px-2 md:px-10">
+            {/* Doctor List Section */}
+            <div className="mt-8 md:px-10">
                 {kategori === 'all' && (
                     <>
-                        {/* Tampilkan Dokter Spesialis */}
                         {dokterSpesialis.length > 0 && (
                             <div className="mb-10">
                                 <h1 className="text-2xl font-bold mb-4">Dokter Spesialis</h1>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center">
                                     {dokterSpesialis.map((dokter) => (
                                         <ProfileCard
                                             kategori={dokter.category}
@@ -130,12 +128,10 @@ const AnggotaPage = () => {
                                 </div>
                             </div>
                         )}
-
-                        {/* Tampilkan Dokter Umum */}
                         {dokterUmum.length > 0 && (
                             <div>
                                 <h1 className="text-2xl font-bold mb-4">Dokter Umum</h1>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center">
                                     {dokterUmum.map((dokter) => (
                                         <ProfileCard
                                             kategori={dokter.category}
@@ -151,11 +147,10 @@ const AnggotaPage = () => {
                         )}
                     </>
                 )}
-
                 {kategori === 'spesialis' && (
                     <div>
                         <h1 className="text-2xl font-bold mb-4">Dokter Spesialis</h1>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center">
                             {dokterSpesialis.map((dokter) => (
                                 <ProfileCard
                                     kategori={dokter.category}
@@ -169,11 +164,10 @@ const AnggotaPage = () => {
                         </div>
                     </div>
                 )}
-
                 {kategori === 'umum' && (
                     <div>
                         <h1 className="text-2xl font-bold mb-4">Dokter Umum</h1>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center">
                             {dokterUmum.map((dokter) => (
                                 <ProfileCard
                                     kategori={dokter.category}
