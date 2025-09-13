@@ -274,7 +274,7 @@ export default function KamarPage() {
     if (loading) return <p>Memuat...</p>;
 
     return (
-        <div>
+        <div className="bg-[#f9f8f3]">
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-3xl font-bold">Manajemen Tipe Kamar</h1>
                 <Dialog open={isFormDialogOpen} onOpenChange={setIsFormDialogOpen}>
@@ -376,7 +376,7 @@ export default function KamarPage() {
                 </Dialog>
             </div>
 
-            <Card>
+            <Card className="bg-[#f9f8f3]">
                 <CardHeader>
                     <CardTitle>Daftar Tipe Kamar</CardTitle>
                 </CardHeader>

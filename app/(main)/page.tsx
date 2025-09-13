@@ -1,29 +1,32 @@
 'use client'
-
 import Image from "next/image";
-import hero2img from "@/public/img/hero_section3.jpeg";
+import dokter_poli from "@/public/img/dokter_poli.png"
 import logoimg from "@/public/img/logo.png";
 import logoimg2 from "@/public/img/LOGO AD DIPONEGORO.png";
 import logoimg3 from "@/public/img/HESTI WIRA SAKTI.png";
 import logobpjs from "@/public/img/bpjs-kesehatan-seeklogo.png"
 import dokter_umum from "@/public/img/dokter_umum.jpeg";
 import dokter_spesialis from "@/public/img/dokter_spesialis.jpeg";
-import hero_section2 from "@/public/img/hero_section2.png"
-import kepala_RS from "@/public/img/13.webp";
-import Navbar from "@/components/layouts/Navbar";
 import { Button } from "@/components/ui/button";
 import { CircleArrowDown, Heart, Instagram, Mail, MapPin, Stethoscope, CircleArrowOutUpRight, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import ArticleHome from "@/components/ArtikelHome";
-import hero_section4 from "@/public/img/hero_section4.png"
-import hero_section6 from "@/public/img/hero_section6.png"
+import hero_section7 from "@/public/img/hero_section7.jpeg"
 import { FeaturedServices } from "@/components/FeaturedServices";
 import { ThreeDMarqueeDemoSecond } from "@/components/ThreeDMarquee";
 import { Article } from "@/lib/db/schema";
 import { useEffect, useState } from "react";
 import { ArtikelCard } from "@/components/ArtikelCard";
+import paru from "@/public/img/paru.png";
+import bedah from "@/public/img/bedah.png";
+import gigi_mulut from "@/public/img/gig_mulut.png";
+import obsgyn from "@/public/img/obsgyn.png";
+import mata from "@/public/img/mata.png";
+import penyakit_dalam from "@/public/img/penyakit_dalam.png";
+import anak from "@/public/img/anak.png";
+import praktek_gigi from "@/public/img/praktek_gigi.jpg"
+import praktek_bedah from "@/public/img/praktek_bedah.jpg"
+import praktek_bedah2 from "@/public/img/praktek_bedah2.jpg"
 
 export default function Home() {
 
@@ -51,12 +54,12 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="px-5">
+    <div className="px-5 font-source-serif-4">
       <div
         className="relative h-[800px] bg-cover bg-center rounded-2xl"
-        style={{ backgroundImage: `url(${hero_section4.src})` }}
+        style={{ backgroundImage: `url(${hero_section7.src})` }}
       >
-        <div className="absolute inset-0 bg-black/25 rounded-2xl z-0" />
+        <div className="absolute bottom-0 bg-gradient-to-b inset-0 from-black/25 to-black/75 rounded-2xl z-0" />
         <div className="absolute -top-16 left-1/2 -translate-x-1/2 h-40 w-40 rounded-full bg-white z-30">
           <Image src={logoimg} alt="logoimg" className="w-full h-full p-5" priority={true} />
         </div>
@@ -68,7 +71,7 @@ export default function Home() {
           <div className="w-full flex justify-center items-center mt-5">
             <button className="flex justify-around items-center bg-white px-6 py-2 rounded-full gap-2">
               <span className="text-lg">Lihat Selengkapnya</span>
-              <span className="bg-black p-3 rounded-full">
+              <span className="bg-orange-500 p-3 rounded-full">
                 <CircleArrowDown className="text-white" />
               </span>
             </button>
@@ -98,14 +101,14 @@ export default function Home() {
       <div className="px-10 mt-20">
         <div className="flex justify-between items-end">
           <div className="">
-            <Badge>
+            <Badge className="bg-orange-500">
               <Stethoscope className="mr-2" />
               Our Doctor
             </Badge>
             <h1 className="text-4xl mt-2 font-light">Kami memiliki dokter-dokter yang berpengalaman</h1>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae, repellendus.</p>
           </div>
-          <Button>
+          <Button className="bg-orange-500">
             <Heart />
             <Link href="/anggota">Lihat Dokter Kami</Link>
           </Button>
@@ -118,7 +121,7 @@ export default function Home() {
                 <span className="text-lg font-semibold text-black">Dokter Umum</span>
                 <span className="text-sm text-black/70">Pelayanan kesehatan umum terbaik</span>
               </div>
-              <div className="p-3 bg-black rounded-full transform transition-transform duration-300 group-hover:rotate-45">
+              <div className="p-3 bg-orange-500 rounded-full transform transition-transform duration-300 group-hover:rotate-45">
                 <CircleArrowOutUpRight className="text-white" />
               </div>
             </div>
@@ -133,7 +136,7 @@ export default function Home() {
                 <span className="text-lg font-semibold text-black">Dokter Spesialis</span>
                 <span className="text-sm text-black/70">Spesialisasi berbagai bidang medis</span>
               </div>
-              <div className="p-3 bg-black rounded-full transform transition-transform duration-300 group-hover:rotate-45">
+              <div className="p-3 bg-orange-500 rounded-full transform transition-transform duration-300 group-hover:rotate-45">
                 <CircleArrowOutUpRight className="text-white" />
               </div>
             </div>
@@ -142,10 +145,52 @@ export default function Home() {
             </div>
           </Link>
         </div>
+        <div className="mt-3">
+          <div className="bg-black text-white h-[500px]  p-6 rounded-3xl shadow-lg w-full relative overflow-hidden">
+            <div className="pointer-events-none absolute top-60 -left-60 w-[700px] h-[700px] rounded-full bg-gradient-to-br from-orange-700 via-amber-700 to-yellow-700 opacity-60 blur-[160px] mix-blend-lighten" />
+            <div className="pointer-events-none absolute top-1/3 right-0 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-orange-700 via-amber-700 to-yellow-700 opacity-50 blur-[140px] mix-blend-lighten" />
+            <div className="pointer-events-none absolute bottom-0 left-1/2 w-[600px] h-[600px] rounded-full bg-gradient-to-tl from-orange-700 via-amber-700 to-yellow-700 opacity-40 blur-[140px] mix-blend-lighten" />
+            <h1 className="text-[80px] font-source-serif-4  absolute left-1/2 top-25 -translate-x-1/2 -translate-y-1/2">POLIKLINIK</h1>
+            <div className="flex justify-center absolute bottom-0 w-full">
+              <Image src={dokter_poli} alt="dokter_poli" className="w-[700px]" />
+            </div>
+            <button className=" absolute bottom-6 right-6 rounded-md bg-orange-500 px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-orange-custom focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black focus:outline-none">
+              <Link href={"/poliklinik"}>
+                Lihat Poliklinik
+              </Link>
+            </button>
+            <div className="bg-white p-2 rounded-lg absolute top-10 left-10 animate-float" style={{transform: 'scale(1.2)'}}>
+              <Image src={paru} alt="paru" className="w-7 h-7" />
+            </div>
+            <div className="bg-white p-2 rounded-lg absolute bottom-10 left-70 animate-float-delay-1" style={{transform: 'scale(0.9)'}}>
+              <Image src={bedah} alt="bedah" className="w-10 h-10" />
+            </div>
+            <div className="bg-white p-2 rounded-lg absolute bottom-46 left-60 animate-float-delay-2" style={{transform: 'scale(1.3)'}}>
+              <Image src={gigi_mulut} alt="gigi_mulut" className="w-10 h-10" />
+            </div>
+            <div className="bg-white p-2 rounded-lg absolute top-20 right-90 animate-float-delay-3" style={{transform: 'scale(1.1)'}}>
+              <Image src={obsgyn} alt="obsgyn" className="w-11 h-11" />
+            </div>
+            <div className="bg-white p-2 rounded-lg absolute bottom-40 right-24 animate-float-delay-4" style={{transform: 'scale(0.8)'}}>
+              <Image src={mata} alt="mata" className="w-9 h-9" />
+            </div>
+            <div className="bg-white p-2 rounded-lg absolute top-35 left-29 animate-float-delay-5" style={{transform: 'scale(1.4)'}}>
+              <Image src={penyakit_dalam} alt="penyakit_dalam" className="w-16 h-16" />
+            </div>
+            <div className="bg-white p-2 rounded-lg absolute bottom-24 right-40 animate-float-delay-6" style={{transform: 'scale(1)'}}>
+              <Image src={anak} alt="anak" className="w-10 h-10" />
+            </div>
+
+            <Image src={praktek_gigi} className="absolute w-40 h-40 object-cover rounded-lg top-61 left-15" alt="praktek_gigi"/>
+            <Image src={praktek_bedah} className="absolute w-50 h-50 object-cover rounded-lg top-20 right-20" alt="praktek_bedah"/>
+            <Image src={praktek_bedah2} className="absolute w-40 h-40 object-cover rounded-lg top-20 left-55" alt="praktek_bedah2"/>
+          </div>
+        </div>
+
         <div className="mt-10 ">
           <FeaturedServices />
         </div>
-        <div className="mt-10">
+        <div className="mt-20">
           <ThreeDMarqueeDemoSecond />
         </div>
         <div className="my-20 px-5">
@@ -154,7 +199,7 @@ export default function Home() {
               <h2 className="text-3xl font-bold">Artikel Terbaru</h2>
               <p className="text-gray-600">Baca berita dan informasi kesehatan terkini dari kami.</p>
             </div>
-            <Button asChild>
+            <Button asChild className="bg-orange-500">
               <Link href="/artikel" className="flex items-center">
                 Lihat Artikel Lainnya <ArrowRight className="ml-2 h-4 w-4" />
               </Link>

@@ -197,7 +197,7 @@ export default function Navbar() {
     };
 
     return (
-        <nav className="bg-white w-full flex items-center sticky top-0 justify-between z-20 px-4 md:px-10 lg:px-16 py-4">
+        <nav className="bg-[#f7f4eb] w-full flex items-center sticky top-0 justify-between z-20 px-4 md:px-10 lg:px-16 py-4">
 
             {/* Hamburger Menu & Logo (Mobile) */}
             <div className="flex items-center gap-4 md:hidden">
@@ -216,7 +216,9 @@ export default function Navbar() {
                         exit="hidden"
                         className="fixed top-0 left-0 w-full h-screen bg-white z-50 p-6 md:hidden"
                     >
-                        <div className="flex justify-end mb-8">
+                        <div className="flex justify-between mb-8">
+                            <div className="bg-orange-400 w-24 h-15 rounded-xl">
+                            </div>
                             <button onClick={() => setIsMobileMenuOpen(false)}>
                                 <X className="h-6 w-6" />
                             </button>
@@ -225,7 +227,7 @@ export default function Navbar() {
                             initial="hidden"
                             animate="visible"
                             variants={{ visible: { transition: { staggerChildren: 0.05 } } }}
-                            className="flex flex-col gap-y-2"
+                            className="flex flex-col ml-1"
                         >
                             {navLinks.map((item, index) => (
                                 <MobileNavItem key={item.name} item={item} delayIndex={index} />

@@ -150,9 +150,9 @@ export default function AddArtikelPage() {
     }
 
     return (
-        <div className="">
+        <div>
             <h1 className="text-3xl font-bold mb-6">{isEditMode ? 'Edit Artikel' : 'Buat Artikel Baru'}</h1>
-            <Card>
+            <Card className="bg-[#f9f8f3]">
                 <CardHeader>
                     <CardTitle>Formulir Artikel</CardTitle>
                     <CardDescription>Isi detail artikel di bawah ini.</CardDescription>

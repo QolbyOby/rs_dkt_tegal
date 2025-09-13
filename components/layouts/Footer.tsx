@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function Footer() {
     return (
-        <div className="sm:px-10 md:px-20 relative overflow-hidden">
+        <div className="sm:px-10 md:px-20 relative overflow-hidden bg-[#f7f4eb]">
             <footer className="flex flex-col shadow-xl/30 bg-gradient-to-br from-orange-400 to-orange-600 border rounded-3xl md:mb-40 py-10">
                 <div className="mx-auto px-6 md:px-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
                     {/* Kolom 1: Informasi Kontak (Tetap) */}
@@ -72,8 +72,8 @@ export default function Footer() {
             </footer>
 
             {/* Elemen Dekoratif */}
-            <div className="absolute -bottom-10 md:-bottom-20 left-1/2 -translate-x-1/2 z-[-1] hidden md:block">
-                <h1 className="text-[150px] lg:text-[200px] text-zinc-300 leading-none font-bold whitespace-nowrap">
+            <div className="absolute -bottom-10 md:-bottom-20 left-1/2 -translate-x-1/2 z-10 hidden md:block">
+                <h1 className="text-[150px] lg:text-[200px] text-zinc-400 leading-none font-bold whitespace-nowrap">
                     DKT TEGAL
                 </h1>
             </div>

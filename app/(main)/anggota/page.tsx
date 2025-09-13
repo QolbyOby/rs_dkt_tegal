@@ -8,11 +8,13 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Doctor } from "@/lib/db/schema";
 import { useSearchParams } from "next/navigation";
+import { NavItems } from "@/components/ui/navbar-pelayanan";
+import { motion } from "framer-motion"
 
 type ScheduleGroup = { days: string[]; time: string };
 
 const kategoriList = [
-    { label: "All", value: "all" },
+    { label: "Semua Dokter", value: "all" },
     { label: "Dokter Umum", value: "umum" },
     { label: "Dokter Spesialis", value: "spesialis" },
 ];
@@ -35,6 +37,9 @@ const AnggotaPage = () => {
     const kategoriFromUrl = searchParams.get('kategori') || 'all';
     const [kategori, setKategori] = useState("all");
     const [hari, setHari] = useState("all");
+
+
+    const [hoveredKategori, setHoveredKategori] = useState<string | null>(null);
 
     useEffect(() => {
         setKategori(kategoriFromUrl);
@@ -72,24 +77,61 @@ const AnggotaPage = () => {
 
     return (
         <div className="px-4 md:px-10 mb-20">
-            {/* Filter Section */}
+
+            <div className="bg-foreground text-white h-96 flex justify-center items-center p-6 rounded-3xl shadow-lg w-full relative overflow-hidden ">
+                {/* <div className="pointer-events-none absolute top-60 -left-60 w-[700px] h-[700px] rounded-full bg-gradient-to-br from-orange-700 via-amber-700 to-yellow-700 opacity-60 blur-[160px] mix-blend-lighten" /> */}
+
+                <div className="absolute top-30 left-55 w-56 h-60 bg-gradient-to-b from-orange-500/30 to-transparent rounded-3xl transform backdrop-blur-lg"></div>
+                <div className="absolute top-20 left-35 w-56 h-60 bg-gradient-to-b from-orange-500/20 via-orange-500/10 to-transparent rounded-3xl transform backdrop-blur-md"></div>
+                <div className="absolute top-10 left-15 w-56 h-60 bg-gradient-to-b from-orange-500/15 via-orange-500/10 to-transparent rounded-3xl transform backdrop-blur-sm"></div>
+
+                <div className="absolute top-30 right-55 w-56 h-60 bg-gradient-to-b from-orange-500/30 to-transparent rounded-3xl transform backdrop-blur-lg"></div>
+                <div className="absolute top-20 right-35 w-56 h-60 bg-gradient-to-b from-orange-500/20 via-orange-500/10 to-transparent rounded-3xl transform backdrop-blur-md"></div>
+                <div className="absolute top-10 right-15 w-56 h-60 bg-gradient-to-b from-orange-500/15 via-orange-500/10 to-transparent rounded-3xl transform backdrop-blur-sm"></div>
+
+                {/* <div className="absolute top-25 right-45 w-56 h-60 bg-gradient-to-b from-white/10 to-transparent rounded-3xl transform backdrop-blur-lg"></div>
+                <div className="absolute -z-0 top-15 right-25 w-56 h-60 bg-gradient-to-b from-white/10 via-white/5 to-transparent rounded-3xl transform backdrop-blur-md"></div>
+                <div className="absolute top-5 -right-5 w-56 h-60 bg-gradient-to-b from-white/10 via-white/5 to-transparent rounded-3xl transform backdrop-blur-sm"></div> */}
+
+                <h1 className="text-4xl md:text-5xl font-light text-center z-10">
+                    Jadwal Dokter
+                </h1>
+            </div>
+
             <div className="flex flex-col md:flex-row gap-6 md:gap-4 items-center justify-between w-full pt-6 md:px-10">
-                <Card className="bg-foreground w-full md:w-fit">
+                {/* <Card className="bg-foreground w-full md:w-fit">
                     <CardContent className="p-3">
-                        <div className="flex gap-2 flex-wrap justify-center">
-                            {kategoriList.map((item) => (
-                                <Button
-                                    key={item.value}
-                                    variant={kategori === item.value ? "default" : "outline"}
-                                    className="px-3 md:px-5 py-2 rounded-lg text-xs md:text-sm flex-grow"
-                                    onClick={() => setKategori(item.value)}
-                                >
-                                    {item.label}
-                                </Button>
-                            ))}
-                        </div>
+                        
                     </CardContent>
-                </Card>
+                </Card> */}
+                <div
+                    className="flex gap-2 flex-wrap justify-center p-1 bg-gray-100 rounded-xl"
+                    onMouseLeave={() => setHoveredKategori(null)} // Saat kursor keluar dari area ini, reset hover
+                >
+                    {kategoriList.map((item) => (
+                        <button
+                            key={item.value}
+                            onClick={() => setKategori(item.value)}
+                            onMouseEnter={() => setHoveredKategori(item.value)} // Set hover ke item ini saat kursor masuk
+                            className="relative px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-300"
+                        >
+                            {/* Logika diubah untuk menampilkan highlight saat ACTIVE atau di-HOVER */}
+                            {(kategori === item.value || hoveredKategori === item.value) && (
+                                <motion.div
+                                    layoutId="kategori-highlight"
+                                    className="absolute inset-0 bg-orange-400 rounded-lg shadow"
+                                    transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                                />
+                            )}
+
+                            <span className={`relative z-10 transition-colors`}>
+                                {item.label}
+                            </span>
+                        </button>
+                    ))}
+                </div>
+
+
                 <div className="flex gap-4 items-center w-full md:w-auto justify-end">
                     <h1 className="text-sm md:text-base whitespace-nowrap">Pilih Hari</h1>
                     <Select value={hari} onValueChange={setHari}>

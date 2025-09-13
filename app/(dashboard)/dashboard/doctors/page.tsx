@@ -163,7 +163,7 @@ export default function DoctorsPage() {
                             Tambah Dokter
                         </Button>
                     </DialogTrigger>
-                    <DialogContent className="sm:max-w-[600px]">
+                    <DialogContent className="sm:max-w-[600px] bg-[#f9f8f3]">
                         <DialogHeader>
                             <DialogTitle>{currentDoctor.id ? 'Edit' : 'Tambah'} Dokter</DialogTitle>
                         </DialogHeader>
@@ -251,7 +251,7 @@ export default function DoctorsPage() {
                 </Dialog>
             </div>
 
-            <Card>
+            <Card className="bg-[#f9f8f3]">
                 <CardHeader>
                     <CardTitle>Daftar Dokter</CardTitle>
                 </CardHeader>

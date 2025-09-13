@@ -100,7 +100,7 @@ export default function PenunjangMedikPage() {
                 return (
                     <>
                         <div className="flex gap-5 flex-col md:flex-col items-start mb-10">
-                            <Card className="bg-[#19392C] w-full">
+                            <Card className="bg-black/85  w-full">
                                 <CardContent className="flex justify-between items-center gap-2">
                                     <div className="flex justify-center items-center gap-2">
                                         <Image src={farmasi_logo} alt="radiologi" className="w-15" />
@@ -270,7 +270,7 @@ export default function PenunjangMedikPage() {
                 return (
                     <>
                         <div className="flex gap-5 flex-col md:flex-col items-start mb-10">
-                            <Card className="bg-[#19392C] w-full">
+                            <Card className="bg-black/85 w-full">
                                 <CardContent className="flex justify-between items-center gap-2">
                                     <div className="flex justify-center items-center gap-2">
                                         <Image src={lab} alt="radiologi" className="w-15" />
@@ -369,7 +369,7 @@ export default function PenunjangMedikPage() {
                 return (
                     <>
                         <div className="flex gap-5 flex-col md:flex-col items-start mb-10">
-                            <Card className="bg-[#19392C] w-full">
+                            <Card className="bg-black/85  w-full">
                                 <CardContent className="flex justify-between items-center gap-2">
                                     <div className="flex justify-center items-center gap-2">
                                         <Image src={radiologi} alt="radiologi" className="w-15" />
@@ -512,15 +512,28 @@ export default function PenunjangMedikPage() {
 
     return (
         <div className="flex flex-col justify-center items-center px-10 mb-30 pb-20">
-            <div className="bg-black text-white h-96 flex justify-center items-center p-6 rounded-3xl shadow-lg w-full relative overflow-hidden">
-                <div className="pointer-events-none absolute top-60 -left-60 w-[700px] h-[700px] rounded-full bg-gradient-to-br from-orange-700 via-amber-700 to-yellow-700 opacity-60 blur-[160px] mix-blend-lighten" />
+            <div className="bg-foreground text-white h-96 flex justify-center items-center p-6 rounded-3xl shadow-lg w-full relative overflow-hidden ">
+                {/* <div className="pointer-events-none absolute top-60 -left-60 w-[700px] h-[700px] rounded-full bg-gradient-to-br from-orange-700 via-amber-700 to-yellow-700 opacity-60 blur-[160px] mix-blend-lighten" /> */}
+
+                <div className="absolute top-30 left-55 w-56 h-60 bg-gradient-to-b from-orange-500/30 to-transparent rounded-3xl transform backdrop-blur-lg"></div>
+                <div className="absolute top-20 left-35 w-56 h-60 bg-gradient-to-b from-orange-500/20 via-orange-500/10 to-transparent rounded-3xl transform backdrop-blur-md"></div>
+                <div className="absolute top-10 left-15 w-56 h-60 bg-gradient-to-b from-orange-500/15 via-orange-500/10 to-transparent rounded-3xl transform backdrop-blur-sm"></div>
+
+                <div className="absolute top-30 right-55 w-56 h-60 bg-gradient-to-b from-orange-500/30 to-transparent rounded-3xl transform backdrop-blur-lg"></div>
+                <div className="absolute top-20 right-35 w-56 h-60 bg-gradient-to-b from-orange-500/20 via-orange-500/10 to-transparent rounded-3xl transform backdrop-blur-md"></div>
+                <div className="absolute top-10 right-15 w-56 h-60 bg-gradient-to-b from-orange-500/15 via-orange-500/10 to-transparent rounded-3xl transform backdrop-blur-sm"></div>
+
+                {/* <div className="absolute top-25 right-45 w-56 h-60 bg-gradient-to-b from-white/10 to-transparent rounded-3xl transform backdrop-blur-lg"></div>
+                <div className="absolute -z-0 top-15 right-25 w-56 h-60 bg-gradient-to-b from-white/10 via-white/5 to-transparent rounded-3xl transform backdrop-blur-md"></div>
+                <div className="absolute top-5 -right-5 w-56 h-60 bg-gradient-to-b from-white/10 via-white/5 to-transparent rounded-3xl transform backdrop-blur-sm"></div> */}
+
                 <div className="flex flex-col text-5xl font-light space-y-3 justify-center items-center md:mb-0">
                     Penunjang Medik
                 </div>
             </div>
 
             <div className="w-full gap-10 px-10 flex mt-30">
-                <Card className="h-fit w-[300px] sticky top-[80px]">
+                <Card className="h-fit w-[300px] bg-[#f9f8f3] sticky top-[80px]">
                     <CardContent>
                         <NavItems
                             items={navItems.map(item => ({
@@ -533,7 +546,7 @@ export default function PenunjangMedikPage() {
                 </Card>
                 <div className="flex flex-3 justify-center items-center gap-10">
                     <section className="container mx-auto rounded-3xl shadow-2xl">
-                        <div className="bg-white rounded-xl border-2 p-8 md:py-12 mx-auto">
+                        <div className="bg-[#f9f8f3] rounded-xl border-2 p-8 md:py-12 mx-auto">
                             {renderDetailContent()}
                         </div>
                     </section>

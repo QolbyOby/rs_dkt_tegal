@@ -68,7 +68,7 @@ export default function ArtikelPage() {
             {loading ? (
                 <div>Memuat data artikel...</div>
             ) : (
-                <Card>
+                <Card className="bg-[#f9f8f3]">
                     <CardHeader>
                         <CardTitle>Daftar Artikel</CardTitle>
                     </CardHeader>

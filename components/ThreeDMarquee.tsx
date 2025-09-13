@@ -51,7 +51,7 @@ export function ThreeDMarqueeDemoSecond() {
         k_9,
     ];
     return (
-        <div className="relative mx-auto my-10 flex h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-3xl">
+        <div className="relative mx-auto flex h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-3xl">
             <h2 className="relative z-20 mx-auto max-w-4xl text-center text-2xl font-light text-balance text-white md:text-4xl lg:text-7xl">
                 <span className="relative z-20 inline-block rounded-xl px-4 py-1 text-white">
                     Kamar Rawat Inap
@@ -62,7 +62,7 @@ export function ThreeDMarqueeDemoSecond() {
             </p>
 
             <div className="relative z-20 flex flex-wrap items-center justify-center gap-4 pt-4">
-                <button className="rounded-md bg-orange-400 px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-orange-custom focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black focus:outline-none">
+                <button className="rounded-md bg-orange-500 px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-orange-custom focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black focus:outline-none">
                     <Link href={"/kamar"}>
                         Lihat Informasi Kamar
                     </Link>

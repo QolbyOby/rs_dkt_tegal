@@ -63,7 +63,7 @@ export function AppSidebar({ user }: { user: Session["user"] }) {
 
     return (
         <Sidebar>
-            <SidebarContent>
+            <SidebarContent className="bg-[#f9f8f3]">
                 <SidebarGroup>
                     <SidebarGroupLabel className="h-40 w-full rounded-xl bg-[#ff6400] relative overflow-hidden">
                     </SidebarGroupLabel>

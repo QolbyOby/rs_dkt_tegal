@@ -108,14 +108,14 @@ export default function CategoriesPage() {
                     <h1 className="text-2xl font-bold text-gray-900">Categories</h1>
                     <p className="text-gray-600">Manage article categories</p>
                 </div>
-                <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                <Dialog open={dialogOpen} onOpenChange={setDialogOpen} >
                     <DialogTrigger asChild>
                         <Button>
                             <Plus className="mr-2 h-4 w-4" />
                             Add Category
                         </Button>
                     </DialogTrigger>
-                    <DialogContent>
+                    <DialogContent className='bg-[#f9f8f3]'>
                         <DialogHeader>
                             <DialogTitle>Create New Category</DialogTitle>
                         </DialogHeader>
@@ -148,7 +148,7 @@ export default function CategoriesPage() {
                 </Dialog>
             </div>
 
-            <Card>
+            <Card className='bg-[#f9f8f3]'>
                 <CardHeader>
                     <CardTitle>All Categories</CardTitle>
                 </CardHeader>

@@ -72,6 +72,7 @@ export const FeaturedServices = () => {
                     {/* Tampilkan kartu layanan SEBELUM posisi kartu spesial */}
                     {services.slice(0, specialCardPosition).map((service, index) => (
                         <ServiceCard
+                            className="bg-[#f9f8f3]"
                             key={service.title}
                             number={(index + 1).toString().padStart(2, '0')}
                             icon={service.icon}
@@ -87,7 +88,7 @@ export const FeaturedServices = () => {
                     {services.slice(specialCardPosition).map((service, index) => (
                         <ServiceCard
                             key={service.title}
-                            // Penomoran dilanjutkan dari posisi kartu spesial
+                            className="bg-[#f9f8f3]"
                             number={(index + specialCardPosition + 1).toString().padStart(2, '0')}
                             icon={service.icon}
                             title={service.title}

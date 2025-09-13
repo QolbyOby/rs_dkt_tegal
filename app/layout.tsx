@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter, Anton } from "next/font/google";
+import {Inter, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
-import LayoutContent from "@/components/layouts/LayoutContent";
 import { Providers } from "./providers";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const sourceSerif4 = Source_Serif_4({
+  weight: ["200", "300", "400" ],
+  variable: "--font-source-serif-4",
   subsets: ["latin"],
 });
 
@@ -15,16 +15,6 @@ const inter = Inter({
   display: "swap",
 });
 
-const anton = Anton({
-  variable: "--font-anton",
-  weight: "400",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -39,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${anton.variable} bg-white text-black font-sans antialiased`}
+        className={` ${sourceSerif4.variable} ${inter.variable} bg-[#f7f4eb] text-black font-source-serif-4 antialiased`}
       >
         <Providers>
           {children}

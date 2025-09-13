@@ -57,7 +57,7 @@ export function ArtikelCard({
                 <CardContent className="flex flex-col flex-grow p-4">
                     <Badge
                         variant="default"
-                        className="mb-3 bg-black text-sm font-semibold text-white hover:bg-gray-800 w-fit"
+                        className="mb-3 bg-orange-500 text-sm font-semibold text-white hover:bg-gray-800 w-fit"
                     >
                         {category}
                     </Badge>

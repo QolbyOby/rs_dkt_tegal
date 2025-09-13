@@ -130,9 +130,8 @@ const RoomCard: React.FC<{ roomType: RoomTypeData }> = ({ roomType }) => {
     }, [api]);
 
     return (
-        // [MODIFIED]: Menggunakan div pembungkus untuk Masonry
         <div className='break-inside-avoid mb-6'>
-            <Card className="flex flex-col h-full transition-all hover:shadow-lg w-full">
+            <Card className="border border-black bg-[#f9f8f3] flex flex-col h-full transition-all hover:shadow-lg w-full">
                 <CardHeader>
                     <div className="flex justify-between items-start">
                         <CardTitle className="text-xl">{roomType.name}</CardTitle>
@@ -177,7 +176,7 @@ const RoomCard: React.FC<{ roomType: RoomTypeData }> = ({ roomType }) => {
                 <CardContent className="flex-grow">
                     <div className="space-y-4">
                         {roomType.rooms.length > 0 && (
-                            <Card className='p-2'>
+                            <Card className='p-2 bg-[#f9f8f3]'>
                                 <Table>
                                     <TableHeader>
                                         <TableRow>
@@ -200,7 +199,7 @@ const RoomCard: React.FC<{ roomType: RoomTypeData }> = ({ roomType }) => {
                             <p className="text-sm text-muted-foreground mb-2">Fasilitas:</p>
                             <div className="flex flex-wrap gap-2">
                                 {roomType.facilities.map((facility, index) => (
-                                    <Badge key={index} variant="default" className='px-4 py-2 text-sm'>{facility}</Badge>
+                                    <Badge key={index} variant="default" className='px-4 py-2 text-sm bg-orange-500 text-background'>{facility}</Badge>
                                 ))}
                             </div>
                         </div>
@@ -213,9 +212,9 @@ const RoomCard: React.FC<{ roomType: RoomTypeData }> = ({ roomType }) => {
 
 
 const StatCard: React.FC<{ icon: React.ElementType; label: string; value: number; tt: number }> = ({ icon: Icon, label, value, tt }) => (
-    <Card>
+    <Card className='border border-black bg-[#f9f8f3]'>
         <CardContent className="p-4 md:p-6 flex items-center">
-            <div className="p-3 rounded-md bg-primary/10 text-primary mr-2 md:mr-4">
+            <div className="p-3 rounded-md bg-orange-500 text-background mr-2 md:mr-4">
                 <Icon className="h-5 w-5 md:h-6 md:w-6" />
             </div>
             <div>
@@ -232,7 +231,27 @@ const StatCard: React.FC<{ icon: React.ElementType; label: string; value: number
 
 const HospitalRoomInfo: React.FC = () => {
     return (
-        <div className="bg-background min-h-screen text-foreground px-4 md:px-10 pb-20">
+        <div className="bg-[#f7f4eb] min-h-screen text-foreground px-4 md:px-10 pb-20">
+            <div className="bg-foreground text-white h-96 flex justify-center items-center p-6 rounded-3xl shadow-lg w-full relative overflow-hidden ">
+                {/* <div className="pointer-events-none absolute top-60 -left-60 w-[700px] h-[700px] rounded-full bg-gradient-to-br from-orange-700 via-amber-700 to-yellow-700 opacity-60 blur-[160px] mix-blend-lighten" /> */}
+
+                <div className="absolute top-30 left-55 w-56 h-60 bg-gradient-to-b from-orange-500/30 to-transparent rounded-3xl transform backdrop-blur-lg"></div>
+                <div className="absolute top-20 left-35 w-56 h-60 bg-gradient-to-b from-orange-500/20 via-orange-500/10 to-transparent rounded-3xl transform backdrop-blur-md"></div>
+                <div className="absolute top-10 left-15 w-56 h-60 bg-gradient-to-b from-orange-500/15 via-orange-500/10 to-transparent rounded-3xl transform backdrop-blur-sm"></div>
+
+                <div className="absolute top-30 right-55 w-56 h-60 bg-gradient-to-b from-orange-500/30 to-transparent rounded-3xl transform backdrop-blur-lg"></div>
+                <div className="absolute top-20 right-35 w-56 h-60 bg-gradient-to-b from-orange-500/20 via-orange-500/10 to-transparent rounded-3xl transform backdrop-blur-md"></div>
+                <div className="absolute top-10 right-15 w-56 h-60 bg-gradient-to-b from-orange-500/15 via-orange-500/10 to-transparent rounded-3xl transform backdrop-blur-sm"></div>
+
+                {/* <div className="absolute top-25 right-45 w-56 h-60 bg-gradient-to-b from-white/10 to-transparent rounded-3xl transform backdrop-blur-lg"></div>
+                <div className="absolute -z-0 top-15 right-25 w-56 h-60 bg-gradient-to-b from-white/10 via-white/5 to-transparent rounded-3xl transform backdrop-blur-md"></div>
+                <div className="absolute top-5 -right-5 w-56 h-60 bg-gradient-to-b from-white/10 via-white/5 to-transparent rounded-3xl transform backdrop-blur-sm"></div> */}
+
+                <h1 className="text-4xl md:text-5xl font-light text-center z-10">
+                  Informasi Kamar
+                </h1>
+            </div>
+
             <div className="container mx-auto py-8">
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
                     <StatCard icon={Crown} label="Kamar VIP" value={1} tt={1} />
