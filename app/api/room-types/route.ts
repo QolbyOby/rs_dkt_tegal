@@ -4,36 +4,20 @@ import { db } from "@/lib/db";
 import { roomTypes, rooms, NewRoomType, NewRoom } from "@/lib/db/schema";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { nanoid } from "nanoid";
-import { eq, inArray } from "drizzle-orm";
+import { eq, desc, sql } from "drizzle-orm";
 
 // GET (Tidak berubah)
-export async function GET(request: NextRequest) {
-    const url = new URL(request.url);
-    const id = url.searchParams.get('id');
-
+export async function GET() {
     try {
-        // JIKA ADA PARAMETER ID, AMBIL SATU DATA
-        if (id) {
-            const roomType = await db.query.roomTypes.findFirst({
-                where: eq(roomTypes.id, id),
-                with: {
-                    rooms: true,
-                },
-            });
-
-            if (!roomType) {
-                return NextResponse.json({ message: "Tipe kamar tidak ditemukan" }, { status: 404 });
-            }
-            return NextResponse.json(roomType);
-        }
-
-        // JIKA TIDAK ADA ID, AMBIL SEMUA DATA (LOGIKA LAMA)
+        // Mengambil semua data tipe kamar dengan relasi ke kamar individual
         const allRoomTypes = await db.query.roomTypes.findMany({
             with: {
                 rooms: true,
             },
+            // Mengurutkan berdasarkan harga (string) sebagai angka, dari yang termahal
+            orderBy: [desc(sql`CAST(REPLACE(REPLACE(${roomTypes.price}, '.', ''), 'Rp ', '') AS UNSIGNED)`)],
         });
         return NextResponse.json(allRoomTypes);
 
@@ -54,7 +38,7 @@ export async function POST(request: Request) {
         const body = await request.json();
         const { name, price, facilities, images, rooms: individualRooms } = body;
 
-        if (!name || !price) {
+        if (!name) {
             return NextResponse.json({ message: "Nama dan harga tipe kamar tidak boleh kosong" }, { status: 400 });
         }
 

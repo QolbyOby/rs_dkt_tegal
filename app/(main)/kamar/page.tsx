@@ -11,7 +11,7 @@ import {
     BedSingle
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import Image, { StaticImageData } from 'next/image';
+import Image from 'next/image';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -22,97 +22,11 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel";
-
-import kamar_I from "@/public/img/kamar_I.jpeg";
-
-type RoomDetail = { name: string; capacity: number; };
-type RoomTypeData = {
-    id: string;
-    name: string;
-    price: string;
-    images: StaticImageData[];
-    rooms: RoomDetail[];
-    facilities: string[];
-};
+import { RoomType } from '@/lib/db/schema';
+import Banner from '@/components/Banner';
 
 
-const roomData: RoomTypeData[] = [
-    {
-        id: "type1",
-        name: "Kamar Tipe I",
-        price: "Rp 210.000",
-        images: [kamar_I, kamar_I, kamar_I],
-        rooms: [
-            { name: "Bougenville 1", capacity: 2 },
-            { name: "Bougenville 2", capacity: 2 },
-            { name: "Bougenville 3", capacity: 2 },
-            { name: "Bougenville 4", capacity: 2 }
-        ],
-        facilities: ["AC", "Kulkas", "Tempat Tidur", "Kamar Mandi"]
-    },
-    {
-        id: "type2",
-        name: "Kamar Tipe II",
-        price: "Rp 210.000",
-        images: [kamar_I, kamar_I],
-        rooms: [
-            { name: "Bougenville 5", capacity: 2 },
-            { name: "Bougenville 6", capacity: 2 },
-            { name: "Anggrek 2", capacity: 1 },
-            { name: "Anggrek 3", capacity: 2 },
-        ],
-        facilities: ["AC", "Kulkas", "Tempat Tidur", "Kamar Mandi"]
-    },
-    {
-        id: "type3",
-        name: "Kamar Tipe III",
-        price: "Rp 210.000",
-        images: [kamar_I, kamar_I, kamar_I, kamar_I],
-        rooms: [
-            { name: "Bougenville 7", capacity: 3 },
-            { name: "Bougenville 8", capacity: 3 },
-            { name: "Bougenville 9", capacity: 3 },
-            { name: "Anggrek 4", capacity: 3 },
-            { name: "Anggrek 5", capacity: 6 },
-            { name: "Perinatologi", capacity: 3 },
-        ],
-        facilities: ["AC", "Tempat Tidur", "Kamar Mandi"]
-    },
-    {
-        id: "vip",
-        name: "Kamar VIP",
-        price: "Rp 210.000",
-        images: [kamar_I],
-        rooms: [
-            { name: "Ruang VIP", capacity: 1 },
-        ],
-        facilities: ["AC", "Kulkas", "TV", "Sofa", "Kamar Mandi Dalam"]
-    },
-    {
-        id: "isolasi",
-        name: "Dahlia (ISOLASI)",
-        price: "Rp 210.000",
-        images: [kamar_I, kamar_I],
-        rooms: [
-            { name: "Dahlia 1", capacity: 5 },
-        ],
-        facilities: ["AC", "Ventilasi Khusus", "Kamar Mandi Dalam"]
-    },
-    {
-        id: "intensif",
-        name: "Ruang Intensif",
-        price: "Rp 210.000",
-        images: [kamar_I, kamar_I, kamar_I],
-        rooms: [
-            { name: "ICU (Dengan Ventilator)", capacity: 3 },
-            { name: "PICU (Dengan Ventilator)", capacity: 2 },
-        ],
-        facilities: ["Monitor Jantung", "Ventilator", "Peralatan Medis Lengkap"]
-    }
-];
-
-
-const RoomCard: React.FC<{ roomType: RoomTypeData }> = ({ roomType }) => {
+const RoomCard: React.FC<{ roomType: RoomType }> = ({ roomType }) => {
     const [api, setApi] = useState<CarouselApi>();
     const [current, setCurrent] = useState(0);
     const [count, setCount] = useState(0);
@@ -143,19 +57,27 @@ const RoomCard: React.FC<{ roomType: RoomTypeData }> = ({ roomType }) => {
                     <div className='mt-2'>
                         <Carousel setApi={setApi} className="w-full group">
                             <CarouselContent>
-                                {roomType.images.map((imageSrc, index) => (
-                                    <CarouselItem key={index}>
-                                        <div className="p-1">
-                                            <Image
-                                                src={imageSrc}
-                                                alt={`${roomType.name} - Gambar ${index + 1}`}
-                                                className='rounded-xl w-full h-auto object-cover aspect-video'
-                                                width={500}
-                                                height={300}
-                                            />
+                                {roomType.images && roomType.images.length > 0 ? (
+                                    roomType.images.map((imageSrc, index) => (
+                                        <CarouselItem key={index}>
+                                            <div className="p-1">
+                                                <Image
+                                                    src={imageSrc}
+                                                    alt={`${roomType.name} - Gambar ${index + 1}`}
+                                                    className='rounded-xl w-full h-auto object-cover aspect-video'
+                                                    width={500}
+                                                    height={300}
+                                                />
+                                            </div>
+                                        </CarouselItem>
+                                    ))
+                                ) : (
+                                    <CarouselItem>
+                                        <div className="p-1 flex items-center justify-center bg-gray-200 rounded-xl aspect-video">
+                                            <p className="text-gray-500">Gambar tidak tersedia</p>
                                         </div>
                                     </CarouselItem>
-                                ))}
+                                )}
                             </CarouselContent>
                             <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 disabled:opacity-0 transition-opacity duration-300" />
                             <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 disabled:opacity-0 transition-opacity duration-300" />
@@ -175,7 +97,7 @@ const RoomCard: React.FC<{ roomType: RoomTypeData }> = ({ roomType }) => {
                 </CardHeader>
                 <CardContent className="flex-grow">
                     <div className="space-y-4">
-                        {roomType.rooms.length > 0 && (
+                        {roomType.rooms && roomType.rooms.length > 0 && (
                             <Card className='p-2 bg-[#f9f8f3]'>
                                 <Table>
                                     <TableHeader>
@@ -198,7 +120,7 @@ const RoomCard: React.FC<{ roomType: RoomTypeData }> = ({ roomType }) => {
                         <div>
                             <p className="text-sm text-muted-foreground mb-2">Fasilitas:</p>
                             <div className="flex flex-wrap gap-2">
-                                {roomType.facilities.map((facility, index) => (
+                                {roomType.facilities && roomType.facilities.map((facility, index) => (
                                     <Badge key={index} variant="default" className='px-4 py-2 text-sm bg-orange-500 text-background'>{facility}</Badge>
                                 ))}
                             </div>
@@ -230,46 +152,71 @@ const StatCard: React.FC<{ icon: React.ElementType; label: string; value: number
 );
 
 const HospitalRoomInfo: React.FC = () => {
+    const [roomTypes, setRoomTypes] = useState<RoomType[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchRoomTypes() {
+            try {
+                const response = await fetch('/api/room-types');
+                if (response.ok) {
+                    const data = await response.json();
+                    setRoomTypes(data);
+                } else {
+                    console.error("Gagal mengambil data kamar");
+                }
+            } catch (error) {
+                console.error("Terjadi kesalahan:", error);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchRoomTypes();
+    }, []);
+
+    const getStats = (typeName: string) => {
+        const roomType = roomTypes.find(rt => rt.name.toLowerCase().includes(typeName.toLowerCase()));
+        if (!roomType) return { value: 0, tt: 0 };
+
+        const totalRooms = roomType.rooms.length;
+        const totalBeds = roomType.rooms.reduce((acc, room) => acc + room.capacity, 0);
+
+        return { value: totalRooms, tt: totalBeds };
+    };
+
+    const vipStats = getStats("vip");
+    const tipe1Stats = getStats("tipe i");
+    const tipe2Stats = getStats("tipe ii");
+    const tipe3Stats = getStats("tipe iii");
+    const isolasiStats = getStats("isolasi");
+    const intensifStats = getStats("intensif");
+
     return (
         <div className="bg-[#f7f4eb] min-h-screen text-foreground px-4 md:px-10 pb-20">
-            <div className="bg-foreground text-white h-96 flex justify-center items-center p-6 rounded-3xl shadow-lg w-full relative overflow-hidden ">
-                {/* <div className="pointer-events-none absolute top-60 -left-60 w-[700px] h-[700px] rounded-full bg-gradient-to-br from-orange-700 via-amber-700 to-yellow-700 opacity-60 blur-[160px] mix-blend-lighten" /> */}
-
-                <div className="absolute top-30 left-55 w-56 h-60 bg-gradient-to-b from-orange-500/30 to-transparent rounded-3xl transform backdrop-blur-lg"></div>
-                <div className="absolute top-20 left-35 w-56 h-60 bg-gradient-to-b from-orange-500/20 via-orange-500/10 to-transparent rounded-3xl transform backdrop-blur-md"></div>
-                <div className="absolute top-10 left-15 w-56 h-60 bg-gradient-to-b from-orange-500/15 via-orange-500/10 to-transparent rounded-3xl transform backdrop-blur-sm"></div>
-
-                <div className="absolute top-30 right-55 w-56 h-60 bg-gradient-to-b from-orange-500/30 to-transparent rounded-3xl transform backdrop-blur-lg"></div>
-                <div className="absolute top-20 right-35 w-56 h-60 bg-gradient-to-b from-orange-500/20 via-orange-500/10 to-transparent rounded-3xl transform backdrop-blur-md"></div>
-                <div className="absolute top-10 right-15 w-56 h-60 bg-gradient-to-b from-orange-500/15 via-orange-500/10 to-transparent rounded-3xl transform backdrop-blur-sm"></div>
-
-                {/* <div className="absolute top-25 right-45 w-56 h-60 bg-gradient-to-b from-white/10 to-transparent rounded-3xl transform backdrop-blur-lg"></div>
-                <div className="absolute -z-0 top-15 right-25 w-56 h-60 bg-gradient-to-b from-white/10 via-white/5 to-transparent rounded-3xl transform backdrop-blur-md"></div>
-                <div className="absolute top-5 -right-5 w-56 h-60 bg-gradient-to-b from-white/10 via-white/5 to-transparent rounded-3xl transform backdrop-blur-sm"></div> */}
-
-                <h1 className="text-4xl md:text-5xl font-light text-center z-10">
-                  Informasi Kamar
-                </h1>
-            </div>
+            
+            <Banner title="Informasi Kamar" />
 
             <div className="container mx-auto py-8">
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
-                    <StatCard icon={Crown} label="Kamar VIP" value={1} tt={1} />
-                    <StatCard icon={BedDouble} label="kamar 1" value={4} tt={8} />
-                    <StatCard icon={BedSingle} label="Kamar 2" value={4} tt={7} />
-                    <StatCard icon={Bed} label="Kamar 3" value={7} tt={24} />
-                    <StatCard icon={Bed} label="Kamar ISOLASI" value={1} tt={5} />
-                    <StatCard icon={Bed} label="Kamar ICU PICU" value={2} tt={5} />
+                    <StatCard icon={Crown} label="Kamar VIP" value={vipStats.value} tt={vipStats.tt} />
+                    <StatCard icon={BedDouble} label="kamar 1" value={tipe1Stats.value} tt={tipe1Stats.tt} />
+                    <StatCard icon={BedSingle} label="Kamar 2" value={tipe2Stats.value} tt={tipe2Stats.tt} />
+                    <StatCard icon={Bed} label="Kamar 3" value={tipe3Stats.value} tt={tipe3Stats.tt} />
+                    <StatCard icon={Bed} label="Kamar ISOLASI" value={isolasiStats.value} tt={isolasiStats.tt} />
+                    <StatCard icon={Bed} label="Kamar ICU PICU" value={intensifStats.value} tt={intensifStats.tt} />
                 </div>
 
                 <div className="mb-8">
                     <h2 className="text-2xl font-semibold tracking-tight mb-4">Daftar Kamar</h2>
-                    {/* [MODIFIED]: Menggunakan 'columns' untuk Masonry di desktop */}
-                    <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-                        {roomData.map((roomType) => (
-                            <RoomCard key={roomType.id} roomType={roomType} />
-                        ))}
-                    </div>
+                    {loading ? (
+                        <p>Memuat data kamar...</p>
+                    ) : (
+                        <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+                            {roomTypes.map((roomType) => (
+                                <RoomCard key={roomType.id} roomType={roomType} />
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

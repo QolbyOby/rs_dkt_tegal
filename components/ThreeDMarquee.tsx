@@ -10,6 +10,8 @@ import k_7 from "@/public/img/k-7.jpeg"
 import k_8 from "@/public/img/k-8.jpeg"
 import k_9 from "@/public/img/k-9.jpeg"
 import Link from "next/link";
+import banner_kamar from "@/public/img/banner_kamar.png"
+import Image from "next/image";
 
 export function ThreeDMarqueeDemoSecond() {
     const images = [
@@ -51,7 +53,7 @@ export function ThreeDMarqueeDemoSecond() {
         k_9,
     ];
     return (
-        <div className="relative mx-auto flex h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-3xl">
+        <div className="relative mx-auto flex h-[470px] w-full flex-col items-center justify-center overflow-hidden rounded-3xl">
             <h2 className="relative z-20 mx-auto max-w-4xl text-center text-2xl font-light text-balance text-white md:text-4xl lg:text-7xl">
                 <span className="relative z-20 inline-block rounded-xl px-4 py-1 text-white">
                     Kamar Rawat Inap
@@ -71,10 +73,7 @@ export function ThreeDMarqueeDemoSecond() {
 
             {/* overlay */}
             <div className="absolute inset-0 z-10 h-full w-full bg-black/55 dark:bg-black/40" />
-            <ThreeDMarquee
-                className="pointer-events-none absolute inset-0 h-full w-full"
-                images={images}
-            />
+            <Image src={banner_kamar} alt="Background Image" className="object-fill absolute" />
         </div>
     );
 }

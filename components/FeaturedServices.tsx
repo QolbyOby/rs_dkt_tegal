@@ -14,12 +14,12 @@ const services = [
     // ... (data layanan Anda tetap sama)
     {
         icon: <Clock size={40} />,
-        title: 'Layanan 24 Jam',
+        title: 'Layanan IGD 24 Jam',
         description: 'Kami siap melayani kebutuhan darurat Anda kapan saja, siang dan malam.',
     },
     {
         icon: <Stethoscope size={40} />,
-        title: 'MCU (Selasa & Rabu)',
+        title: 'MCU (Senin s.d Jumat)',
         description: 'Paket Medical Check-Up lengkap untuk kesehatan preventif Anda.',
     },
     {
@@ -55,7 +55,7 @@ export const FeaturedServices = () => {
     const specialCardPosition = 1; // Posisi ke-2 (index 1)
 
     return (
-        <section className="py-16 px-4 sm:px-6 lg:px-8">
+        <section className="py-16 sm:px-6 lg:px-8">
             <div className="mx-auto">
                 <div className="text-center">
                     <h2 className="text-4xl font-light tracking-tight text-gray-900 sm:text-4xl">
@@ -82,14 +82,14 @@ export const FeaturedServices = () => {
                     ))}
 
                     {/* Sisipkan kartu spesial di sini */}
-                    <PromoCard />
+                    <PromoCard number='02'/>
 
                     {/* Tampilkan sisa kartu layanan SESUDAH posisi kartu spesial */}
                     {services.slice(specialCardPosition).map((service, index) => (
                         <ServiceCard
                             key={service.title}
                             className="bg-[#f9f8f3]"
-                            number={(index + specialCardPosition + 1).toString().padStart(2, '0')}
+                            number={(index + specialCardPosition + 2).toString().padStart(2, '0')}
                             icon={service.icon}
                             title={service.title}
                             description={service.description}

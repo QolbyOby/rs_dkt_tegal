@@ -12,6 +12,9 @@ import farmasi_logo from "@/public/img/farmasi.png"
 import Image from "next/image";
 import radiologi_1 from "@/public/img/k-3.jpeg"
 import { ServiceCard } from "@/components/ServiceCard";
+import radiologi_2 from "@/public/img/radiologi_2.jpg"
+import radiologi_3 from "@/public/img/radiologi_3.jpg"
+import Banner from "@/components/Banner";
 
 export default function PenunjangMedikPage() {
     const searchParams = useSearchParams();
@@ -470,7 +473,7 @@ export default function PenunjangMedikPage() {
                                         <Card className="bg-neutral-800 border border-white/10 text-background" >
                                             <CardHeader>
                                                 <div>
-                                                    <Image src={radiologi_1} alt="radiologi_1" className="object-cover rounded-xl" />
+                                                    <Image src={radiologi_2} alt="radiologi_1" className="object-cover rounded-xl" />
                                                 </div>
                                             </CardHeader>
                                             <CardContent>
@@ -488,7 +491,7 @@ export default function PenunjangMedikPage() {
                                         <Card className="bg-neutral-800 border border-white/10 text-background" >
                                             <CardHeader>
                                                 <div>
-                                                    <Image src={radiologi_1} alt="radiologi_1" className="object-cover rounded-xl" />
+                                                    <Image src={radiologi_3} alt="radiologi_1" className="object-cover rounded-xl" />
                                                 </div>
                                             </CardHeader>
                                             <CardContent>
@@ -512,25 +515,7 @@ export default function PenunjangMedikPage() {
 
     return (
         <div className="flex flex-col justify-center items-center px-10 mb-30 pb-20">
-            <div className="bg-foreground text-white h-96 flex justify-center items-center p-6 rounded-3xl shadow-lg w-full relative overflow-hidden ">
-                {/* <div className="pointer-events-none absolute top-60 -left-60 w-[700px] h-[700px] rounded-full bg-gradient-to-br from-orange-700 via-amber-700 to-yellow-700 opacity-60 blur-[160px] mix-blend-lighten" /> */}
-
-                <div className="absolute top-30 left-55 w-56 h-60 bg-gradient-to-b from-orange-500/30 to-transparent rounded-3xl transform backdrop-blur-lg"></div>
-                <div className="absolute top-20 left-35 w-56 h-60 bg-gradient-to-b from-orange-500/20 via-orange-500/10 to-transparent rounded-3xl transform backdrop-blur-md"></div>
-                <div className="absolute top-10 left-15 w-56 h-60 bg-gradient-to-b from-orange-500/15 via-orange-500/10 to-transparent rounded-3xl transform backdrop-blur-sm"></div>
-
-                <div className="absolute top-30 right-55 w-56 h-60 bg-gradient-to-b from-orange-500/30 to-transparent rounded-3xl transform backdrop-blur-lg"></div>
-                <div className="absolute top-20 right-35 w-56 h-60 bg-gradient-to-b from-orange-500/20 via-orange-500/10 to-transparent rounded-3xl transform backdrop-blur-md"></div>
-                <div className="absolute top-10 right-15 w-56 h-60 bg-gradient-to-b from-orange-500/15 via-orange-500/10 to-transparent rounded-3xl transform backdrop-blur-sm"></div>
-
-                {/* <div className="absolute top-25 right-45 w-56 h-60 bg-gradient-to-b from-white/10 to-transparent rounded-3xl transform backdrop-blur-lg"></div>
-                <div className="absolute -z-0 top-15 right-25 w-56 h-60 bg-gradient-to-b from-white/10 via-white/5 to-transparent rounded-3xl transform backdrop-blur-md"></div>
-                <div className="absolute top-5 -right-5 w-56 h-60 bg-gradient-to-b from-white/10 via-white/5 to-transparent rounded-3xl transform backdrop-blur-sm"></div> */}
-
-                <div className="flex flex-col text-5xl font-light space-y-3 justify-center items-center md:mb-0">
-                    Penunjang Medik
-                </div>
-            </div>
+            <Banner title="Penunjang Medik" />
 
             <div className="w-full gap-10 px-10 flex mt-30">
                 <Card className="h-fit w-[300px] bg-[#f9f8f3] sticky top-[80px]">

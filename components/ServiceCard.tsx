@@ -27,7 +27,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ number, icon, title, d
             </span>
 
             {/* Wrapper untuk konten agar berada di atas nomor */}
-            <div className="relative z-10 flex flex-col flex-grow h-full bg-[#f9f8f3] mt-6">
+            <div className="relative z-10 flex flex-col flex-grow h-full bg-[#f9f8f3] mt-10">
                 <CardHeader className="flex flex-row items-center gap-3">
                     <h3 className="text-lg font-semibold text-card-foreground">{title}</h3>
                 </CardHeader>

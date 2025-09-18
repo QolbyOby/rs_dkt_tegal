@@ -9,6 +9,7 @@ import { NavItems } from "../ui/navbar-pelayanan";
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import AllLogo from "../AllLogo";
 
 // --- Tipe Data Navigasi ---
 type NavItem = {
@@ -197,13 +198,15 @@ export default function Navbar() {
     };
 
     return (
-        <nav className="bg-[#f7f4eb] w-full flex items-center sticky top-0 justify-between z-20 px-4 md:px-10 lg:px-16 py-4">
+        <nav className="bg-[#f7f4eb] w-full flex items-center sticky top-0 justify-between z-20 px-4 md:px-10 lg:px-16 py-2 md:py-4">
 
             {/* Hamburger Menu & Logo (Mobile) */}
-            <div className="flex items-center gap-4 md:hidden">
+            <div className="flex items-center w-full justify-between gap-4 md:hidden">
                 <button onClick={() => setIsMobileMenuOpen(true)}>
                     <Menu className="h-6 w-6" />
                 </button>
+
+                <AllLogo className="flex md:hidden" />
             </div>
 
             {/* Mobile Menu Overlay */}

@@ -1,9 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle2, Activity, ShieldCheck, UserCheck, FileSpreadsheet, Star, Briefcase, Beaker, Ribbon, Microscope } from "lucide-react";
+import { CheckCircle2, Activity, ShieldCheck, UserCheck, FileSpreadsheet, Star, Briefcase, Beaker, Ribbon, Microscope, CalendarClock } from "lucide-react";
 import kamar from "@/public/img/kamar_I.jpeg"
 import Image from "next/image";
 import bg_md from "@/public/img/bg_md.png"
 import { ServiceCard } from "@/components/ServiceCard";
+import banner_MCU from "@/public/img/banner_MCU.png"
+import hero_mcu from "@/public/img/hero_mcu.png"
+import banner from "@/public/img/banner.jpg"
+import Banner from "@/components/Banner";
 
 export default function MedicalCheckupPage() {
 
@@ -75,26 +79,12 @@ export default function MedicalCheckupPage() {
 
     return (
         <div className="min-h-screen px-10 pb-20">
-            <div className="bg-foreground text-white h-96 flex justify-center items-center p-6 rounded-3xl shadow-lg w-full relative overflow-hidden ">
-
-                <div className="absolute top-30 left-55 w-56 h-60 bg-gradient-to-b from-orange-500/30 to-transparent rounded-3xl transform backdrop-blur-lg"></div>
-                <div className="absolute top-20 left-35 w-56 h-60 bg-gradient-to-b from-orange-500/20 via-orange-500/10 to-transparent rounded-3xl transform backdrop-blur-md"></div>
-                <div className="absolute top-10 left-15 w-56 h-60 bg-gradient-to-b from-orange-500/15 via-orange-500/10 to-transparent rounded-3xl transform backdrop-blur-sm"></div>
-
-                <div className="absolute top-30 right-55 w-56 h-60 bg-gradient-to-b from-orange-500/30 to-transparent rounded-3xl transform backdrop-blur-lg"></div>
-                <div className="absolute top-20 right-35 w-56 h-60 bg-gradient-to-b from-orange-500/20 via-orange-500/10 to-transparent rounded-3xl transform backdrop-blur-md"></div>
-                <div className="absolute top-10 right-15 w-56 h-60 bg-gradient-to-b from-orange-500/15 via-orange-500/10 to-transparent rounded-3xl transform backdrop-blur-sm"></div>
-
-                <h1 className="text-4xl md:text-5xl font-light text-center z-10">
-                    Medical Check Up
-                </h1>
-            </div>
-
+            <Banner title="Medical Check Up" />
 
             <div className="max-w-7xl mx-auto mt-20">
                 <div className="flex gap-10">
-                    <div className="flex-1 grid grid-cols-2 gap-4">
-                        <div>
+                    <div className="flex-1">
+                        {/* <div>
                             <Image src={kamar} alt="kamar" className="w-full h-auto rounded-lg" />
                         </div>
                         <div>
@@ -105,7 +95,8 @@ export default function MedicalCheckupPage() {
                         </div>
                         <div>
                             <Image src={kamar} alt="kamar" className="w-full h-auto rounded-lg" />
-                        </div>
+                        </div> */}
+                        <Image src={hero_mcu} alt="hero_mcu" className="h-full w-full rounded-lg" />
                     </div>
                     <div className="w-[600px]">
                         <Card className="bg-black/85 mb-5">
@@ -209,22 +200,27 @@ export default function MedicalCheckupPage() {
                     </div>
                 </div>
 
-                {/* Info */}
-                <div className="bg-black w-full relative border text-white h-[400px] border-orange-200 mt-4 rounded-xl p-10 space-y-3">
-                    <h3 className="text-2xl font-semibold text-orange-700 z-10">Informasi Pemeriksaan</h3>
-                    <p className="text-3xl font-light z-10">
-                        Pemeriksaan Medical Check Up dilakukan <br /> setiap Senin s/d Jumat,
-                        pukul 08.00 - 14.00 WIB.
-                    </p>
-                    <div>
-                        <div>
-                            
-                        </div>
-                        <div>
+                <div className="bg-black w-full h-96 relative border border-orange-200 mt-4 rounded-xl p-10 space-y-3 overflow-hidden flex flex-col md:flex-row items-center justify-between">
 
+                    <div className="relative z-10 text-white md:w-1/2 text-center md:text-left">
+                        <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
+                            <CalendarClock className="w-6 h-6 text-orange-500" />
+                            <h3 className="text-xl md:text-2xl font-semibold text-orange-500">Informasi Pemeriksaan</h3>
                         </div>
+                        <p className="text-2xl md:text-3xl font-light leading-snug">
+                            Pemeriksaan Medical Check Up dilakukan <br className="hidden md:block" /> setiap <span className="font-semibold">Senin s/d Jumat</span>, <br className="hidden md:block" /> pukul <span className="font-semibold">08.00 - 14.00 WIB.</span>
+                        </p>
+
                     </div>
-                    <Image src={bg_md} alt="bg_md" className="absolute w-80 right-10 bottom-0" />
+                    <Image
+                        src={banner_MCU}
+                        alt="Layanan Akte Kelahiran Gratis"
+                        layout="fill"
+                        objectFit="cover"
+                        className="z-0 opacity-90"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-black to-transparent"></div>
+
                 </div>
             </div>
         </div>
