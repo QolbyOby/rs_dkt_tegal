@@ -1,55 +1,21 @@
-'use client'
+
 import Image from "next/image";
-import dokter_poli from "@/public/img/dokter_poli.png"
 import logoimg from "@/public/img/logo.png";
-import dokter_umum from "@/public/img/dokter_umum.jpeg";
-import dokter_spesialis from "@/public/img/dokter_spesialis.jpeg";
 import { Button } from "@/components/ui/button";
-import { CircleArrowDown, Heart, Instagram, Mail, MapPin, Stethoscope, CircleArrowOutUpRight, ArrowRight, Baby, HeartHandshake, CheckCircle2 } from "lucide-react";
+import { Heart, Instagram, Mail, MapPin, Stethoscope, CircleArrowOutUpRight, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import hero_section7 from "@/public/img/hero_section7.jpeg"
 import { FeaturedServices } from "@/components/FeaturedServices";
-import { ThreeDMarqueeDemoSecond } from "@/components/ThreeDMarquee";
-import { Article } from "@/lib/db/schema";
-import { useEffect, useState } from "react";
-import { ArtikelCard } from "@/components/ArtikelCard";
-import praktek_gigi from "@/public/img/praktek_gigi.jpg"
-import praktek_bedah from "@/public/img/praktek_bedah.jpg"
-import praktek_bedah2 from "@/public/img/praktek_bedah2.jpg"
-import praktek_poli_anak from "@/public/img/praktek_poli_anak.jpg"
-import praktek_poli_anak_2 from "@/public/img/praktek_poli_anaka3.jpg"
-import praktek_poli_paru from "@/public/img/praktek_poli_paru.jpeg"
 import AllLogo from "@/components/AllLogo";
 import dokter_della from "@/public/img/dokter_della4.jpg"
-import rs from "@/public/img/rs2.jpg"
+import rs from "@/public/img/rs3.jpg"
 import PoliklinikSection from "@/components/PoliklinikHome";
-import ketua_rs from "@/public/img/ketua_RS.png"
+import banner_dokter_umum from "@/public/img/banner_dokter_umum2.jpg"
+import { CtaKamar } from "@/components/CtaKamar";
+import ArtikelTerbaru from "@/components/ArtikelTerbaru";
 
 export default function Home() {
-
-  const [articles, setArticles] = useState<Article[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchArticles() {
-      try {
-        const response = await fetch('/api/artikel');
-        if (response.ok) {
-          const data = await response.json();
-          const publishedArticles = data.filter((article: Article) => article.status === 'PUBLISHED');
-          // Urutkan artikel berdasarkan tanggal dan ambil 3 yang terbaru
-          const sortedArticles = publishedArticles.sort((a: Article, b: Article) => new Date(b.createdAt || '').getTime() - new Date(a.createdAt || '').getTime());
-          setArticles(sortedArticles.slice(0, 3));
-        }
-      } catch (error) {
-        console.error("Gagal mengambil data artikel:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchArticles();
-  }, []);
 
   return (
     <div className="px-4 font-source-serif-4">
@@ -155,162 +121,33 @@ export default function Home() {
         </div>
         <div className="flex flex-col md:flex-row gap-4 mt-10">
           <Link href="/anggota?kategori=umum" className="flex-1 h-60 md:h-80 bg-gray-400 rounded-3xl relative overflow-hidden group">
-            <Image src={dokter_umum} alt="Dokter Umum" className="w-full h-full object-cover rounded-3xl transform transition-transform duration-300 group-hover:scale-110" />
-            <div className="absolute bottom-4 left-4 w-auto md:w-1/2 px-4 py-2 md:px-6 md:py-4 rounded-xl bg-white/30 backdrop-blur-md shadow-lg flex justify-between items-center">
+            <Image src={banner_dokter_umum} alt="Dokter Umum" className="w-full h-full object-cover rounded-3xl transform transition-transform duration-300 group-hover:scale-110" />
+            <div className="absolute h-48 bottom-4 left-4 w-auto md:w-75 px-4 py-2 md:px-6 md:py-4 rounded-xl bg-white/30 backdrop-blur-md shadow-lg flex justify-between items-center">
               <div className="flex flex-col">
-                <span className="text-sm md:text-lg font-semibold text-black">Dokter Umum</span>
+                <span className="text-sm md:text-6xl font-semibold text-black">Dokter <br /> Umum</span>
                 <span className="text-xs md:text-sm text-black/70">Pelayanan kesehatan umum terbaik</span>
               </div>
               <div className="p-2 md:p-3 bg-orange-500 rounded-full transform transition-transform duration-300 group-hover:rotate-45">
                 <CircleArrowOutUpRight className="text-white h-4 w-4" />
               </div>
             </div>
-            <div className="absolute bottom-4 right-4 text-2xl md:text-4xl px-3 py-3 md:px-5 md:py-5 rounded-full bg-white/30 backdrop-blur-md shadow-lg">
-              18
-            </div>
           </Link>
           <Link href="/anggota?kategori=spesialis" className="flex-1 h-60 md:h-80 bg-gray-400 rounded-3xl relative overflow-hidden group">
             <Image src={rs} alt="Dokter Spesialis" className="w-full -z-10 h-full object-cover rounded-3xl transform transition-transform duration-300 group-hover:scale-110" />
-            <div className="bg-white border-2 border-black absolute w-64 h-64 bottom-10 right-30 rounded-full overflow-hidden">
+            {/* <div className="bg-white border- border-white/80 absolute w-74 h-74 bottom-3 right-13 rounded-full overflow-hidden">
               <Image src={ketua_rs} alt="ketua_rs" className="w-full h-full object-contain"/>
-            </div>
-            {/* <div className="absolute bottom-4 left-4 w-auto md:w-1/2 px-4 py-2 md:px-6 md:py-4 rounded-xl bg-white/30 backdrop-blur-md shadow-lg flex justify-between items-center">
+            </div> */}
+            <div className="absolute h-48 bottom-4 left-4 w-auto md:w-75 px-4 py-2 md:px-6 md:py-4 rounded-xl bg-white/30 backdrop-blur-md shadow-lg flex justify-between items-center">
               <div className="flex flex-col">
-                <span className="text-sm md:text-lg font-semibold text-black">Dokter Spesialis</span>
+                <span className="text-sm md:text-6xl font-semibold text-black">Dokter <br /> Spesialis</span>
                 <span className="text-xs md:text-sm text-black/70">Spesialisasi berbagai bidang medis</span>
               </div>
-              <div className="p-2 md:p-3 bg-orange-500 rounded-full transform transition-transform duration-300 group-hover:rotate-45">
+              <div className="p-2 md:p-3 absolute right-5 top-10 bg-orange-500 rounded-full transform transition-transform duration-300 group-hover:rotate-45">
                 <CircleArrowOutUpRight className="text-white h-4 w-4" />
               </div>
-            </div> */}
-            <div className="absolute bottom-4 right-4 text-2x l md:text-4xl px-3 py-3 md:px-5 md:py-5 rounded-full bg-white/30 backdrop-blur-md shadow-lg">
-              12
             </div>
           </Link>
         </div>
-
-        {/* <div className="mt-3">
-          <div className="bg-black text-white h-[400px] md:h-[500px] rounded-3xl shadow-lg w-full relative overflow-hidden">
-            <div className="pointer-events-none absolute top-60 -left-60 w-[700px] h-[700px] rounded-full bg-gradient-to-br from-orange-700 via-amber-700 to-yellow-700 opacity-60 blur-[160px] mix-blend-lighten" />
-            <div className="pointer-events-none absolute top-1/3 right-0 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-orange-700 via-amber-700 to-yellow-700 opacity-50 blur-[140px] mix-blend-lighten" />
-            <div className="pointer-events-none absolute bottom-0 left-1/2 w-[600px] h-[600px] rounded-full bg-gradient-to-tl from-orange-700 via-amber-700 to-yellow-700 opacity-40 blur-[140px] mix-blend-lighten" />
-            <h1 className="text-5xl md:text-[80px] font-source-serif-4 absolute left-1/2 top-1/4 md:top-25 -translate-x-1/2 -translate-y-1/2">POLIKLINIK</h1>
-            <div className="absolute bottom-0 w-full flex justify-center">
-              <Image src={dokter_poli} alt="dokter_poli" className="w-[400px] md:w-[800px] z-10" />
-            </div>
-            <button className="absolute bottom-4 right-4 md:bottom-6 md:right-6 rounded-md bg-orange-500 px-4 py-2 md:px-6 md:py-2.5 text-xs md:text-sm font-medium text-white transition-colors hover:bg-orange-custom focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black focus:outline-none">
-              <Link href={"/poliklinik"}>
-                Lihat Poliklinik
-              </Link>
-            </button>
-
-            <Image src={praktek_gigi} className="hidden lg:block absolute w-32 h-32 object-cover rounded-lg top-61 left-15" alt="praktek_gigi" />
-            <Image src={praktek_bedah} className="hidden lg:block absolute w-40 h-40 object-cover rounded-lg top-20 right-20" alt="praktek_bedah" />
-            <Image src={praktek_bedah2} className="hidden lg:block absolute w-32 h-32 object-cover rounded-lg top-20 left-55" alt="praktek_bedah2" />
-            <Image src={praktek_poli_anak} className="hidden lg:block absolute w-24 h-24 object-cover rounded-lg bottom-32 right-20" alt="praktek_poli_anak" />
-            <Image src={praktek_poli_anak_2} className="hidden lg:block absolute w-24 h-24 object-cover rounded-lg top-25 left-20" alt="praktek_poli_anak_2" />
-          </div>
-        </div> */}
-
-        {/* <div className="relative  w-full h-[500px] mt-20">
-          <div className="absolute flex flex-col justify-center items-center  gap-5 top-20  left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <h1 className="text-5xl font">POLIKLINIK</h1>
-            <button className="rounded-md bg-orange-500 px-4 py-2 md:px-6 md:py-2.5 text-xs md:text-sm font-medium text-white transition-colors hover:bg-orange-custom focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black focus:outline-none">
-              <Link href={"/poliklinik"}>
-                Lihat Selengkapnya
-              </Link>
-            </button>
-          </div>
-          <div className="grid grid-cols-10 grid-rows-6 gap-4 h-full">
-            <div className="col-span-2 row-span-3 bg-amber-200 rounded-2xl overflow-hidden">
-              <Image src={praktek_gigi} className="object-cover w-full h-full " alt="praktek_gigi" />
-            </div>
-            <div className="col-span-2 row-span-3 bg-amber-300 col-start-9 rounded-2xl overflow-hidden">
-              <Image src={praktek_bedah2} className="object-cover w-full h-full" alt="praktek_bedah2" />
-
-            </div>
-            <div className="col-span-2 row-span-3 bg-amber-400 col-start-1 row-start-4 rounded-2xl overflow-hidden">
-              <Image src={praktek_bedah} className="object-cover w-full h-full" alt="praktek_bedah" />
-
-            </div>
-            <div className="col-span-2 row-span-3 bg-amber-500 col-start-9 row-start-4 rounded-2xl overflow-hidden">
-              <Image src={praktek_poli_anak} className="object-cover w-full h-full" alt="praktek_poli_anak" />
-            </div>
-            <div className="col-span-2 row-span-4 bg-amber-600 col-start-3 row-start-3 rounded-2xl overflow-hidden">
-              <Image src={praktek_poli_anak_2} className="object-cover w-full h-full" alt="praktek_poli_anak_2" />
-            </div>
-            <div className="col-span-2 row-span-3 bg-amber-700 col-start-5 row-start-4 rounded-2xl overflow-hidden">
-              <video
-                width="100%"
-                height="auto"
-                controls={false}
-                autoPlay
-                muted
-                loop
-                src="/video/video_poli_gigi.mp4"
-                className='flex-1 rounded-2xl w-full h-full'
-                style={{ objectFit: 'cover' }}
-                disablePictureInPicture
-                disableRemotePlayback
-              />
-            </div>
-            <div className="col-span-2 row-span-4 bg-amber-800 col-start-7 row-start-3 rounded-2xl overflow-hidden">
-              <Image src={praktek_poli_paru} className="object-cover w-full h-full" alt="praktek_poli_paru" />
-            </div>
-          </div>
-        </div> */}
-
-        {/* <div className="relative  w-full h-[500px] mt-20">
-          <div className="absolute flex flex-col justify-center items-center  gap-5 top-20  left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <h1 className="text-5xl font">POLIKLINIK</h1>
-            <button className="rounded-md bg-orange-500 px-4 py-2 md:px-6 md:py-2.5 text-xs md:text-sm font-medium text-white transition-colors hover:bg-orange-custom focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black focus:outline-none">
-              <Link href={"/poliklinik"}>
-                Lihat Selengkapnya
-              </Link>
-            </button>
-          </div>
-          <div className="grid grid-cols-10 grid-rows-8 gap-4">
-            <div className="col-span-2 row-span-4 rounded-2xl overflow-hidden">
-              <Image src={praktek_gigi} className="object-cover w-full h-full " alt="praktek_gigi" />
-            </div>
-            <div className="col-span-2 row-span-4 col-start-9 rounded-2xl overflow-hidden">
-              <Image src={praktek_bedah2} className="object-cover w-full h-full" alt="praktek_bedah2" />
-            </div>
-            <div className="col-span-2 row-span-3 col-start-3 row-start-3 rounded-2xl overflow-hidden">
-              <Image src={praktek_bedah} className="object-cover w-full h-full" alt="praktek_bedah" />
-            </div>
-            <div className="col-span-2 row-span-3 col-start-7 row-start-3 rounded-2xl overflow-hidden">
-              <Image src={praktek_poli_anak} className="object-cover w-full h-full" alt="praktek_poli_anak" />
-            </div>
-            <div className="col-span-2 row-span-3 col-start-3 row-start-6 rounded-2xl overflow-hidden">
-              <Image src={praktek_poli_anak_2} className="object-cover w-full h-full" alt="praktek_poli_anak_2" />
-            </div>
-            <div className="col-span-2 row-span-4 col-start-1 row-start-5 rounded-2xl overflow-hidden">
-              <Image src={praktek_poli_anak_2} className="object-cover w-full h-full" alt="praktek_poli_anak_2" />
-            </div>
-            <div className="col-span-2 row-span-3 col-start-7 row-start-6 rounded-2xl overflow-hidden">
-              <Image src={praktek_poli_anak_2} className="object-cover w-full h-full" alt="praktek_poli_anak_2" />
-            </div>
-            <div className="col-span-2 row-span-4 col-start-9 row-start-5 rounded-2xl overflow-hidden">
-              <Image src={praktek_poli_paru} className="object-cover w-full h-full" alt="praktek_poli_paru" />
-            </div>
-            <div className="col-span-2 row-span-4 col-start-5 row-start-5">
-              <video
-                width="100%"
-                height="auto"
-                controls={false}
-                autoPlay
-                muted
-                loop
-                src="/video/video_poli_gigi.mp4"
-                className='flex-1 rounded-2xl w-full h-full'
-                style={{ objectFit: 'cover' }}
-                disablePictureInPicture
-                disableRemotePlayback
-              />
-            </div>
-          </div>
-        </div> */}
 
         <PoliklinikSection />
 
@@ -318,39 +155,16 @@ export default function Home() {
         <div className="mt-10 ">
           <FeaturedServices />
         </div>
+
         <div className="mt-20">
-          <ThreeDMarqueeDemoSecond />
+          <CtaKamar />
         </div>
+
         <div className="my-20 px-5">
-          <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-            <div className="text-center md:text-left">
-              <h2 className="text-2xl md:text-3xl font-bold">Artikel Terbaru</h2>
-              <p className="text-gray-600">Baca berita dan informasi kesehatan terkini dari kami.</p>
-            </div>
-            <Button asChild className="bg-orange-500 w-full md:w-auto">
-              <Link href="/artikel" className="flex items-center justify-center">
-                Lihat Artikel Lainnya <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-          {loading ? (
-            <div className="text-center">Memuat artikel...</div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {articles.map((article) => (
-                <ArtikelCard
-                  key={article.id}
-                  id={article.id}
-                  slug={article.slug}
-                  title={article.title}
-                  description={article.content.substring(0, 100) + '...'}
-                  category="Artikel" // Anda mungkin ingin mengambil nama kategori
-                  imageUrl={article.Image || "/img/hero_section2.png"}
-                />
-              ))}
-            </div>
-          )}
+          <ArtikelTerbaru />
         </div>
+
+        
       </div>
     </div>
   );

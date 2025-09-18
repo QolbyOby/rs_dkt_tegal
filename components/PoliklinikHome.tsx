@@ -22,31 +22,6 @@ interface MediaItem {
 }
 
 const PoliklinikSection: React.FC = () => {
-    // Varian animasi (tidak perlu diubah)
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.15,
-            },
-        },
-    };
-
-    const itemVariants = {
-        hidden: {
-            y: 80,
-            opacity: 0
-        },
-        visible: {
-            y: 0,
-            opacity: 1,
-            transition: {
-                duration: 0.6,
-                ease: "easeOut",
-            },
-        },
-    };
 
     // 2. Terapkan tipe 'MediaItem[]' pada array data
     const mediaItems: MediaItem[] = [
@@ -72,19 +47,29 @@ const PoliklinikSection: React.FC = () => {
                 </button>
             </div>
 
-            <motion.div
+            <div
                 className="grid grid-cols-10 grid-rows-8 gap-4 h-full"
-                variants={containerVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
             >
                 {mediaItems.map((item, index) => (
                     <motion.div
                         key={index}
-                        className={`${item.className} rounded-2xl overflow-hidden`}
-                        variants={itemVariants}
+                        className={`${item.className} rounded-2xl overflow-hidden origin-bottom relative`}
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1, transition: { duration: 1, delay: index * 0.1, ease: [0.43, 0.13, 0.23, 0.96] } }}
                     >
+                        {/* <motion.div
+                            className="absolute z-10 bottom-0  bg-[#f7f4eb] ] rounded-b-lg w-full h-full"
+                            initial={{ height: '100%' }}
+                            animate={{
+                                height: 0,
+                                transition: {
+                                    duration: 1,
+                                    ease: [0.43, 0.13, 0.23, 0.96],
+                                    delay: index * 0.1 // Tambahkan baris ini
+                                }
+                            }}
+                        >
+                        </motion.div> */}
                         {item.type === 'image' ? (
                             <Image src={item.src} className="object-cover w-full h-full" alt={item.alt} />
                         ) : (
@@ -105,7 +90,7 @@ const PoliklinikSection: React.FC = () => {
                         )}
                     </motion.div>
                 ))}
-            </motion.div>
+            </div>
         </div>
     );
 };
